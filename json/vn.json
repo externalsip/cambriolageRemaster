@@ -1,0 +1,21 @@
+{
+    
+    "scene1": {
+        "background" : "black",
+        "pages": {
+            "page0": {
+                "pageText": "test"
+            },
+            "page1": {
+                "pageText": "test2",
+                "options": {
+                    "Voir la carte": ""
+                },
+                "NextPage": "End"
+            }
+        }
+
+        
+}
+
+}
