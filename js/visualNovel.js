@@ -31,36 +31,37 @@ async function initialize(data){
     
 
 
-    if(data.scene1.pages[currentPage].pageText == undefined){
-        textbox.innerText = "hi";
-    }
-    else{
         textbox.innerText = data.scene1.pages[currentPage].pageText;
         vn.style.backgroundImage = data.scene1.background;
     }
-}
+
 
 function handleOptions(data){
 	
 	optionsbox.innerHTML = "";
 
-	if(data.scene1.pages[currentPage].hasOwnProperty('Options')){
-		var o = data.scene1.pages[currentPage].Options;
+	if(data.scene1.pages[currentPage].hasOwnProperty('options')){
+		var o = data.scene1.pages[currentPage].options;
 		var str = Object.keys(o).forEach(k => {
 			const row = document.createElement('div');
 			row.innerHTML = `${k}`
 			optionsbox.appendChild(row);
 			row.addEventListener('click', () => { 
+				console.log(o[k]);
+				if(o[k] == "worldMap"){
+					worldMap();
+				}
+				else{
 				currentPage = (o[k]);
 				pageNum = Object.keys(json.scene1.pages).indexOf(currentPage);
 				initialize(json); 
 				optionsbox.innerHTML = "";
-			})
-			
+				console.log("test")
+			}})
 		})
 	}
-	
 }
+
 
 function checkPage(data){
 	if(data.scene1.pages[currentPage].hasOwnProperty('Options')) return false;
@@ -87,3 +88,7 @@ window.addEventListener('click', () => {
 	}
     else return;
 })
+
+function worldMap(){
+	console.log("works");
+}

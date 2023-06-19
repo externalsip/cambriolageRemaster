@@ -9,7 +9,7 @@
             "page1": {
                 "pageText": "test2",
                 "options": {
-                    "Voir la carte": ""
+                    "Voir la carte": "worldMap"
                 },
                 "NextPage": "End"
             }
