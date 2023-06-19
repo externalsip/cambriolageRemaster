@@ -26,7 +26,7 @@ margin:0;}
 }
 
 body{
-    color:var(--white);
+    color:var(--white)!important;
     image-rendering: pixelated;
 }
 
@@ -42,22 +42,22 @@ MENU PRINCIPAL
 
 .title{
     font-family: 'Press Start 2P', cursive;
-    font-size:5em;
+    font-size:5vw;
     align-self:center;
     -webkit-text-stroke: 3px var(--black);
 }
 
 .startBtns{
-    align-self: center;
-    height:12vh;
+    height:20vh;
     display:flex;
     flex-direction: column;
     justify-content: space-around;
+    align-items: center;
 }
 
 .start{
     height:5vh;
-    width:10vw;
+    width:10vmax;
     color:var(--white);
     background-color: var(--darkerGray);
     font-family: 'Press Start 2P', cursive;
@@ -82,6 +82,7 @@ MENU PRINCIPAL
     flex-direction: column;
     justify-content:space-between;
     line-height: 1.5em;
+    font-size:1vw;
 }
 
 .warning{
@@ -91,6 +92,31 @@ MENU PRINCIPAL
 .start:hover ~ .tip{
     opacity:1;
 }
+
+@media screen and (max-width: 991.98px){
+    .title{
+        font-size: 6vw;
+    }
+    .tip{
+        height:25vh;
+        font-size:2vw;
+    }
+    .start{
+        width:15vmax;
+    }
+}
+
+@media screen and (max-width: 575.98px){
+    .title{
+        font-size:8vw;
+    }
+    .tip{
+        height:25vh;
+        font-size:3vmin;
+    }
+}
+
+
 
 /*/////////////////////////////////////////////
 VISUAL NOVEL
@@ -102,10 +128,10 @@ VISUAL NOVEL
 
 .textbox{
     width:100%;
-    height:15vmax;
+    height:35vh;
     background-color: var(--darkerGray);
     border: var(--white) solid 3px;
-    font-size:1.5em;
+    font-size:1em;
     color: var(--white);
     position:absolute;
     bottom:0;
@@ -115,18 +141,36 @@ VISUAL NOVEL
 }
 
 .buttonBox{
-    width:100%;
-    height:6vmin;
+    height:25%;
     position:absolute;
     bottom:0;
     left:0;
-    padding:0 50px 0 50px;
     display:flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
     background-color: var(--black);
     border: var(--white) solid 2px;
+    font-size: 0.5em;
 }
+
+.buttonContainer{
+    height:25%;
+    position: relative;
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.settingsBtn{
+    width:4vmax;
+    height:4vmax;
+    background-color: var(--darkerGray);
+    border:var(--white) solid 2px;
+    color:var(--white);
+}
+
+
+
 
 .nextText{
     width:5vmin;
@@ -138,4 +182,83 @@ VISUAL NOVEL
 
 .nextText:hover{
     background-color: var(--gray);
+}
+
+.optionsbox{
+    width:100vw;
+    height:100vh;
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+
+
+
+
+.settingsBtn:hover{
+    background-color: var(--gray);;
+}
+
+.optionBtn{
+    width:25vmin;
+    aspect-ratio:3/1;
+    background-color: var(--darkerGray);
+    font-family: 'Press Start 2P', cursive;
+    color: var(--white);
+    border:var(--white) solid 2px;
+    font-size:1em;
+}
+
+.optionBtn:hover{
+    background-color: var(--gray);
+}
+
+.background{
+   width:100%;
+   height: 65vh;
+   position:absolute;
+   top:0;
+   left:0;
+   background-color: black;
+}
+
+@media screen and (min-width: 1399.98px){
+    .settingsBtn{
+        width:3vmax;
+        height:3vmax;
+    }
+    .textbox{
+        font-size: 1.5em;
+    }
+    .optionBtn{
+        font-size: 1.5em;
+    }
+}
+
+@media screen and (max-width: 575.98px){
+    .textbox{
+        font-size: 0.7em;
+    }
+    .optionBtn{
+        font-size: 0.7em;
+    }
+}
+
+/*/////////////////////////////////////////////////
+SETTINGS
+//////////////////////////////////////////////////*/
+
+.settings{
+    width:50%;
+    height:100%;
+    position:absolute;
+    top:0;
+    left:0;
+    padding:40px;
+    background-color: red;
+    font-family: 'Press Start 2P', cursive;;
 }
