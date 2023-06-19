@@ -1,9 +1,11 @@
 const btnStart = document.getElementById("begin");
 const startMenu = document.getElementById("startMenu");
 const vn = document.getElementById("vn");
+let textboxxer = document.querySelector(".textbox");
 let textbox = document.querySelector(".text");
 let optionsbox = document.querySelector(".optionsbox");
 let langBtn = document.querySelectorAll(".langSetting");
+
 const vnDataFR= '../json/vnFR.json';
 const vnDataEN= '../json/vnEN.json';
 let pageNum = 0;
@@ -53,9 +55,6 @@ async function grabData() {
 
 async function initialize(data){
     textbox.innerText = '';
-    
-
-
         textbox.innerText = data.scenes[sceneSwap].pages[currentPage].pageText;
         vn.style.backgroundImage = data.scenes[sceneSwap].background;
     }
@@ -99,7 +98,23 @@ function checkPage(data){
 	return true;
 }
 
-vn.addEventListener('click', () => {
+textboxxer.addEventListener('click', () => {
+	if(!json) return;
+    if(checkPage(json)){
+		if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('NextPage')){
+			currentPage = json.scenes[sceneSwap].pages[currentPage].NextPage;
+		}
+		else {
+			pageNum++;
+			currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
+		}
+		
+		initialize(json);
+		handleOptions(json);
+	}
+    else return;
+})
+optionsbox.addEventListener('click', () => {
 	if(!json) return;
     if(checkPage(json)){
 		if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('NextPage')){

@@ -13,7 +13,6 @@
 
 </head>
 <body>
-
 <!--
 /////////////////////////////////////////////////////////////////
 MENU PRINCIPAL
@@ -25,7 +24,7 @@ MENU PRINCIPAL
         <div class="startBtns col-12">
             <button type="button" class="start col-6 col-lg-3 col-xxl-2" id="begin">Commencer</button>
             <button type="button" class="start col-6 col-lg-3 col-xxl-2" id="continue">Continuer</button>        
-            <button type="button" class="start col-6 col-lg-3 col-xxl-2" id="options">Options</button>  
+            <button type="button" class="start settingsMenu col-6 col-lg-3 col-xxl-2" id="options">Options</button>  
             <div class="tip col-8 col-lg-4 col-xxl-5">
                 <span class="tipText"></span>
                 <span class="warning"></span>
@@ -50,20 +49,21 @@ VISUAL NOVEL
             <div class="text">                
             </div>            
 
-            <div class="buttonBox col-12">
+            
+
+            </div>
+                <div class="buttonBox col-12">
                 <div class="buttonContainer col-12 col-xxl-3">
-                    <button type="button" class="settingsBtn"></button>
+                    <button type="button" class="settingsBtn settingsMenu"></button>
                     <button type="button" class="settingsBtn"></button>
                     <button type="button" class="settingsBtn"></button>
                 </div>            
-
-            </div>
-
         </div>
        
     </div> 
-    
-    <div class="settings col-6 col-lg-4">
+
+    <div class="settingWrapper col-12">
+    <div class="settings col-6">
             <form>
                 <h1 id="settingHeader">Options</h1>
             <ul>
@@ -71,20 +71,22 @@ VISUAL NOVEL
                     <label for="fullscreen" class="settingLabel">Plein Écran</label>
                     <input type="checkbox" id="fullscreen" class="setting">
                 </li>                    
-                    <h3 class="h3">Langue</h3>
-                <li class="pb-4">
+                    <h3 class="h3 langHeader">Langue</h3>
+                <li class="pb-4 pt-3">
                     <label for="fr" class="settingLabel">Français</label>
                     <input type="radio" id="fr" class="setting langSetting" name="lang" checked="checked">
                     <label for="en" class="settingLabel">English</label>
                     <input type="radio" id="en" class="setting langSetting" name="lang">
                 </li>
                 <li class="py-4">
-                    <button type="button" id="saveBtn" class="settingButton">Sauvegarder</button>
+                    <button type="button" id="saveBtn" class="settingBtn">Sauvegarder</button>
                 </li>
             </ul>
             </form>
-        </div>        
-
+            <button type="button" id="closeBtn">X</button>
+        </div>  
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"></script>
 <script src="js/mainMenu.js" type="module"></script>
 <script src="js/visualNovel.js" type="module"></script>
 <script src="js/textSwap.js" type="module"></script>

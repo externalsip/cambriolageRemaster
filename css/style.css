@@ -9,6 +9,7 @@ margin:0;}
     --darkerGray: #1a1a1a;
     --darkGray: #2e2e2e;
     --gray: #424242;
+    --transparentGray: rgba(66, 66, 66, 0.2);
 }
 
 .wrapper{
@@ -128,20 +129,20 @@ VISUAL NOVEL
 
 .textbox{
     width:100%;
-    height:35vh;
+    height:27vh;
     background-color: var(--darkerGray);
     border: var(--white) solid 3px;
     font-size:1em;
     color: var(--white);
     position:absolute;
-    bottom:0;
+    bottom:8vh;
     left:0;
     padding:50px;
     font-family: 'Press Start 2P', cursive;
 }
 
 .buttonBox{
-    height:25%;
+    height:8vh;
     position:absolute;
     bottom:0;
     left:0;
@@ -154,7 +155,7 @@ VISUAL NOVEL
 }
 
 .buttonContainer{
-    height:25%;
+    height:8vh;
     position: relative;
     display:flex;
     justify-content: space-around;
@@ -186,7 +187,7 @@ VISUAL NOVEL
 
 .optionsbox{
     width:100vw;
-    height:100vh;
+    height:65vh;
     display:flex;
     justify-content: space-around;
     align-items: center;
@@ -253,12 +254,40 @@ SETTINGS
 //////////////////////////////////////////////////*/
 
 .settings{
-    width:50%;
     height:100%;
     position:absolute;
     top:0;
-    left:0;
     padding:40px;
-    background-color: red;
-    font-family: 'Press Start 2P', cursive;;
+    background-color: var(--black);
+    font-family: 'Press Start 2P', cursive;
+}
+
+#closeBtn{
+    position:absolute;
+    top:2vmin;
+    right:2vmin;
+    width:5vmin;
+    height:5vmin;
+    font-size:2em;
+    text-align: center;
+    background:none;
+    border:none;
+    color:var(--gray);
+}
+
+#closeBtn:hover{
+    color:var(--white)
+}
+
+ul{
+    list-style-type: none;
+}
+
+.settingWrapper{
+    height:100%;
+    position:absolute;
+    top:0;
+    left:-100%;
+    opacity:0;
+    background-color: var(--transparentGray);
 }
