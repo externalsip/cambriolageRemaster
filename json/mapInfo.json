@@ -1,0 +1,12 @@
+{
+    "mapElements": {
+        "place1":{
+            "name": "test1",
+            "description": "this is a test"
+        },
+        "place2":{
+            "name": "test2",
+            "description": "this is a second test"
+        }
+    }
+}

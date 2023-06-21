@@ -5,6 +5,8 @@ let textboxxer = document.querySelector(".textbox");
 let textbox = document.querySelector(".text");
 let optionsbox = document.querySelector(".optionsbox");
 let langBtn = document.querySelectorAll(".langSetting");
+const map = document.getElementById("map");
+const mapPlace1 = document.getElementById("place1");
 
 const vnDataFR= '../json/vnFR.json';
 const vnDataEN= '../json/vnEN.json';
@@ -20,16 +22,24 @@ btnStart.addEventListener("click", () => {
     startMenu.style.display = "none";
     vn.style.display = "block";
 	sceneIndex = 0;
+	pageNum = 0;
     grabData();
-	return sceneIndex;
+	return sceneIndex, pageNum;
 });
 
 langBtn.forEach((element) => {
 	element.addEventListener("click", () => {
 		grabData();
-		sceneIndex = 0;
-		return sceneIndex;
 	})
+});
+
+mapPlace1.addEventListener("click", () => { 
+    map.style.display = "none";
+    vn.style.display = "block";
+	sceneIndex = 1;
+	pageNum = 0;
+    grabData();
+	return sceneIndex, pageNum;
 });
 
 async function grabData() {
@@ -133,5 +143,7 @@ optionsbox.addEventListener('click', () => {
 
 function worldMap(){
 	console.log("works");
+	vn.style.display = "none";
+	map.style.display = "block";
 }
 

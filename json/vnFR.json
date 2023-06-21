@@ -1,6 +1,6 @@
 {
 "scenes": {
-            "scene1": {
+            "intro": {
             "background" : "black",
             "pages": {
                 "page0": {
@@ -15,8 +15,24 @@
             }
         }
         
+},
+
+            "place1": {
+                "background" : "black",
+                "pages": {
+                    "page0": {
+                        "pageText": "testScene2"
+                    },
+                    "page1": {
+                        "pageText": "testScene2.1",
+                        "options": {
+                        "Voir la carte": "worldMap"
+                    },
+                    "NextPage": "End"
+            
+                }
+            }
+            }
 }
-}
-}
-    
+} 
 

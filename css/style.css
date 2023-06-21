@@ -13,8 +13,8 @@ margin:0;}
 }
 
 .wrapper{
-    width:100vw;
-    height: 100vh;
+    width:100%;
+    height: 100%;
     position: relative;
     background-size:cover;    
     background-repeat: no-repeat;    
@@ -29,7 +29,19 @@ margin:0;}
 body{
     color:var(--white)!important;
     image-rendering: pixelated;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:100vw;
+    height:100vh;
+    background-color: var(--gray)!important;
 }
+.game{
+    width:95vw;
+    height:95vh;
+    position:relative;
+}
+
 
 /*////////////////////////////////////////
 
@@ -170,23 +182,8 @@ VISUAL NOVEL
     color:var(--white);
 }
 
-
-
-
-.nextText{
-    width:5vmin;
-    height:5vmin;
-    background-color: var(--darkGray);
-    border:var(--white) 3px solid;
-    color:var(--white);
-}
-
-.nextText:hover{
-    background-color: var(--gray);
-}
-
 .optionsbox{
-    width:100vw;
+    width:100%;
     height:65vh;
     display:flex;
     justify-content: space-around;
@@ -195,10 +192,6 @@ VISUAL NOVEL
     top:0;
     left:0;
 }
-
-
-
-
 
 .settingsBtn:hover{
     background-color: var(--gray);;
@@ -290,4 +283,99 @@ ul{
     left:-100%;
     opacity:0;
     background-color: var(--transparentGray);
+}
+
+.settingsMenuBtn{
+    width:9vmax;
+    height:4vmax;
+    background-color: var(--darkerGray);
+    border:var(--white) solid 2px;
+    color:var(--white);
+}
+
+/*/////////////////////////////////////////////////////
+MAP
+/////////////////////////////////////////////////////*/
+
+#map{
+    background-color: red;
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0;
+    left:0;
+    display:none;
+    overflow-y: hidden;
+}
+
+.mapText{
+    width: 100%;
+    height:15vmax;
+    position:absolute;
+    bottom:-35%;
+    left:0;
+    font-family: 'Press Start 2P', cursive;
+    color:var(--white);
+}
+
+.mapInfo{
+    height:75%;
+    background-color: var(--black);
+    border: var(--white) solid 2px;
+    position:absolute;
+    bottom:0;
+    left:0;
+    padding:20px;
+}
+
+.mapName{
+    height:25%;
+    background-color: var(--black);
+    position:absolute;
+    top:0;
+    border: var(--white) solid 2px;
+}
+
+#place1{
+    width:10vmax;
+    aspect-ratio:10/9;
+    background-color: var(--black);
+    position:absolute;
+    top:7vh;
+    left:70vw;
+}
+
+#place2{
+    width:10vmax;
+    aspect-ratio:10/9;
+    background-color: var(--black);
+    position:absolute;
+    top:18vh;
+    left:20vw;
+}
+
+/*////////////////////////////////////////
+Modal
+///////////////////////////////////////*/
+
+.modal-content{
+    background-color: var(--black)!important;
+}
+
+.modal-title{
+    font-family: 'Press Start 2P', cursive;
+}
+
+.modal-body{
+    color:var(--red);
+    font-family: 'Press Start 2P', cursive;
+}
+
+.menuModalBtn{
+    width:9vmax;
+    height:2vmax;
+    background-color: var(--darkerGray);
+    border:var(--white) solid 2px;
+    color:var(--white);
+    font-family: 'Press Start 2P', cursive;
 }

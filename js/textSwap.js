@@ -6,7 +6,10 @@ let mainBtnArr = document.querySelectorAll(".start");
 let settingHeader = document.getElementById("settingHeader");
 let langHeader = document.querySelector(".langHeader");
 let settingLabelArr = document.querySelectorAll(".settingLabel");
-let settingBtnArr = document.querySelectorAll(".settingBtn")
+let settingBtnArr = document.querySelectorAll(".settingBtn");
+let menuModalBody = document.querySelector(".menuModalBody");
+let menuModalLabel = document.getElementById("menuModalLabel");
+let menuModalBtnArr = document.querySelectorAll(".menuModalBtn")
 
 langBtn.forEach((element) => {
 	element.addEventListener("click", () => {
@@ -30,6 +33,11 @@ function french(){
     langHeader.innerText = "Langue";
     settingLabelArr[0].innerText = "Plein écran";
     settingBtnArr[0].innerText = "Sauvegarder";
+    settingBtnArr[1].innerText = "Menu Principal";
+    menuModalBody.innerText = "Toute progression non-sauvegardée sera perdue.";
+    menuModalLabel.innerText = "Retourner au menu principal";
+    menuModalBtnArr[0].innerText = "Confirmer";
+    menuModalBtnArr[1].innerText = "Annuler";
 }
 
 function english(){
@@ -43,4 +51,9 @@ function english(){
         langHeader.innerText = "Language";
         settingLabelArr[0].innerText = "Fullscreen";
         settingBtnArr[0].innerText = "Save";
+        settingBtnArr[1].innerText = "Main Menu";
+        menuModalBody.innerText = "Any progression that was not saved will be lost.";
+        menuModalLabel.innerText = "Return to main menu";
+        menuModalBtnArr[0].innerText = "Confirm";
+        menuModalBtnArr[1].innerText = "Cancel";
 }

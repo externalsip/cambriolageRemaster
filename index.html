@@ -13,13 +13,33 @@
 
 </head>
 <body>
+<div class="game">
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="backToMenuModal" tabindex="-1" aria-labelledby="menuModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="menuModalLabel">Retourner au menu principal</h1>
+        </div>
+        <div class="modal-body menuModalBody">
+          Toute progression non-sauvegardée sera perdue.
+        </div>
+        <div class="modal-footer">          
+        <button type="button" id="backToMain" data-bs-dismiss="modal" class="menuModalBtn">Confirmer</button>
+          <button type="button" data-bs-dismiss="modal" class="menuModalBtn">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <!--
 /////////////////////////////////////////////////////////////////
 MENU PRINCIPAL
 /////////////////////////////////////////////////////////////////
 -->
 
-    <div class="wrapper mainMenu" id="startMenu">
+    <div class="wrapper mainMenu section" id="startMenu">
         <span class="title">Cambriolage</span>
         <div class="startBtns col-12">
             <button type="button" class="start col-6 col-lg-3 col-xxl-2" id="begin">Commencer</button>
@@ -38,7 +58,7 @@ VISUAL NOVEL
 /////////////////////////////////////////////////////////////////
 -->
 
-    <div class="wrapper visualNovel" id="vn">                
+    <div class="wrapper visualNovel section" id="vn">                
     
         <div class="background"></div>
         <div class="optionsbox">
@@ -62,8 +82,38 @@ VISUAL NOVEL
        
     </div> 
 
+
+
+<!--
+/////////////////////////////////////////////////////////////////
+MAP
+/////////////////////////////////////////////////////////////////
+-->
+
+    <div class="mapWrapper col-12 section" id="map">
+        <div class="mapElement" id="place1"></div>
+        <div class="mapElement" id="place2"></div>
+        <div class="mapText">
+            <div class="mapInfo col-12"></div>
+            <div class="mapName col-6 col-lg-4 col-xxl-3"></div>
+        </div>
+        <div class="buttonBox col-12">
+            <div class="buttonContainer col-12 col-xxl-3">
+                <button type="button" class="settingsBtn settingsMenu"></button>
+                <button type="button" class="settingsBtn"></button>
+                <button type="button" class="settingsBtn"></button>
+            </div>            
+    </div>
+
+    </div>
+<!--
+///////////////////////////////////////////////////////////////////
+SETTINGS
+//////////////////////////////////////////////////////////////////
+-->
+
     <div class="settingWrapper col-12">
-    <div class="settings col-6">
+        <div class="settings col-6">
             <form>
                 <h1 id="settingHeader">Options</h1>
             <ul>
@@ -79,18 +129,23 @@ VISUAL NOVEL
                     <input type="radio" id="en" class="setting langSetting" name="lang">
                 </li>
                 <li class="py-4">
-                    <button type="button" id="saveBtn" class="settingBtn">Sauvegarder</button>
+                    <button type="button" id="saveBtn" class="settingsMenuBtn">Sauvegarder</button>
+                </li>
+                <li class="py-4">
+                    <button type="button" class="settingsMenuBtn" data-bs-toggle="modal" data-bs-target="#backToMenuModal">Menu Principal</button>
                 </li>
             </ul>
             </form>
             <button type="button" id="closeBtn">X</button>
         </div>  
-</div>
+    </div>
+</div>    
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"></script>
 <script src="js/mainMenu.js" type="module"></script>
 <script src="js/visualNovel.js" type="module"></script>
 <script src="js/textSwap.js" type="module"></script>
-<script src="js/settings.js"></script>
+<script src="js/map.js" type="module"></script>
+<script src="js/settings.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
