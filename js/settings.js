@@ -7,6 +7,9 @@ let settingsWrapper = document.querySelector(".settingWrapper");
 const backToMain = document.getElementById("backToMain");
 let sectionsArr = document.querySelectorAll(".section");
 const startMenu = document.getElementById("startMenu");
+let hideMenuBtnArr = document.querySelectorAll(".hideMenu");
+let hideMenuCheckArr = document.querySelectorAll(".hideMenuCheck");
+let hideableElemArr = document.querySelectorAll(".hideableElem")
 
 import {fr, en} from '../js/langSwap.js';
 
@@ -65,3 +68,25 @@ backToMain.addEventListener("click", () => {
     }
 
 });
+
+hideMenuBtnArr.forEach((element) => {
+    element.addEventListener("click", () => {
+        hideableElemArr.forEach((element) => {
+            gsap.to(element, {opacity: 0, duration: 0.5});
+        });
+        hideMenuCheckArr.forEach((element) => {
+            element.style.display = "block";
+        });
+    })
+});
+
+hideMenuCheckArr.forEach((element) => {
+    element.addEventListener("click", () => {
+        hideableElemArr.forEach((element) => {
+            gsap.to(element, {opacity: 1, duration: 0.5});
+        });
+        hideMenuCheckArr.forEach((element) => {
+            element.style.display = "none";
+        })  
+    })
+})
