@@ -4,7 +4,7 @@ const mapPlace1 = document.getElementById("place1");
 const mapPlace2 = document.getElementById("place2");
 let mapElementsArr = document.querySelectorAll(".mapElement");
 let mapInfoBox = document.querySelector(".mapText");
-const mapData = "../json/mapInfo.json";
+const mapData = "./json/mapInfo.json";
 let placeNum;
 let placeIndex;
 let json, to;

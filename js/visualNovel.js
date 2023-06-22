@@ -8,8 +8,8 @@ let langBtn = document.querySelectorAll(".langSetting");
 const map = document.getElementById("map");
 const mapPlace1 = document.getElementById("place1");
 
-const vnDataFR= '../json/vnFR.json';
-const vnDataEN= '../json/vnEN.json';
+const vnDataFR= './json/vnFR.json';
+const vnDataEN= './json/vnEN.json';
 let pageNum = 0;
 let currentPage;
 let json, to;
