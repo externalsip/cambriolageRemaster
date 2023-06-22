@@ -9,6 +9,15 @@
                 "page1": {
                     "pageText": "test2",
                     "options": {
+                    "Voir la carte": "worldMap",
+                    "test objets": "giveItem"
+                },
+                "NextPage": "End",
+                "class": "pinsGiveBtn"
+            },
+            "page2": {
+                "pageText": "item!!!",
+                "options": {
                     "Voir la carte": "worldMap"
                 },
                 "NextPage": "End"

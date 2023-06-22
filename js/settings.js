@@ -1,7 +1,6 @@
 let fullscreen = document.getElementById("fullscreen");
 let body = document.querySelector("body");
 let settingBtnArr = document.querySelectorAll(".settingsMenu");
-let settingsMenu = document.querySelector(".settings");
 let settingsCloseBtn = document.getElementById("closeBtn");
 let settingsWrapper = document.querySelector(".settingWrapper");
 const backToMain = document.getElementById("backToMain");

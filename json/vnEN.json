@@ -9,7 +9,16 @@
                     "page1": {
                         "pageText": "hi this hasidhaawc his hi adhh hi hi",
                         "options": {
-                        "See the map": "worldMap"
+                        "See the map": "worldMap",
+                        "Item test": "giveItem"
+                    },
+                    "NextPage": "End",
+                    "class": "pinsGiveBtn"
+                },
+                "page2": {
+                    "pageText": "item!!!",
+                    "options": {
+                        "Voir la carte": "worldMap"
                     },
                     "NextPage": "End"
                 }

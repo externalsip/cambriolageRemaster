@@ -16,7 +16,7 @@ let json, to;
 let sceneIndex;
 let sceneSwap;
 
-import {fr, en} from '../js/langSwap.js';
+import {fr, en} from './langSwap.js';
 
 btnStart.addEventListener("click", () => { 
     startMenu.style.display = "none";
@@ -80,19 +80,40 @@ function handleOptions(data){
 			const row = document.createElement('button');
 			row.innerHTML = `${k}`
 			row.setAttribute("type", "button");
-			row.classList.add("optionBtn");
-			optionsbox.appendChild(row);
+				if(o[k] == "giveItem"){
+					console.log("item")
+					row.classList.add(data.scenes[sceneSwap].pages[currentPage].class, "optionBtn");
+					optionsbox.appendChild(row);
+				}
+				else{
+					row.classList.add("optionBtn");
+					optionsbox.appendChild(row);
+				}
+			
+
 			row.addEventListener('click', () => { 
 				console.log(o[k]);
 				if(o[k] == "worldMap"){
 					worldMap();
+				}
+				else if(o[k] == "giveItem"){					
+					giveItem(json.scenes[sceneSwap].pages[currentPage].class);
+					console.log(data.scenes[sceneSwap].pages[currentPage].class);
+					pageNum = pageNum + 1;
+					currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
+					console.log(pageNum);
+					initialize(json); 
+					optionsbox.innerHTML = "";
+					handleOptions(json);
+					console.log("test");
+
 				}
 				else{
 				currentPage = (o[k]);
 				pageNum = Object.keys(json.scenes[sceneSwap].pages).indexOf(currentPage);
 				initialize(json); 
 				optionsbox.innerHTML = "";
-				console.log("test")
+				console.log("test");
 			}})
 		})
 	}
@@ -147,3 +168,103 @@ function worldMap(){
 	map.style.display = "block";
 }
 
+
+/*//////////////////////////////////////////////////////
+INVENTORY
+//////////////////////////////////////////////////////*/
+
+const itemList = document.querySelector(".itemList");
+let inventoryBtnArr;
+let subMenuName = document.querySelector(".itemName");
+let subMenuImg = document.querySelector(".itemImg");
+let subMenuDesc = document.querySelector(".itemDesc");
+
+
+class Item {
+    constructor(name, img
+        ){
+        this.name = name;
+        this.img = img;
+    }
+}
+
+class Tool extends Item {
+    constructor(name, img, drb, consumable, desc){
+        super(name, img);
+        this.drb = drb;
+        this.consumable = consumable;
+        this.desc = desc;
+    }
+}
+
+
+let  crowbar = new Tool ('crowbar', 'link', 10, false, "A thief's best friend.");
+let  pins = new Tool ('pins', 'link', 2, true, "Always handy to have around in case of locked doors.");
+
+
+let inventory = [];
+
+inventory.push(crowbar);
+inventory.push(pins);
+
+let b = 0;
+function giveItem(btnData) {
+	console.log()
+	switch(btnData){
+		case "pinsGiveBtn":
+			if(inventory.includes(pins)){
+				b++			
+				inventoryUpdate();
+				return b;
+			}
+			else{
+				inventory.push(pins);
+				b++
+				inventoryUpdate();
+				return b;
+			}
+	}
+}
+
+console.log(inventory);
+
+function inventoryUpdate(){
+	itemList.innerHTML = "";
+    for(let i = 0; i <= inventory.length - 1; i++){
+        const btn = document.createElement("button");
+        if(inventory[i].consumable == true){		
+            const node = document.createTextNode(inventory[i].name + "x" + b);        
+            btn.appendChild(node);
+        }
+        else{
+            const node = document.createTextNode(inventory[i].name);
+            btn.appendChild(node);
+        }
+
+        btn.setAttribute("class", "inventoryBtn " + inventory[i].name);
+        btn.setAttribute("value", inventory[i].name);
+        btn.setAttribute("type", "button");
+        btn.setAttribute("id", i);
+        itemList.appendChild(btn);
+}
+inventoryBtnArr = document.querySelectorAll(".inventoryBtn");        
+console.log(inventoryBtnArr);
+subMenu(inventoryBtnArr);
+return(inventoryBtnArr);
+}
+inventoryUpdate();
+
+
+function subMenu(array){
+	array.forEach((element) => {
+		element.addEventListener("click",() => {
+			for(let i = 0; i <= inventory.length -1; i++){
+				if(element.getAttribute("value") == String(inventory[i].name)){
+					subMenuName.innerText = inventory[i].name;
+					subMenuImg.setAttribute("src", inventory[i].img);
+					subMenuDesc.innerText = inventory[i].desc;
+				}
+			}
+		})
+	})
+}
