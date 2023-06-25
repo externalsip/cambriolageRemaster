@@ -76,7 +76,7 @@ VISUAL NOVEL
                 <div class="buttonBox col-12 hideableElem">
                 <div class="buttonContainer col-12 col-xxl-3">
                     <button type="button" class="settingsBtn settingsMenu"></button>
-                    <button type="button" class="settingsBtn"></button>
+                    <button type="button" class="settingsBtn openInventory"></button>
                     <button type="button" class="settingsBtn hideMenu"></button>
                 </div>            
         </div>
@@ -109,6 +109,8 @@ MAP
     </div>
         <div class="hideMenuCheck"></div>
     </div>
+
+
 <!--
 ///////////////////////////////////////////////////////////////////
 SETTINGS
@@ -116,14 +118,16 @@ SETTINGS
 -->
 
     <div class="settingWrapper col-12">
+        <div class="settingsCloseArea col-6">
+        </div>
         <div class="settings col-6">
             <form>
                 <h1 id="settingHeader">Options</h1>
             <ul>
-                <li class="py-4">                    
+                <li class="py-4">                
                     <label for="fullscreen" class="settingLabel">Plein Écran</label>
                     <input type="checkbox" id="fullscreen" class="setting">
-                </li>                    
+                </li>               
                     <h3 class="h3 langHeader">Langue</h3>
                 <li class="pb-4 pt-3">
                     <label for="fr" class="settingLabel">Français</label>
@@ -139,32 +143,40 @@ SETTINGS
                 </li>
             </ul>
             </form>
-            <button type="button" id="closeBtn">X</button>
+            <button type="button" id="closeBtnST">X</button>
         </div>  
-    </div>    
-    
+    </div>
+
+<!--
+////////////////////////////////////////////////////////////////////
+INVENTORY
+///////////////////////////////////////////////////////////////////
+-->
     <div class="inventoryWrapper col-12">
+        <div class="inventoryCloseArea"></div>
         <div class="inventory">
-            <div class="inventoryPrimary">
-                <ul class="itemList">
-                    <template id="itemListTemplate">
-                        <li class="item"></li>
-                    </template>
-                </ul>
-            </div>
-            <div class="inventorySub">
+                <div class="inventoryPrimary">
+                    <div class="inventoryTop">
+                        <span class="inventoryTitle">Inventaire</span>
+                        <button type="button" id="closeBtnIN">X</button>
+                    </div>
+                    <div class="itemList"></div>
+                </div>
+                <div class="inventorySub">
                 <h2 class="itemName"></h2>
                 <img class="itemImg">
-                <p class="itemDesc"></p>
+                <div class="descContainer">
+                    <p class="itemDesc"></p>
+                    <span class="itemAmnt"></span>
+                </div>
                 <div class="itemBtnContainer">
-                    <button type="button" class="itemAction"></button>
-                    <button type="button" class="itemAction"></button>
+                    <button type="button" class="itemAction" id="presentBtn">Présenter</button>
                 </div>
             </div>
+            </div>
+            
     </div>
 </div>
-    
-
 </div>
 
 

@@ -33,14 +33,58 @@
                         "pageText": "testScene2"
                     },
                     "page1": {
-                        "pageText": "testScene2.1",
+                        "pageText": "item",
                         "options": {
                         "Voir la carte": "worldMap"
                     },
                     "NextPage": "End"
             
+                },
+                "page2": {
+                    "pageText": "no item",
+                    "options": {
+                        "Voir la carte": "worldMap"
+                    }
                 }
             }
+            },
+
+            "place2": {
+                "background" : "black",
+                "pages": {
+                    "page0": {
+                        "pageText": "test présentation d'objet"
+                    },
+                    "page1": {
+                        "pageText": "testScene2.1"
+                    },
+                    "page2": {
+                        "pageText": "",
+                        "action": "presentPuzzleTest",
+                        "NextPage": "End"
+                    },
+                    "page3": {
+                        "pageText": "Bon objet",
+                        "options": {
+                            "Voir la carte" : "worldMap"
+                        },
+                        "NextPage": "End"
+                    },
+                    "page4": {
+                        "pageText": "Mauvais objet",
+                        "NextPage": "page2"
+                    }
+
+            }
+            },
+            "noOneToShowItemTo": {
+                "background" : "black",
+                "pages":{
+                    "page0": {
+                        "pageText": "Personne n'est là pour voir ce que vous présentez",
+                        "class":"back"
+                    }
+                }
             }
 }
 } 

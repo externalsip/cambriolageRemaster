@@ -1,14 +1,15 @@
 let fullscreen = document.getElementById("fullscreen");
 let body = document.querySelector("body");
 let settingBtnArr = document.querySelectorAll(".settingsMenu");
-let settingsCloseBtn = document.getElementById("closeBtn");
+let settingsCloseBtn = document.getElementById("closeBtnST");
+let settingsCloseArea = document.querySelector(".settingsCloseArea")
 let settingsWrapper = document.querySelector(".settingWrapper");
 const backToMain = document.getElementById("backToMain");
 let sectionsArr = document.querySelectorAll(".section");
 const startMenu = document.getElementById("startMenu");
 let hideMenuBtnArr = document.querySelectorAll(".hideMenu");
 let hideMenuCheckArr = document.querySelectorAll(".hideMenuCheck");
-let hideableElemArr = document.querySelectorAll(".hideableElem")
+let hideableElemArr = document.querySelectorAll(".hideableElem");
 
 import {fr, en} from '../js/langSwap.js';
 
@@ -44,7 +45,13 @@ settingsCloseBtn.addEventListener("click", () => {
     gsap.timeline()    
     .to(settingsWrapper, {opacity: 0, duration: 0.5})
     .set(settingsWrapper, {x: "-100%"})
-})
+});
+
+settingsCloseArea.addEventListener("click", () => {
+    gsap.timeline()    
+    .to(settingsWrapper, {opacity: 0, duration: 0.5})
+    .set(settingsWrapper, {x: "-100%"})
+});
 
 backToMain.addEventListener("click", () => {
     gsap.timeline()    

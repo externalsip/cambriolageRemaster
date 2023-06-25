@@ -242,65 +242,7 @@ VISUAL NOVEL
     }
 }
 
-/*/////////////////////////////////////////////////
-SETTINGS
-//////////////////////////////////////////////////*/
 
-.settings{
-    height:100%;
-    position:absolute;
-    top:0;
-    padding:40px;
-    background-color: var(--black);
-    font-family: 'Press Start 2P', cursive;
-}
-
-#closeBtn{
-    position:absolute;
-    top:2vmin;
-    right:2vmin;
-    width:5vmin;
-    height:5vmin;
-    font-size:2em;
-    text-align: center;
-    background:none;
-    border:none;
-    color:var(--gray);
-}
-
-#closeBtn:hover{
-    color:var(--white)
-}
-
-ul{
-    list-style-type: none;
-}
-
-.settingWrapper{
-    height:100%;
-    position:absolute;
-    top:0;
-    left:-100%;
-    opacity:0;
-    background-color: var(--transparentGray);
-}
-
-.settingsMenuBtn{
-    width:9vmax;
-    height:4vmax;
-    background-color: var(--darkerGray);
-    border:var(--white) solid 2px;
-    color:var(--white);
-}
-
-.hideMenuCheck{
-    width:100%;
-    height:100%;
-    position:absolute;
-    top:0;
-    left:0;
-    display:none;
-}
 
 /*/////////////////////////////////////////////////////
 MAP
@@ -388,3 +330,206 @@ Modal
     color:var(--white);
     font-family: 'Press Start 2P', cursive;
 }
+
+/*/////////////////////////////////////////////////
+SETTINGS
+//////////////////////////////////////////////////*/
+
+.settings{
+    height:100%;
+    position:absolute;
+    top:0;
+    padding:40px;
+    background-color: var(--black);
+    font-family: 'Press Start 2P', cursive;
+}
+
+.settingsCloseArea{
+    height:100%;
+    position:absolute;
+    right:0;
+}
+#closeBtnST{
+    position:absolute;
+    top:2vmin;
+    right:2vmin;
+    width:5vmin;
+    height:5vmin;
+    font-size:2em;
+    text-align: center;
+    background:none;
+    border:none;
+    color:var(--gray);
+}
+
+#closeBtnST:hover{
+    color:var(--white)
+}
+
+ul{
+    list-style-type: none;
+}
+
+.settingWrapper{
+    height:100%;
+    position:absolute;
+    top:0;
+    left:-100%;
+    opacity:0;
+    background-color: var(--transparentGray);
+}
+
+.settingsMenuBtn{
+    width:9vmax;
+    height:4vmax;
+    background-color: var(--darkerGray);
+    border:var(--white) solid 2px;
+    color:var(--white);
+}
+
+.hideMenuCheck{
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0;
+    left:0;
+    display:none;
+}
+
+/*/////////////////////////////////////////////
+INVENTORY
+////////////////////////////////////////////*/
+
+.inventoryWrapper{
+    height:100%;
+    top:0;
+    position:absolute;
+    background-color: var(--transparentGray);
+    left:-100%;
+    opacity:0;
+
+}
+
+.inventory{
+    font-family: 'Press Start 2P', cursive;
+    width:55%;
+    position:absolute;
+    right:0;
+    height:100%;
+}
+
+.inventoryCloseArea{
+    width:45%;
+    position:absolute;
+    height:100%;
+    left:0;
+}
+
+/*//////////////////////////////////////////////
+INVENTORY MAIN
+//////////////////////////////////////////////*/
+
+
+.inventoryPrimary{
+    width:40%;
+    height:100%;
+    position:absolute;
+    right:0;
+    background-color: var(--black);
+    padding:30px;
+
+}
+
+.inventoryTitle{
+    font-size:2em;
+}
+
+.inventoryBtn{
+    width:40%;
+    aspect-ratio: 1/1;
+}
+
+.itemList{
+    display:flex;
+    justify-content: space-around;
+}
+
+.inventoryTop{
+    height:15%;
+}
+
+#closeBtnIN{
+    position:absolute;
+    top:2vmin;
+    right:2vmin;
+    width:5vmin;
+    height:5vmin;
+    font-size:2em;
+    text-align: center;
+    background:none;
+    border:none;
+    color:var(--gray);
+}
+
+#closeBtnIN:hover{
+    color:var(--white)
+}
+
+/*//////////////////////////////////////////////
+INVENTORY SUB
+//////////////////////////////////////////////*/
+
+
+.inventorySub{
+    width:60%;
+    position:absolute;
+    background-color: var(--darkerGray);
+    left:0;
+    height:100%;
+    padding:30px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.itemName{
+    font-size:2.5em;
+}
+
+.itemImg{
+    width:80%;
+    aspect-ratio: 1/1;
+    background-color: var(--black);
+    align-self: center;
+}
+
+.itemBtnContainer{
+    width:100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.itemAmnt{
+    align-self: flex-end;
+}
+
+.descContainer{
+    width:100%;
+    display:flex;
+    flex-direction: column;
+}
+
+.itemAction{
+    width:30%;
+    aspect-ratio: 3/1;
+    background-color: var(--black);
+    color: var(--white);
+    border: var(--white) solid 2px;
+    display:none;
+}
+
+.itemAction:hover{
+    background-color: var(--gray);
+}
+

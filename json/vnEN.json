@@ -16,9 +16,9 @@
                     "class": "pinsGiveBtn"
                 },
                 "page2": {
-                    "pageText": "item!!!",
+                    "pageText": "item!!! En ver.",
                     "options": {
-                        "Voir la carte": "worldMap"
+                        "See the map": "worldMap"
                     },
                     "NextPage": "End"
                 }
