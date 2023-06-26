@@ -144,7 +144,7 @@ VISUAL NOVEL
     width:100%;
     height:27vh;
     background-color: var(--darkerGray);
-    border: var(--white) solid 3px;
+    border: var(--white) solid 2px;
     font-size:1em;
     color: var(--white);
     position:absolute;
@@ -557,7 +557,7 @@ SHOP
     width:80%;
     height:27vh;
     background-color: var(--darkerGray);
-    border: var(--white) solid 3px;
+    border: var(--white) solid 2px;
     font-size:1em;
     color: var(--white);
     position:absolute;
@@ -574,7 +574,7 @@ SHOP
     background-color: var(--darkGray);;
     right:0;
     bottom:0;
-    border: var(--white) solid 3px;
+    border: var(--white) solid 2px;
     display:flex;
     flex-direction: column;
     justify-content: space-around;
@@ -681,4 +681,33 @@ SHOP SUB
 
 .itemAmntShop{
     align-self: flex-end;
+}
+
+/*/////////////////////////////////////////////////
+SHOP PURCHASE
+/////////////////////////////////////////////////*/
+
+.shopConfirm{
+    width:30%;
+    height:70%;
+    position:absolute;
+    background-color: var(--darkerGray);
+    padding:30px;
+    display:none;
+    flex-direction: column;
+    justify-content: space-around;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.shopAction{
+    width:30%;
+    aspect-ratio: 3/1;
+    background-color: var(--black);
+    color: var(--white);
+    border: var(--white) solid 2px;
+}
+
+.itemPrice{
+    text-align: center;
+    font-size:1.5em;
 }

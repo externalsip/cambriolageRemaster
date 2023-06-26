@@ -227,11 +227,12 @@ class Item {
 //Tools class, those items are meant to be used to progress in the game, drb is their durability, durability only decreases by one after the clearing the puzzle, the game will be built in a way where you cannot enter a heist without having the required items at the required durability.
 
 class Tool extends Item {
-    constructor(name, img, consumable, desc, id, sell){
+    constructor(name, img, consumable, desc, id, amount){
         super(name, img);
         this.consumable = consumable;
         this.desc = desc;
 		this.id = id;
+		this.amount = amount;
     }
 }
 
@@ -246,13 +247,13 @@ let inventory = [];
 function inventoryLangSwap() {
 	if(en == true){
 		crowbar = new Tool ('Crowbar', 'link', false, "A thief's best friend.", "crowbar");
-		pins = new Tool ('Pins', 'link', true, "Always handy to have around in case of locked doors.", "pins");
+		pins = new Tool ('Pins', 'link', true, "Always handy to have around in case of locked doors.", "pins", 0);
 		inventoryUpdate();
 		return crowbar, pins;
 	}
 	else{
 		crowbar = new Tool ('Pied-de-Biche', 'link', false, "Le fidèle compagnon de n'importe quel voleur", "crowbar");
-		pins = new Tool ('Crochets', 'link', true, "Toujours pratique à avoir sous la main en cas de porte verouillée", "pins");
+		pins = new Tool ('Crochets', 'link', true, "Toujours pratique à avoir sous la main en cas de porte verouillée", "pins", 0);
 		inventoryUpdate();		
 		return crowbar, pins;
 		}
@@ -270,18 +271,23 @@ inventory.push(crowbar);
 
 let pinsNum = 0;
 function giveItem(btnData) {
-	console.log()
+	console.log("call");
 	switch(btnData){
 		case "pins":
 			if(inventory.includes(pins)){
-				pinsNum++
+				pinsNum++;
 				inventoryUpdate();
 			}
 			else{
 				inventory.push(pins);
-				pinsNum++
+				pinsNum++;
 				inventoryUpdate();
 			}
+		break;
+		case "crowbar":
+			inventory.push(crowbar);
+			inventoryUpdate();
+			break;
 	}
 }
 
@@ -426,7 +432,7 @@ else{
 SHOPS
 /////////////////////////////////////////////////////////*/
 
-let wallet = 0;
+let wallet = 50;
 let crowbarShop;
 let pinsShop;
 let buyMenuBtn = document.getElementById("buyMenuBtn");
@@ -434,14 +440,15 @@ let sellMenuBtn = document.getElementById("sellMenuBtn");
 let shopPrimary = document.querySelector(".shopPrimary");
 let shopChoice = document.querySelector(".shopChoice");
 let leaveBtn = document.getElementById("leaveBtn");
-let shopItemList = document.querySelector(".itemListShop");
+const shopItemList = document.querySelector(".itemListShop");
 const shop = document.querySelector(".shopWrapper");
 let subItemShopName = document.querySelector(".itemNameShop");
 let shopSubMenu = document.querySelector(".shopSub");
 let itemImgShop = document.querySelector(".itemImgShop");
 let descItmShop = document.querySelector(".itemDescShop");
 let itmAmntShop = document.querySelector(".itemAmntShop");
-
+let itemConfirm = document.querySelector(".shopConfirm");
+let closeBtnSH = document.getElementById("closeBtnSH");
 
 
 class shopItem extends Item{
@@ -460,17 +467,17 @@ let shopInventory1 = [];
 
 function ShopLangSwap() {
 	if(en == true){
-		crowbarShop = new shopItem ('Crowbar', 'link', false, "A thief's best friend.", 50, false, "crowbarShop");
-		pinsShop = new shopItem ('Pins', 'link', true, "Always handy to have around in case of locked doors.", 5, false, "pinsShop", 10);
+		crowbarShop = new shopItem ('Crowbar', 'link', false, "A thief's best friend.", 50, false, "crowbar", 1);
+		pinsShop = new shopItem ('Pins', 'link', true, "Always handy to have around in case of locked doors.", 5, false, "pins", 10);
 		shopUpdate();
 		return crowbarShop, pinsShop;
 	}
 	else{
-		crowbarShop = new shopItem ('Pied-de-Biche', 'link', false, "Le fidèle compagnon de n'importe quel voleur", 50, false, "crowbarShop");
-		pinsShop = new shopItem ('Crochets', 'link', true, "Toujours pratique à avoir sous la main en cas de porte verouillée", 5, false, "pinsShop", 10);
+		crowbarShop = new shopItem ('Pied-de-Biche', 'link', false, "Le fidèle compagnon de n'importe quel voleur", 50, false, "crowbar", 1);
+		pinsShop = new shopItem ('Crochets', 'link', true, "Toujours pratique à avoir sous la main en cas de porte verouillée", 5, false, "pins", 10);
 		shopUpdate();		
 		return crowbarShop, pinsShop;
-		}
+	}
 }
 
 
@@ -518,9 +525,11 @@ function shopUpdate(){
 //This function checks what shop the player just entered with a name that will be called when needed, since each shop has its own inventory, they all need to be declared separately to make sure that the right inventory appears at the right time, the switch statement is used to verify which shop is currently being used.
 
 function enterShop(shopName){
-	buyMenuBtn.addEventListener("click", () => {		
+	buyMenuBtn.addEventListener("click", () => {			
+		shopItemList.innerHTML = "";
 		shopChoice.style.display = "none";
 		shopPrimary.style.display = "block";
+		shopSubMenu.style.display = "flex";
 		switch(shopName){
 			case "shop1":
 				for(let i = 0; i <= shopInventory1.length - 1; i++){
@@ -533,18 +542,24 @@ function enterShop(shopName){
 						const node = document.createTextNode(shopInventory1[i].name);
 						btn.appendChild(node);
 					}
-					btn.setAttribute("class", "shopBtn " + shopInventory1[i].name);
+
 					btn.setAttribute("type", "button");
 					btn.setAttribute("value", shopInventory1[i].name);
+					if(shopInventory1[i].amount == 0){
+						btn.setAttribute("class", "shopBtn noStock " + shopInventory1[i].name)
+					}					
+					btn.setAttribute("class", "shopBtn " + shopInventory1[i].name);
 					shopItemList.appendChild(btn);
 				}
 		}
 		shopBtnArr = document.querySelectorAll(".shopBtn");
 		hoverShopBtn(shopBtnArr, shopName);
 		selectItem(shopBtnArr, shopName);
+		return shopBtnArr;
 	})
 	sellMenuBtn.addEventListener("click", () => {
 		if(shopName == "pawn"){
+			shopItemList.innerHTML = "";
 			shopChoice.style.display = "none";
 			shopPrimary.style.display = "block";
 			for(let i = 0; i <= inventory.length; i++){
@@ -604,11 +619,102 @@ function hoverShopBtn(btnArr, name){
 }
 
 function selectItem(btnArr, name){
-	btnArr.forEach((btn) => {
+	btnArr.forEach((btn, index) => {
 		btn.addEventListener("click", () => {
+			if(btn.classList.contains("noStock")){
+
+			}
+			else{
+				switch(name){
+					case "shop1":
+						shopSubMenu.style.display = "none";
+						itemConfirm.style.display = "flex";
+						buyItem(shopInventory1[index], "shop1");
+						break;
+				}
+			}
 			
-		})
-	})
+		});
+	});
+
 }
+
+let buyBtn = document.getElementById("buyBtn");
+let cancelBtn = document.getElementById("cancelBtn");
+let sliderContainer = document.querySelector(".shopSliderContainer");
+let input = document.getElementById("shopSlider");
+let priceDisplay = document.querySelector(".itemPrice");
+let stackPrice;
+let amountLeft;
+
+function buyItem(item, shop){
+	priceDisplay.innerText = item.price + " $";
+	stackPrice = item.price;
+	if(item.consumable == true){
+		sliderContainer.style.display = "block";
+		input.setAttribute("max", item.amount);
+		input.addEventListener("input", () => {
+			stackPrice = (item.price * input.value);
+			priceDisplay.innerText = stackPrice + " $";
+			console.log(stackPrice);
+			
+		});
+		buyBtn.addEventListener("click", () => {
+				if(wallet >= stackPrice){
+					for(let i = 0; i <= input.value - 1; i++){
+						giveItem(item.id);
+					}
+					wallet = wallet - stackPrice;
+					amountLeft = item.amount - input.value;
+					item.amount = amountLeft;
+					enterShop(shop);
+					itemConfirm.style.display = "none";
+					shopPrimary.style.display = "none";
+					shopChoice.style.display = "flex";
+					console.log(wallet);
+					return wallet, item.amount;
+				}
+				else{
+					alert("broke");
+				}
+			});
+	}
+	else{
+		sliderContainer.style.display = "none";	
+		console.log("hi");
+		buyBtn.addEventListener("click", () => {
+			console.log("problem");
+			if(wallet >= item.price){
+				console.log(item.id);
+				giveItem(item.id);
+				wallet = wallet - item.price;
+				amountLeft = item.amount - 1;
+				item.amount = amountLeft;
+				enterShop(shop);
+				itemConfirm.style.display = "none";
+				shopPrimary.style.display = "none";
+				shopChoice.style.display = "flex";
+				return wallet, item.amount;
+			}
+			else{
+				alert("broke");
+			}
+	});
+	}
+
+}
+
+cancelBtn.addEventListener("click", () => {
+	itemConfirm.style.display = "none";
+	shopPrimary.style.display = "none";
+	shopChoice.style.display = "flex";
+});
+
+closeBtnSH.addEventListener("click", () => {
+	itemConfirm.style.display = "none";
+	shopPrimary.style.display = "none";
+	shopChoice.style.display = "flex";
+	shopSubMenu.style.display = "none";
+});
 
 enterShop("shop1");
