@@ -33,6 +33,7 @@ langBtn.forEach((element) => {
 	element.addEventListener("click", () => {
 		grabData();
 		inventoryLangSwap();
+		ShopLangSwap();
 	})
 });
 
@@ -209,7 +210,7 @@ let itemAmnt = document.querySelector(".itemAmnt");
 let inventoryCloseBtn = document.getElementById("closeBtnIN");
 let inventoryWrapper = document.querySelector(".inventoryWrapper");
 let inventoryCloseArea = document.querySelector(".inventoryCloseArea");
-let openInventoryBtn = document.querySelector(".openInventory");
+let openInventoryBtn = document.querySelectorAll(".openInventory");
 let lastItem = 0;
 let presentBtn = document.getElementById("presentBtn");
 
@@ -226,9 +227,8 @@ class Item {
 //Tools class, those items are meant to be used to progress in the game, drb is their durability, durability only decreases by one after the clearing the puzzle, the game will be built in a way where you cannot enter a heist without having the required items at the required durability.
 
 class Tool extends Item {
-    constructor(name, img, drb, consumable, desc, id){
+    constructor(name, img, consumable, desc, id, sell){
         super(name, img);
-        this.drb = drb;
         this.consumable = consumable;
         this.desc = desc;
 		this.id = id;
@@ -245,14 +245,14 @@ let inventory = [];
 
 function inventoryLangSwap() {
 	if(en == true){
-		crowbar = new Tool ('Crowbar', 'link', 10, false, "A thief's best friend.", "crowbar");
-		pins = new Tool ('Pins', 'link', 2, true, "Always handy to have around in case of locked doors.", "pins");
+		crowbar = new Tool ('Crowbar', 'link', false, "A thief's best friend.", "crowbar");
+		pins = new Tool ('Pins', 'link', true, "Always handy to have around in case of locked doors.", "pins");
 		inventoryUpdate();
 		return crowbar, pins;
 	}
 	else{
-		crowbar = new Tool ('Pied-de-Biche', 'link', 10, false, "Le fidèle compagnon de n'importe quel voleur", "crowbar");
-		pins = new Tool ('Crochets', 'link', 2, true, "Toujours pratique à avoir sous la main en cas de porte verouillée", "pins");
+		crowbar = new Tool ('Pied-de-Biche', 'link', false, "Le fidèle compagnon de n'importe quel voleur", "crowbar");
+		pins = new Tool ('Crochets', 'link', true, "Toujours pratique à avoir sous la main en cas de porte verouillée", "pins");
 		inventoryUpdate();		
 		return crowbar, pins;
 		}
@@ -272,7 +272,7 @@ let pinsNum = 0;
 function giveItem(btnData) {
 	console.log()
 	switch(btnData){
-		case "pinsGiveBtn":
+		case "pins":
 			if(inventory.includes(pins)){
 				pinsNum++
 				inventoryUpdate();
@@ -369,7 +369,8 @@ inventoryCloseArea.addEventListener("click", () => {
     .set(inventoryWrapper, {x: "-100%"})
 });
 
-openInventoryBtn.addEventListener("click", () => {
+openInventoryBtn.forEach((button) => {
+	button.addEventListener("click", () => {
 	subMenuName.innerText = inventory[lastItem].name;
 	subMenuImg.setAttribute("src", inventory[lastItem].img);
 	subMenuDesc.innerText = inventory[lastItem].desc;
@@ -386,6 +387,7 @@ openInventoryBtn.addEventListener("click", () => {
 		gsap.timeline()		
 		.set(inventoryWrapper, {x: "100%"})
 		.to(inventoryWrapper, {opacity: 1, duration: 0.5})
+});
 });
 
 function present(puzzle, data){
@@ -418,5 +420,195 @@ else{
 		.set(inventoryWrapper, {x: "-100%"})				
 	})
 }
-
 }
+
+/*/////////////////////////////////////////////////////////
+SHOPS
+/////////////////////////////////////////////////////////*/
+
+let wallet = 0;
+let crowbarShop;
+let pinsShop;
+let buyMenuBtn = document.getElementById("buyMenuBtn");
+let sellMenuBtn = document.getElementById("sellMenuBtn");
+let shopPrimary = document.querySelector(".shopPrimary");
+let shopChoice = document.querySelector(".shopChoice");
+let leaveBtn = document.getElementById("leaveBtn");
+let shopItemList = document.querySelector(".itemListShop");
+const shop = document.querySelector(".shopWrapper");
+let subItemShopName = document.querySelector(".itemNameShop");
+let shopSubMenu = document.querySelector(".shopSub");
+let itemImgShop = document.querySelector(".itemImgShop");
+let descItmShop = document.querySelector(".itemDescShop");
+let itmAmntShop = document.querySelector(".itemAmntShop");
+
+
+
+class shopItem extends Item{
+	constructor(name, img, consumable, desc, price, purchased, id, amount){
+		super(name, img);
+		this.consumable = consumable;
+		this.desc = desc;
+		this.price = price;
+		this.purchased = purchased;
+		this.id = id;
+		this.amount = amount;
+	}
+}
+
+let shopInventory1 = [];
+
+function ShopLangSwap() {
+	if(en == true){
+		crowbarShop = new shopItem ('Crowbar', 'link', false, "A thief's best friend.", 50, false, "crowbarShop");
+		pinsShop = new shopItem ('Pins', 'link', true, "Always handy to have around in case of locked doors.", 5, false, "pinsShop", 10);
+		shopUpdate();
+		return crowbarShop, pinsShop;
+	}
+	else{
+		crowbarShop = new shopItem ('Pied-de-Biche', 'link', false, "Le fidèle compagnon de n'importe quel voleur", 50, false, "crowbarShop");
+		pinsShop = new shopItem ('Crochets', 'link', true, "Toujours pratique à avoir sous la main en cas de porte verouillée", 5, false, "pinsShop", 10);
+		shopUpdate();		
+		return crowbarShop, pinsShop;
+		}
+}
+
+
+let pinsAmnt;
+
+let shopBtnArr;
+
+ShopLangSwap();
+shopInventory1.push(crowbarShop);
+shopInventory1.push(pinsShop);
+
+function shopUpdate(){
+	for(let i = 0; i <= shopInventory1.length - 1; i++){
+		switch(i){
+			case 0:
+				if(shopInventory1[i].purchased == true){
+						shopInventory1[i] = crowbarShop;
+						shopInventory1[i].purchased = true;
+				}
+				else{
+					shopInventory1[i] = crowbarShop;
+				}
+				break;
+			case 1:
+				if(shopInventory1[i].amount != 10){
+					pinsAmnt = shopInventory1[i].amount;
+					if(shopInventory1[i].purchased == true){
+						shopInventory1[i] = pinsShop;
+						shopInventory1[i].purchased = true;
+					}
+					else{
+						shopInventory1[i] = pinsShop;
+					}
+					shopInventory1[i].amount = pinsAmnt;
+
+				}
+				else{
+					shopInventory1[i] = pinsShop;
+				}
+				break;
+		}
+	}
+}
+
+//This function checks what shop the player just entered with a name that will be called when needed, since each shop has its own inventory, they all need to be declared separately to make sure that the right inventory appears at the right time, the switch statement is used to verify which shop is currently being used.
+
+function enterShop(shopName){
+	buyMenuBtn.addEventListener("click", () => {		
+		shopChoice.style.display = "none";
+		shopPrimary.style.display = "block";
+		switch(shopName){
+			case "shop1":
+				for(let i = 0; i <= shopInventory1.length - 1; i++){
+					const btn = document.createElement("button");
+					if(shopInventory1[i].consumable == true){
+						const node = document.createTextNode(shopInventory1[i].name + " x" + shopInventory1[i].amount);
+						btn.appendChild(node);
+					}
+					else{
+						const node = document.createTextNode(shopInventory1[i].name);
+						btn.appendChild(node);
+					}
+					btn.setAttribute("class", "shopBtn " + shopInventory1[i].name);
+					btn.setAttribute("type", "button");
+					btn.setAttribute("value", shopInventory1[i].name);
+					shopItemList.appendChild(btn);
+				}
+		}
+		shopBtnArr = document.querySelectorAll(".shopBtn");
+		hoverShopBtn(shopBtnArr, shopName);
+		selectItem(shopBtnArr, shopName);
+	})
+	sellMenuBtn.addEventListener("click", () => {
+		if(shopName == "pawn"){
+			shopChoice.style.display = "none";
+			shopPrimary.style.display = "block";
+			for(let i = 0; i <= inventory.length; i++){
+				const btn = document.createElement("button");
+				if(inventory[i].consumable == true){
+					switch(inventory[i].id){
+						case "pins":
+							const node = document.createTextNode(inventory[i].name + "x" + pinsNum);
+							btn.appendChild(node);
+							break;
+					}
+				}
+				else{
+					const node = document.createTextNode(inventory[i]);
+					btn.appendChild(node);
+				}
+				btn.setAttribute("class", "shopBtn" + inventory[i].name);
+				btn.setAttribute("type", "button");
+				shopItemList.appendChild(btn);
+			}
+		}
+		else {}
+	});
+	leaveBtn.addEventListener("click", () => {
+		shop.style.display = "none";
+		map.style.display = "block";
+	});
+}
+
+/*Shop buttons Hover function */
+
+function hoverShopBtn(btnArr, name){
+	btnArr.forEach((btn) => {
+		btn.addEventListener("mouseover",() => {
+			switch(name){
+				case "shop1":
+					for(let i = 0; i <= shopInventory1.length - 1; i++){
+						if(btn.getAttribute("value") == String(shopInventory1[i].name)){
+							subItemShopName.innerText = shopInventory1[i].name;
+							itemImgShop.setAttribute("src", shopInventory1[i].img);
+							descItmShop.innerText = shopInventory1[i].desc;
+							if(shopInventory1[i].consumable == true){
+								itmAmntShop.innerText = shopInventory1[i].amount;
+							}
+							else{
+								itmAmntShop.innerText = "";
+							}
+						}
+					}
+			}
+			gsap.to(shopSubMenu, {left: 0, duration: 0.5});
+		});
+		btn.addEventListener("mouseout", () => {
+			gsap.to(shopSubMenu, {left: "-35%", duration: 0.5});
+		})
+	})
+}
+
+function selectItem(btnArr, name){
+	btnArr.forEach((btn) => {
+		btn.addEventListener("click", () => {
+			
+		})
+	})
+}
+
+enterShop("shop1");

@@ -13,7 +13,7 @@
                         "Item test": "giveItem"
                     },
                     "NextPage": "End",
-                    "class": "pinsGiveBtn"
+                    "class": "pins"
                 },
                 "page2": {
                     "pageText": "item!!! En ver.",

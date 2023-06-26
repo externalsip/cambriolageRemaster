@@ -1,7 +1,7 @@
 *{box-sizing: border-box;
 padding:0;
 margin:0;}
-*{font-family: "comic sans ms";}
+*{font-family: 'Press Start 2P', cursive;}
 :root{
     --white: #FFFFFF;
     --black: #000000;
@@ -35,6 +35,7 @@ body{
     width:100vw;
     height:100vh;
     background-color: var(--gray)!important;
+    overflow: hidden;
 }
 .game{
     width:95vw;
@@ -533,3 +534,151 @@ INVENTORY SUB
     background-color: var(--gray);
 }
 
+/*/////////////////////////////////////////////////
+SHOP
+/////////////////////////////////////////////////*/
+
+.shopWrapper{
+    height:100%;
+    top:0;
+    position:absolute;
+
+}
+
+.shopInterface{
+    font-family: 'Press Start 2P', cursive;
+    width:100%;
+    position:absolute;
+    right:0;
+    height:87vh;
+}
+
+.shopTextbox{
+    width:80%;
+    height:27vh;
+    background-color: var(--darkerGray);
+    border: var(--white) solid 3px;
+    font-size:1em;
+    color: var(--white);
+    position:absolute;
+    bottom:8vh;
+    left:0;
+    padding:50px;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.shopChoice{
+    height:27vh;
+    width:20%;
+    position:absolute;
+    background-color: var(--darkGray);;
+    right:0;
+    bottom:0;
+    border: var(--white) solid 3px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.shopChoiceBtn{
+    width:80%;
+    aspect-ratio: 4/1;
+    background-color: var(--black);
+    color: var(--white);
+    border: var(--white) solid 2px;
+}
+
+.shopChoiceBtn:hover{
+    background-color: var(--gray);
+}
+
+
+/*/////////////////////////////////////////////////////
+SHOP PRIMARY
+///////////////////////////////////////////////////////*/
+
+.shopPrimary{
+    width:20%;
+    height:100%;
+    position:absolute;
+    right:0;
+    background-color: var(--darkGray);
+    padding:30px;
+    display: none;
+    
+}
+
+.shopTitle{
+    font-size:2em;
+}
+
+.shopBtn{
+    width:40%;
+    aspect-ratio:1/1;
+
+}
+
+.itemListShop{
+    display:flex;
+    justify-content: space-around;
+}
+
+.shopTop{
+    height:15%;
+}
+
+#closeBtnSH{
+    position:absolute;
+    top:2vmin;
+    right:2vmin;
+    width:5vmin;
+    height:5vmin;
+    font-size:2em;
+    text-align: center;
+    background:none;
+    border:none;
+    color:var(--gray);
+}
+
+#closeBtnSH:hover{
+    color:var(--white)
+}
+
+/*//////////////////////////////////////////////////////
+SHOP SUB
+//////////////////////////////////////////////////////*/
+
+.shopSub{
+    width:30%;
+    height:70%;
+    position:absolute;
+    background-color: var(--darkerGray);
+    left:-35%;
+    padding:30px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.itemNameShop{
+    font-size:2.5em;
+}
+
+.itemImgShop{
+    width:50%;
+    aspect-ratio: 1/1;
+    background-color: var(--black);
+    align-self: center;
+}
+
+.itemBtnContainerShop{
+    width:100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.itemAmntShop{
+    align-self: flex-end;
+}
