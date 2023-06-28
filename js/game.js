@@ -663,7 +663,7 @@ function handlePurchaseOnce(item, shop) {
 		wallet = wallet - stackPrice;
 		amountLeft = item.amount - input.value;
 		item.amount = amountLeft;		
-		returnNotWorking(wallet, item.amount);
+
 		enterShop(shop, json);
 		itemConfirm.style.display = "none";
 		shopPrimary.style.display = "none";
@@ -677,7 +677,7 @@ function handlePurchaseOnce(item, shop) {
 		wallet = wallet - item.price;
 		amountLeft = item.amount - 1;
 		item.amount = amountLeft;		
-		returnNotWorking(wallet, item.amount);
+
 		enterShop(shop, json);
 		itemConfirm.style.display = "none";
 		shopPrimary.style.display = "none";
@@ -733,8 +733,4 @@ function giveItem(item) {
 		inventory.push(item);
 		inventoryUpdate();
 	}
-}
-
-function returnNotWorking(wallet, amount){
-	return wallet, amount;
 }
