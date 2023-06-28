@@ -33,6 +33,25 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="languageChoiceModal" tabindex="-1" aria-labelledby="languageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content langModalContent">        
+        <h1 class="modal-title fs-5" id="languageModalLabel">Attention</h1>
+        <div class="modal-body languageModalBody">
+            <p>Avant de commencer, veuilliez choisir votre langue.</p><p class="text-red">Ce choix est permanent et ne pourra pas être modifié plus tard.</p>
+        </div>
+        <form>
+            <label for="fr" class="settingLabel">Français</label>
+            <input type="radio" id="fr" class="setting langSetting" name="lang" checked="checked">
+            <label for="en" class="settingLabel">English</label>
+            <input type="radio" id="en" class="setting langSetting" name="lang">
+        </form>
+            <button type="button" id="startGame" data-bs-dismiss="modal" class="menuModalBtn">Confirmer</button>
+            <button type="button" data-bs-dismiss="modal" class="menuModalBtn">Annuler</button>
+      </div>
+    </div>
+  </div>
 <!--
 /////////////////////////////////////////////////////////////////
 MENU PRINCIPAL
@@ -42,7 +61,7 @@ MENU PRINCIPAL
     <div class="wrapper mainMenu section" id="startMenu">
         <span class="title">Cambriolage</span>
         <div class="startBtns col-12">
-            <button type="button" class="start col-6 col-lg-3 col-xxl-2" id="begin">Commencer</button>
+            <button type="button" class="start col-6 col-lg-3 col-xxl-2" data-bs-toggle="modal" data-bs-target="#languageChoiceModal" id="begin">Commencer</button>
             <button type="button" class="start col-6 col-lg-3 col-xxl-2" id="continue">Continuer</button>        
             <button type="button" class="start settingsMenu col-6 col-lg-3 col-xxl-2" id="options">Options</button>  
             <div class="tip col-8 col-lg-4 col-xxl-5">
@@ -151,6 +170,7 @@ MAP
 
         <div class="mapElement" id="place1"></div>
         <div class="mapElement" id="place2"></div>
+        <div class="mapElement" id="place3"></div>
         <div class="mapText hideableElem">
             <div class="mapInfo col-12"></div>
             <div class="mapName col-6 col-lg-4 col-xxl-3"></div>
@@ -183,13 +203,6 @@ SETTINGS
                     <label for="fullscreen" class="settingLabel">Plein Écran</label>
                     <input type="checkbox" id="fullscreen" class="setting">
                 </li>               
-                    <h3 class="h3 langHeader">Langue</h3>
-                <li class="pb-4 pt-3">
-                    <label for="fr" class="settingLabel">Français</label>
-                    <input type="radio" id="fr" class="setting langSetting" name="lang" checked="checked">
-                    <label for="en" class="settingLabel">English</label>
-                    <input type="radio" id="en" class="setting langSetting" name="lang">
-                </li>
                 <li class="py-4">
                     <button type="button" id="saveBtn" class="settingsMenuBtn">Sauvegarder</button>
                 </li>
@@ -228,8 +241,7 @@ INVENTORY
                     <button type="button" class="itemAction" id="presentBtn">Présenter</button>
                 </div>
             </div>
-            </div>
-            
+            </div>         
     </div>
 </div>
 </div>

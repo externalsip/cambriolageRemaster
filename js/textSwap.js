@@ -31,8 +31,7 @@ function french(){
     mainBtnArr[2].innerText = "Options";
     // Settings
     settingHeader.innerText = "Options";
-    langHeader.innerText = "Langue";
-    settingLabelArr[0].innerText = "Plein écran";
+    settingLabelArr[2].innerText = "Plein écran";
     settingBtnArr[0].innerText = "Sauvegarder";
     settingBtnArr[1].innerText = "Menu Principal";
     menuModalBody.innerText = "Toute progression non-sauvegardée sera perdue.";
@@ -51,8 +50,7 @@ function english(){
     mainBtnArr[2].innerText = "Settings";
     // Settings
     settingHeader.innerText = "Settings";
-    langHeader.innerText = "Language";
-    settingLabelArr[0].innerText = "Fullscreen";
+    settingLabelArr[2].innerText = "Fullscreen";
     settingBtnArr[0].innerText = "Save";
     settingBtnArr[1].innerText = "Main Menu";
     menuModalBody.innerText = "Any progression that was not saved will be lost.";

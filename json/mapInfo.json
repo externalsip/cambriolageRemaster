@@ -7,6 +7,10 @@
         "place2":{
             "name": "test2",
             "description": "this is a second test"
+        },
+        "place3":{
+            "name": "shop test",
+            "description": "Leads to the test for the shop"
         }
     }
 }

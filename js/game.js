@@ -1,13 +1,14 @@
-const btnStart = document.getElementById("begin");
+const btnStart = document.getElementById("startGame");
 const startMenu = document.getElementById("startMenu");
 const vn = document.getElementById("vn");
-let textboxxer = document.querySelector(".textbox");
-let textbox = document.querySelector(".text");
+let textbox = document.querySelector(".textbox");
+let textboxText = document.querySelector(".text");
 let optionsbox = document.querySelector(".optionsbox");
 let langBtn = document.querySelectorAll(".langSetting");
 const map = document.getElementById("map");
 const mapPlace1 = document.getElementById("place1");
 const mapPlace2 = document.getElementById("place2");
+const mapPlace3 = document.getElementById("place3");
 
 const vnDataFR= './json/vnFR.json';
 const vnDataEN= './json/vnEN.json';
@@ -24,17 +25,10 @@ btnStart.addEventListener("click", () => {
     vn.style.display = "block";
 	sceneIndex = 0;
 	pageNum = 0;
+	inventoryLang();
+	ShopLang();
     grabData();
-
 	return sceneIndex, pageNum;
-});
-
-langBtn.forEach((element) => {
-	element.addEventListener("click", () => {
-		grabData();
-		inventoryLangSwap();
-		ShopLangSwap();
-	})
 });
 
 mapPlace1.addEventListener("click", () => { 
@@ -58,7 +52,16 @@ mapPlace2.addEventListener("click", () => {
 	pageNum = 0;
 	grabData();
 	return sceneIndex, pageNum;
-})
+});
+
+mapPlace3.addEventListener("click", () => {
+	map.style.display = "none";
+	vn.style.display = "block";
+	sceneIndex = 3;
+	pageNum = 0;
+	grabData();
+	return sceneIndex, pageNum;
+});
 
 async function grabData() {
 	if(fr == true){
@@ -80,11 +83,12 @@ async function grabData() {
 
 
 async function initialize(data){
-    textbox.innerText = '';
-        textbox.innerText = data.scenes[sceneSwap].pages[currentPage].pageText;
+    textboxText.innerText = '';
         vn.style.backgroundImage = data.scenes[sceneSwap].background;
+		typeWriter(data.scenes[sceneSwap].pages[currentPage].pageText, "vn");
 }
 
+let dialogItem;
 
 function handleOptions(data){
 	
@@ -97,7 +101,6 @@ function handleOptions(data){
 			row.innerHTML = `${k}`
 			row.setAttribute("type", "button");
 				if(o[k] == "giveItem"){
-					console.log("item")
 					row.classList.add(data.scenes[sceneSwap].pages[currentPage].class, "optionBtn");
 					optionsbox.appendChild(row);
 				}
@@ -112,8 +115,9 @@ function handleOptions(data){
 				if(o[k] == "worldMap"){
 					worldMap();
 				}
-				else if(o[k] == "giveItem"){					
-					giveItem(json.scenes[sceneSwap].pages[currentPage].class);
+				else if(o[k] == "giveItem"){	
+					dialogItem = json.scenes[sceneSwap].pages[currentPage].class;
+					itemManage(dialogItem);
 					console.log(data.scenes[sceneSwap].pages[currentPage].class);
 					pageNum = pageNum + 1;
 					currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
@@ -121,17 +125,41 @@ function handleOptions(data){
 					initialize(json); 
 					optionsbox.innerHTML = "";
 					handleOptions(json);
-					console.log("test");
-
 				}
 				else{
 				currentPage = (o[k]);
 				pageNum = Object.keys(json.scenes[sceneSwap].pages).indexOf(currentPage);
 				initialize(json); 
 				optionsbox.innerHTML = "";
-				console.log("test");
 			}})
 		})
+	}
+}
+
+function typeWriter(txt, check, i) {
+		i = i || 0;
+	if(!i) {
+		if(check == "vn"){
+			textboxText.innerHTML = '';
+		}
+		else if(check == "shop"){
+			shopTextbox.innerHTML = '';
+		}
+		clearTimeout(to);
+	}
+	var speed = 30; /* The speed/duration of the effect in milliseconds */
+	if (i < txt.length) {
+		var c = txt.charAt(i++);
+		if(c === ' ') c = '&nbsp;'
+		if(check == "vn"){
+			textboxText.innerHTML += c;
+		}
+		else if(check == "shop"){
+			shopTextbox.innerHTML += c;
+		}
+	    to = setTimeout(function() {
+	    	typeWriter(txt, check, i)
+	    }, speed);
 	}
 }
 
@@ -145,53 +173,63 @@ function checkPage(data){
 	return true;
 }
 
-textboxxer.addEventListener('click', () => {
+textbox.addEventListener('click', () => {
 	if(!json) return;
     if(checkPage(json)){
-		if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('NextPage')){
-			currentPage = json.scenes[sceneSwap].pages[currentPage].NextPage;
-		}
-		else {
-			pageNum++;
-			currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
-		}
-		if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('action')){
-			present(json.scenes[sceneSwap].pages[currentPage].action, json);
+		if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('shop')){
+			enterShop(json.scenes[sceneSwap].pages[currentPage].shop, json);
 		}
 		else{
-			present("noPuzzle", json);
+			if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('NextPage')){
+				currentPage = json.scenes[sceneSwap].pages[currentPage].NextPage;
+			}
+			else {
+				pageNum++;
+				currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
+			}
+			if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('action')){
+				present(json.scenes[sceneSwap].pages[currentPage].action, json);
+			}
+			else{
+				present("noPuzzle", json);
+			}
+			initialize(json);
+			handleOptions(json);
 		}
-		
-		initialize(json);
-		handleOptions(json);
+
+
 	}
     else return;
 })
 optionsbox.addEventListener('click', () => {
 	if(!json) return;
-    if(checkPage(json)){
-		if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('NextPage')){
-			currentPage = json.scenes[sceneSwap].pages[currentPage].NextPage;
-		}
-		else {
-			pageNum++;
-			currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
-		}
-		if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('action')){
-			present(json.scenes[sceneSwap].pages[currentPage].action, json);
+    if(checkPage(json)){		
+		
+		if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('shop')){
+			enterShop(json.scenes[sceneSwap].pages[currentPage].shop, json);
 		}
 		else{
-			present("noPuzzle", json);
+			if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('NextPage')){
+			currentPage = json.scenes[sceneSwap].pages[currentPage].NextPage;
+			}
+			else {
+				pageNum++;
+				currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
+			}
+			if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('action')){
+				present(json.scenes[sceneSwap].pages[currentPage].action, json);
+			}
+			else{
+				present("noPuzzle", json);
+			}
+			initialize(json);
+			handleOptions(json);
 		}
-		
-		initialize(json);
-		handleOptions(json);
 	}
     else return;
 })
 
 function worldMap(){
-	console.log("works");
 	vn.style.display = "none";
 	map.style.display = "block";
 }
@@ -240,81 +278,42 @@ class Tool extends Item {
 
 let crowbar;
 let pins;
+let gun;
 let inventory = [];
 
 
 
-function inventoryLangSwap() {
+function inventoryLang() {
 	if(en == true){
 		crowbar = new Tool ('Crowbar', 'link', false, "A thief's best friend.", "crowbar");
 		pins = new Tool ('Pins', 'link', true, "Always handy to have around in case of locked doors.", "pins", 0);
-		inventoryUpdate();
-		return crowbar, pins;
+		gun = new Tool ('Gun', 'link', false, "Fucking end me", 'gun');
+		return crowbar, pins, gun;
 	}
 	else{
 		crowbar = new Tool ('Pied-de-Biche', 'link', false, "Le fidèle compagnon de n'importe quel voleur", "crowbar");
-		pins = new Tool ('Crochets', 'link', true, "Toujours pratique à avoir sous la main en cas de porte verouillée", "pins", 0);
-		inventoryUpdate();		
-		return crowbar, pins;
+		pins = new Tool ('Crochets', 'link', true, "Toujours pratique à avoir sous la main en cas de porte verouillée", "pins", 0);	
+		gun = new Tool ('Gun', 'link', false, "Fucking end me", 'gun');
+		return crowbar, pins, gun;
 		}
 
 }
 
 
-inventoryLangSwap();
-
-
-inventory.push(crowbar);
-
-
 //This is definetly not the best way to handle consumable items, but it is the only one I can think of right now, every consumable has their own variable for their number, with a default of zero and if the item is already present once in the inventory, instead of adding a second button for the item, it only makes the number go up by 1.
+let inventoryPosition;
 
-let pinsNum = 0;
-function giveItem(btnData) {
-	console.log("call");
-	switch(btnData){
-		case "pins":
-			if(inventory.includes(pins)){
-				pinsNum++;
-				inventoryUpdate();
-			}
-			else{
-				inventory.push(pins);
-				pinsNum++;
-				inventoryUpdate();
-			}
-		break;
-		case "crowbar":
-			inventory.push(crowbar);
-			inventoryUpdate();
-			break;
-	}
-}
 
 console.log(inventory);
 
 function inventoryUpdate(){
-	for(let i = 0; i <= inventory.length - 1; i++){
-		switch(inventory[i].id){
-			case "crowbar":
-				inventory[i] = crowbar;
-				break;
-			case "pins":
-				inventory[i] = pins;
-				break;
-		}
-	}
+	console.log(inventory);
 	itemList.innerHTML = "";
     for(let i = 0; i <= inventory.length - 1; i++){
         const btn = document.createElement("button");
         if(inventory[i].consumable == true){
-			switch(inventory[i].id){
-				case "pins":
-					const node = document.createTextNode(inventory[i].name + "x" + pinsNum);
+					const node = document.createTextNode(inventory[i].name + "x" + inventory[i].amount);
 					btn.appendChild(node);
-					console.log(pinsNum);
-					break;
-			}
         }
         else{
             const node = document.createTextNode(inventory[i].name);
@@ -328,7 +327,6 @@ function inventoryUpdate(){
         itemList.appendChild(btn);
 }
 inventoryBtnArr = document.querySelectorAll(".inventoryBtn");        
-console.log(inventoryBtnArr);
 subMenu(inventoryBtnArr);
 return(inventoryBtnArr);
 }
@@ -344,11 +342,7 @@ function subMenu(array){
 					subMenuImg.setAttribute("src", inventory[i].img);
 					subMenuDesc.innerText = inventory[i].desc;
 					if(inventory[i].consumable == true){
-						switch(inventory[i].id){
-							case "pins":
-								itemAmnt.innerText = "x" + pinsNum;
-								break;
-						}
+								itemAmnt.innerText = "x" + inventory[i].amount;
 					}
 					else{
 						itemAmnt.innerText = "";
@@ -377,19 +371,18 @@ inventoryCloseArea.addEventListener("click", () => {
 
 openInventoryBtn.forEach((button) => {
 	button.addEventListener("click", () => {
-	subMenuName.innerText = inventory[lastItem].name;
-	subMenuImg.setAttribute("src", inventory[lastItem].img);
-	subMenuDesc.innerText = inventory[lastItem].desc;
+	if(inventory.length > 0){
+		subMenuName.innerText = inventory[lastItem].name;
+		subMenuImg.setAttribute("src", inventory[lastItem].img);
+		subMenuDesc.innerText = inventory[lastItem].desc;
 		if(inventory[lastItem].consumable == true){
-			switch(inventory[lastItem].name){
-				case "Pins":
-					itemAmnt.innerText = "x" + pinsNum;
-					break;
-			}
+			itemAmnt.innerText = "x" + inventory[lastItem].amount;
 		}
 		else{
 		itemAmnt.innerText = "";
 		}
+	}
+
 		gsap.timeline()		
 		.set(inventoryWrapper, {x: "100%"})
 		.to(inventoryWrapper, {opacity: 1, duration: 0.5})
@@ -397,7 +390,6 @@ openInventoryBtn.forEach((button) => {
 });
 
 function present(puzzle, data){
-	console.log(puzzle);
 if(puzzle == "noPuzzle"){
 	presentBtn.style.display = "none";
 }
@@ -420,7 +412,6 @@ else{
 				handleOptions(data);
 				break;
 		}
-		console.log("what");
 		gsap.timeline()
 		.to(inventoryWrapper, {opacity: 0, duration: 0.2})
 		.set(inventoryWrapper, {x: "-100%"})				
@@ -435,6 +426,7 @@ SHOPS
 let wallet = 50;
 let crowbarShop;
 let pinsShop;
+let gunShop;
 let buyMenuBtn = document.getElementById("buyMenuBtn");
 let sellMenuBtn = document.getElementById("sellMenuBtn");
 let shopPrimary = document.querySelector(".shopPrimary");
@@ -449,10 +441,12 @@ let descItmShop = document.querySelector(".itemDescShop");
 let itmAmntShop = document.querySelector(".itemAmntShop");
 let itemConfirm = document.querySelector(".shopConfirm");
 let closeBtnSH = document.getElementById("closeBtnSH");
+let shopTextbox = document.querySelector(".shopTextbox");
+
 
 
 class shopItem extends Item{
-	constructor(name, img, consumable, desc, price, purchased, id, amount){
+	constructor(name, img, consumable, desc, price, purchased, id, amount, invEquivalent){
 		super(name, img);
 		this.consumable = consumable;
 		this.desc = desc;
@@ -460,71 +454,51 @@ class shopItem extends Item{
 		this.purchased = purchased;
 		this.id = id;
 		this.amount = amount;
+		this.invEquivalent = invEquivalent
 	}
 }
 
 let shopInventory1 = [];
 
-function ShopLangSwap() {
+function ShopLang() {
 	if(en == true){
-		crowbarShop = new shopItem ('Crowbar', 'link', false, "A thief's best friend.", 50, false, "crowbar", 1);
-		pinsShop = new shopItem ('Pins', 'link', true, "Always handy to have around in case of locked doors.", 5, false, "pins", 10);
-		shopUpdate();
-		return crowbarShop, pinsShop;
+		crowbarShop = new shopItem ('Crowbar', 'link', false, "A thief's best friend.", 50, false, "crowbar", 1, crowbar);
+		pinsShop = new shopItem ('Pins', 'link', true, "Always handy to have around in case of locked doors.", 5, false, "pins", 10, pins);
+		gunShop = new shopItem('Gun', 'link', false, "Fucking end me", 50, false, "gun", 1, gun);
+		shopInventories();
+		return crowbarShop, pinsShop, gunShop;
 	}
 	else{
-		crowbarShop = new shopItem ('Pied-de-Biche', 'link', false, "Le fidèle compagnon de n'importe quel voleur", 50, false, "crowbar", 1);
-		pinsShop = new shopItem ('Crochets', 'link', true, "Toujours pratique à avoir sous la main en cas de porte verouillée", 5, false, "pins", 10);
-		shopUpdate();		
-		return crowbarShop, pinsShop;
+		crowbarShop = new shopItem ('Pied-de-Biche', 'link', false, "Le fidèle compagnon de n'importe quel voleur", 50, false, "crowbar", 1, crowbar);
+		pinsShop = new shopItem ('Crochets', 'link', true, "Toujours pratique à avoir sous la main en cas de porte verouillée", 5, false, "pins", 10, pins);
+		gunShop = new shopItem('Gun', 'link', false, "Fucking end me", 50, false, "gun", 1, gun);
+		shopInventories();
+		return crowbarShop, pinsShop, gunShop;
 	}
 }
 
+function shopInventories(){
+	shopInventory1 = [crowbarShop, pinsShop, gunShop];
+	return shopInventory1;
+};
 
-let pinsAmnt;
+
+
 
 let shopBtnArr;
 
-ShopLangSwap();
-shopInventory1.push(crowbarShop);
-shopInventory1.push(pinsShop);
 
-function shopUpdate(){
-	for(let i = 0; i <= shopInventory1.length - 1; i++){
-		switch(i){
-			case 0:
-				if(shopInventory1[i].purchased == true){
-						shopInventory1[i] = crowbarShop;
-						shopInventory1[i].purchased = true;
-				}
-				else{
-					shopInventory1[i] = crowbarShop;
-				}
-				break;
-			case 1:
-				if(shopInventory1[i].amount != 10){
-					pinsAmnt = shopInventory1[i].amount;
-					if(shopInventory1[i].purchased == true){
-						shopInventory1[i] = pinsShop;
-						shopInventory1[i].purchased = true;
-					}
-					else{
-						shopInventory1[i] = pinsShop;
-					}
-					shopInventory1[i].amount = pinsAmnt;
-
-				}
-				else{
-					shopInventory1[i] = pinsShop;
-				}
-				break;
-		}
-	}
-}
 
 //This function checks what shop the player just entered with a name that will be called when needed, since each shop has its own inventory, they all need to be declared separately to make sure that the right inventory appears at the right time, the switch statement is used to verify which shop is currently being used.
 
-function enterShop(shopName){
+function enterShop(shopName, data){
+	console.log(wallet);
+	pageNum = 1;
+	shopTextbox.innerText = '';
+	currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];	
+	typeWriter(data.scenes[sceneSwap].pages[currentPage].pageText, "shop");
+	shop.style.backgroundImage = data.scenes[sceneSwap].background;
+	shop.style.display = "block";
 	buyMenuBtn.addEventListener("click", () => {			
 		shopItemList.innerHTML = "";
 		shopChoice.style.display = "none";
@@ -565,12 +539,9 @@ function enterShop(shopName){
 			for(let i = 0; i <= inventory.length; i++){
 				const btn = document.createElement("button");
 				if(inventory[i].consumable == true){
-					switch(inventory[i].id){
-						case "pins":
-							const node = document.createTextNode(inventory[i].name + "x" + pinsNum);
+							const node = document.createTextNode(inventory[i].name + "x" + inventory[i].amount);
 							btn.appendChild(node);
 							break;
-					}
 				}
 				else{
 					const node = document.createTextNode(inventory[i]);
@@ -618,6 +589,8 @@ function hoverShopBtn(btnArr, name){
 	})
 }
 
+let purchaseMade = false;
+
 function selectItem(btnArr, name){
 	btnArr.forEach((btn, index) => {
 		btn.addEventListener("click", () => {
@@ -629,7 +602,9 @@ function selectItem(btnArr, name){
 					case "shop1":
 						shopSubMenu.style.display = "none";
 						itemConfirm.style.display = "flex";
-						buyItem(shopInventory1[index], "shop1");
+						purchaseMade = false;
+						buyItem(shopInventory1[index], "shop1");								
+			
 						break;
 				}
 			}
@@ -638,6 +613,8 @@ function selectItem(btnArr, name){
 	});
 
 }
+let selectedItemId = null;
+
 
 let buyBtn = document.getElementById("buyBtn");
 let cancelBtn = document.getElementById("cancelBtn");
@@ -647,62 +624,70 @@ let priceDisplay = document.querySelector(".itemPrice");
 let stackPrice;
 let amountLeft;
 
-function buyItem(item, shop){
-	priceDisplay.innerText = item.price + " $";
-	stackPrice = item.price;
-	if(item.consumable == true){
-		sliderContainer.style.display = "block";
-		input.setAttribute("max", item.amount);
-		input.addEventListener("input", () => {
-			stackPrice = (item.price * input.value);
-			priceDisplay.innerText = stackPrice + " $";
-			console.log(stackPrice);
-			
-		});
-		buyBtn.addEventListener("click", () => {
-				if(wallet >= stackPrice){
-					for(let i = 0; i <= input.value - 1; i++){
-						giveItem(item.id);
-					}
-					wallet = wallet - stackPrice;
-					amountLeft = item.amount - input.value;
-					item.amount = amountLeft;
-					enterShop(shop);
-					itemConfirm.style.display = "none";
-					shopPrimary.style.display = "none";
-					shopChoice.style.display = "flex";
-					console.log(wallet);
-					return wallet, item.amount;
-				}
-				else{
-					alert("broke");
-				}
-			});
-	}
-	else{
-		sliderContainer.style.display = "none";	
-		console.log("hi");
-		buyBtn.addEventListener("click", () => {
-			console.log("problem");
-			if(wallet >= item.price){
-				console.log(item.id);
-				giveItem(item.id);
-				wallet = wallet - item.price;
-				amountLeft = item.amount - 1;
-				item.amount = amountLeft;
-				enterShop(shop);
-				itemConfirm.style.display = "none";
-				shopPrimary.style.display = "none";
-				shopChoice.style.display = "flex";
-				return wallet, item.amount;
-			}
-			else{
-				alert("broke");
-			}
-	});
-	}
+function buyItem(item, shop) {
+  console.log(item);
+  priceDisplay.innerText = item.price + " $";
+  stackPrice = item.price;
+  selectedItemId = item.invEquivalent;
 
+  if (item.consumable == true) {
+    sliderContainer.style.display = "block";
+    input.setAttribute("max", item.amount);
+    input.addEventListener("input", () => {
+      stackPrice = item.price * input.value;
+      priceDisplay.innerText = stackPrice + " $";
+    });
+
+    buyBtn.addEventListener("click", handlePurchaseOnce.bind(null, item, shop));
+  } else {
+    sliderContainer.style.display = "none";
+    priceDisplay.innerText = item.price + " $";
+
+    buyBtn.addEventListener("click", handlePurchaseOnce.bind(null, item, shop));
+  }
 }
+
+function handlePurchaseOnce(item, shop) {
+	if (purchaseMade) {
+	  return; // Exit the function if purchase has already been made
+	}
+  
+	purchaseMade = true; // Set the flag to indicate purchase has been made
+  
+	if (selectedItemId.consumable) {
+	  if (wallet >= stackPrice) {
+		for (let i = 0; i <= input.value - 1; i++) {
+		  console.log("issue");
+		  giveItem(selectedItemId);
+		}
+		wallet = wallet - stackPrice;
+		amountLeft = item.amount - input.value;
+		item.amount = amountLeft;		
+		returnNotWorking(wallet, item.amount);
+		enterShop(shop, json);
+		itemConfirm.style.display = "none";
+		shopPrimary.style.display = "none";
+		shopChoice.style.display = "flex";
+	  } else {
+		alert("broke");
+	  }
+	} else {
+	  if (wallet >= item.price) {
+		giveItem(selectedItemId);
+		wallet = wallet - item.price;
+		amountLeft = item.amount - 1;
+		item.amount = amountLeft;		
+		returnNotWorking(wallet, item.amount);
+		enterShop(shop, json);
+		itemConfirm.style.display = "none";
+		shopPrimary.style.display = "none";
+		shopChoice.style.display = "flex";
+
+	  } else {
+		alert("broke");
+	  }
+	}
+  }
 
 cancelBtn.addEventListener("click", () => {
 	itemConfirm.style.display = "none";
@@ -717,4 +702,39 @@ closeBtnSH.addEventListener("click", () => {
 	shopSubMenu.style.display = "none";
 });
 
-enterShop("shop1");
+function itemManage(itemName) {
+	switch(itemName){
+		case "pins":
+			giveItem(pins);
+			break;
+	}
+}
+
+function giveItem(item) {
+	console.log(wallet);
+	console.log(item);
+	if(item.consumable == true){
+		if(inventory.includes(item)){
+			inventoryPosition = inventory.indexOf(item);
+			inventory[inventoryPosition].amount++;
+			inventoryUpdate();
+			console.log(item);
+		}
+		else{
+			console.log(item);
+			inventory.push(item);
+			inventoryPosition = inventory.indexOf(item);
+			inventory[inventoryPosition].amount++;
+			inventoryUpdate();
+		}
+	}
+	else{
+		console.log(item)
+		inventory.push(item);
+		inventoryUpdate();
+	}
+}
+
+function returnNotWorking(wallet, amount){
+	return wallet, amount;
+}

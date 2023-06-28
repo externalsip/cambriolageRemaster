@@ -306,6 +306,16 @@ MAP
     left:20vw;
 }
 
+#place3{
+    width:10vmax;
+    aspect-ratio:10/9;
+    background-color: var(--black);
+    position:absolute;
+    top:62vh;
+    left:40vw;
+}
+
+
 /*////////////////////////////////////////
 Modal
 ///////////////////////////////////////*/
@@ -319,7 +329,6 @@ Modal
 }
 
 .modal-body{
-    color:var(--red);
     font-family: 'Press Start 2P', cursive;
 }
 
@@ -330,6 +339,14 @@ Modal
     border:var(--white) solid 2px;
     color:var(--white);
     font-family: 'Press Start 2P', cursive;
+}
+
+.langModalContent{
+    padding:30px;
+}
+
+.text-red{
+    color:var(--red);
 }
 
 /*/////////////////////////////////////////////////
@@ -542,7 +559,7 @@ SHOP
     height:100%;
     top:0;
     position:absolute;
-
+    display:none;
 }
 
 .shopInterface{

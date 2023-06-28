@@ -23,7 +23,6 @@ langSetting.forEach((element, i) => {
                 en = false;
             }
         }
-        console.log(fr);
         return fr, en;
     }
 )

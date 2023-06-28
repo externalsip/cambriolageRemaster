@@ -77,13 +77,26 @@
 
             }
             },
-            "noOneToShowItemTo": {
+            "shop1Interactions": {
                 "background" : "black",
                 "pages":{
                     "page0": {
-                        "pageText": "Personne n'est là pour voir ce que vous présentez",
-                        "class":"back"
+                        "pageText": "Shop entrance",
+                        "shop": "shop1"
+                    },
+                    "page1": {
+                        "pageText": "Qu'est-ce que ça sera cette fois?"
+                    },
+                    "page2": {
+                        "pageText": "Voilà!"
+                    },
+                    "page3": {
+                        "pageText": "Content de faire affaire avec vous"
+                    },
+                    "page4": {
+                        "pageText": "À ce prix c'est comme si vous me voliez!"
                     }
+                    
                 }
             }
 }

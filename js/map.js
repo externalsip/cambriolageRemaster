@@ -2,6 +2,7 @@ const mapInfo = document.querySelector(".mapInfo");
 const mapName = document.querySelector(".mapName");
 const mapPlace1 = document.getElementById("place1");
 const mapPlace2 = document.getElementById("place2");
+const mapPlace3 = document.getElementById("place3");
 let mapElementsArr = document.querySelectorAll(".mapElement");
 let mapInfoBox = document.querySelector(".mapText");
 const mapData = "./json/mapInfo.json";
@@ -17,6 +18,12 @@ mapPlace1.addEventListener("mouseover", () => {
 
 mapPlace2.addEventListener("mouseover", () => {
     placeNum = 1;
+    grabData();
+    return placeNum;
+})
+
+mapPlace3.addEventListener("mouseover", () => {
+    placeNum = 2;
     grabData();
     return placeNum;
 })
