@@ -81,7 +81,7 @@
                 "background" : "black",
                 "pages":{
                     "page0": {
-                        "pageText": "Shop entrance",
+                        "pageText": "Entrez!",
                         "shop": "shop1"
                     },
                     "page1": {
@@ -91,12 +91,44 @@
                         "pageText": "Voilà!"
                     },
                     "page3": {
-                        "pageText": "Content de faire affaire avec vous"
+                        "pageText": "Content de faire affaire avec vous!"
                     },
                     "page4": {
                         "pageText": "À ce prix c'est comme si vous me voliez!"
+                    },
+                    "page5": {
+                        "pageText": "Je veux bien que vous vouliez acheter, mais je n'en ai plus."
+                    },
+                    "page6": {
+                        "pageText": "Tout a déjà été acheté, par vous d'ailleurs."
+                    },
+                    "page7": {
+                        "pageText": "Je n'ai plus de cet objet en stock, revenez plus tard peut être que ça changera."
+                    },
+                    "page8": {
+                        "pageText": "Pardon, je ne prend pas de crédit, revient quand tu sera un peu plus ummmmmm riche."
+                    },
+                    "page9": {
+                        "pageText": "Pauvre."
+                    },
+                    "page10": {
+                        "pageText": "Le prix est un peu trop élevé pour toi malheureusement."
+                    },
+                    "page11": {
+                        "pageText": "À la prochaine!"
+                    },
+                    "page12": {
+                        "pageText": "Ce que vous ne savez pas, c'est que vous auriez pu me vendre cet objet à deux fois ce prix."
+                    },
+                    "page13": {
+                        "pageText": "Je ne vais pas questionner comment vous avez obtenez cet objet."
+                    },
+                    "page14": {
+                        "pageText": "Profit."
+                    },
+                    "page15": {
+                        "pageText": "Est-ce qu'on a l'air d'un pawn shop?"
                     }
-                    
                 }
             }
 }
