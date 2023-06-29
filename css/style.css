@@ -315,6 +315,15 @@ MAP
     left:40vw;
 }
 
+#place4{
+    width:10vmax;
+    aspect-ratio:10/9;
+    background-color: var(--black);
+    position:absolute;
+    top:40vh;
+    left:90vw;
+}
+
 
 /*////////////////////////////////////////
 Modal
