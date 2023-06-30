@@ -4,7 +4,7 @@ const vn = document.getElementById("vn");
 let textbox = document.querySelector(".textbox");
 let textboxText = document.querySelector(".text");
 let optionsbox = document.querySelector(".optionsbox");
-let langBtn = document.querySelectorAll(".langSetting");
+let shopText = document.querySelector(".shopText");
 const map = document.getElementById("map");
 const mapPlace1 = document.getElementById("place1");
 const mapPlace2 = document.getElementById("place2");
@@ -153,7 +153,7 @@ function typeWriter(txt, check, i) {
 			textboxText.innerHTML = '';
 		}
 		else if(check == "shop"){
-			shopTextbox.innerHTML = '';
+			shopText.innerHTML = '';
 		}
 		clearTimeout(to);
 	}
@@ -165,7 +165,7 @@ function typeWriter(txt, check, i) {
 			textboxText.innerHTML += c;
 		}
 		else if(check == "shop"){
-			shopTextbox.innerHTML += c;
+			shopText.innerHTML += c;
 		}
 	    to = setTimeout(function() {
 	    	typeWriter(txt, check, i)
@@ -247,7 +247,9 @@ function worldMap(){
 INVENTORY
 //////////////////////////////////////////////////////*/
 
-const itemList = document.querySelector(".itemList");
+const keyItemList = document.querySelector(".keyItemList");
+const consumableItemList = document.querySelector(".consumableItemList");
+const valuableItemList = document.querySelector(".valuableItemList");
 let inventoryBtnArr;
 let subMenuName = document.querySelector(".itemName");
 let subMenuImg = document.querySelector(".itemImg");
@@ -273,22 +275,25 @@ class Item {
 //Tools class, those items are meant to be used to progress in the game, drb is their durability, durability only decreases by one after the clearing the puzzle, the game will be built in a way where you cannot enter a heist without having the required items at the required durability.
 
 class Tool extends Item {
-    constructor(name, img, consumable, desc, id, amount){
+    constructor(name, img, consumable, desc, id, sell, amount){
         super(name, img);
         this.consumable = consumable;
         this.desc = desc;
 		this.id = id;
 		this.amount = amount;
+		this.sell = sell;
     }
 }
 
 class Valuable extends Item {
-	constructor(name, img, consumable, desc, id, amount, value){
+	constructor(name, img, consumable, desc, id, amount, price, sell){
 		super(name, img);
 		this.consumable = consumable;
 		this.desc = desc;
 		this.id = id;
 		this.amount = amount;
+		this.price = price;
+		this.sell = sell;
 	}
 }
 
@@ -302,31 +307,38 @@ let shillings;
 let necklace;
 let inventory = [];
 let valuableInventory = [];
+let consumableInventory = [];
 
 
 
 function inventoryLang() {
 	if(en == true){
-		crowbar = new Tool ('Crowbar', 'link', false, "A thief's best friend.", "crowbar");
-		pins = new Tool ('Pins', 'link', true, "Always handy to have around in case of locked doors.", "pins", 0);
-		gun = new Tool ('Gun', 'link', false, "Fucking end me", 'gun');
-		dubloons = new Valuable ('Dubloons', 'link', true, "Pirate money","dubloons", 10, 3);
-		shillings = new Valuable ('Shillings', 'link', true, "All the rage in britain","shillings", 10, 5);
-		necklace = new Valuable ('Necklace', 'link', false, "I needed a non-consumable item test ok", 1, 50);
-		valuableInventory.push(dubloons, shillings, necklace);
+		crowbar = new Tool ('Crowbar', 'link', false, "A thief's best friend.", "crowbar", false);
+		pins = new Tool ('Pins', 'link', true, "Always handy to have around in case of locked doors.", "pins", false, 0);
+		gun = new Tool ('Gun', 'link', false, "Fucking end me", 'gun', false);
+		dubloons = new Valuable ('Dubloons', 'link', true, "Pirate money","dubloons", 10, 3, true);
+		shillings = new Valuable ('Shillings', 'link', true, "All the rage in britain","shillings", 10, 5, true);
+		necklace = new Valuable ('Necklace', 'link', false, "I needed a non-consumable item test ok", "necklace", 1, 50, true);
+		valuableTest();
 		return crowbar, pins, gun, dubloons, shillings, necklace;
 	}
 	else{
 		crowbar = new Tool ('Pied-de-Biche', 'link', false, "Le fidèle compagnon de n'importe quel voleur", "crowbar");
-		pins = new Tool ('Crochets', 'link', true, "Toujours pratique à avoir sous la main en cas de porte verouillée", "pins", 0);	
+		pins = new Tool ('Pins', 'link', true, "Always handy to have around in case of locked doors.", "pins", false, 0);
 		gun = new Tool ('Gun', 'link', false, "Fucking end me", 'gun');
-		dubloons = new Valuable ('Dubloons', 'link', true, "Pirate money", 10, 3);
+		dubloons = new Valuable ('Dubloons', 'link', true, "Pirate money", "dubloons", 10, 3);
 		shillings = new Valuable ('Shillings', 'link', true, "All the rage in britain","shillings", 10, 5);
-		necklace = new Valuable ('Necklace', 'link', false, "I needed a non-consumable item test ok", 1, 50);
+		necklace = new Valuable ('Necklace', 'link', false, "I needed a non-consumable item test ok", "necklace", 1, 50);
+		valuableTest();
 		return crowbar, pins, gun, dubloons, shillings, necklace;
 	}
 }
 
+function valuableTest(){
+	giveItem(dubloons);
+	giveItem(shillings);
+	giveItem(necklace);
+}
 
 //This is definetly not the best way to handle consumable items, but it is the only one I can think of right now, every consumable has their own variable for their number, with a default of zero and if the item is already present once in the inventory, instead of adding a second button for the item, it only makes the number go up by 1.
 let inventoryPosition;
@@ -336,7 +348,9 @@ console.log(inventory);
 
 function inventoryUpdate(){
 	console.log(inventory);
-	itemList.innerHTML = "";
+	keyItemList.innerHTML = "";
+	consumableItemList.innerHTML = "";
+	valuableItemList.innerHTML = "";
     for(let i = 0; i <= inventory.length - 1; i++){
         const btn = document.createElement("button");
         if(inventory[i].consumable == true){
@@ -352,14 +366,43 @@ function inventoryUpdate(){
         btn.setAttribute("value", inventory[i].name);
         btn.setAttribute("type", "button");
 		btn.setAttribute("id", inventory[i].id);
-        itemList.appendChild(btn);
+        keyItemList.appendChild(btn);
 }
+for(let i = 0; i <= consumableInventory.length - 1; i++){
+	const btn = document.createElement("button");
+		const node = document.createTextNode(consumableInventory[i].name + "x" + consumableInventory[i].amount);
+		btn.appendChild(node);
+        btn.setAttribute("class", "inventoryBtn " + consumableInventory[i].name);
+        btn.setAttribute("value", consumableInventory[i].name);
+        btn.setAttribute("type", "button");
+		btn.setAttribute("id", consumableInventory[i].id);
+        consumableItemList.appendChild(btn);
+}
+
+for(let i = 0; i <= valuableInventory.length - 1; i++){
+	const btn = document.createElement("button");
+	if(valuableInventory[i].consumable == true){
+				const node = document.createTextNode(valuableInventory[i].name + "x" + valuableInventory[i].amount);
+				btn.appendChild(node);
+	}
+	else{
+		const node = document.createTextNode(valuableInventory[i].name);
+		btn.appendChild(node);
+	}
+
+	btn.setAttribute("class", "inventoryBtn " + valuableInventory[i].name);
+	btn.setAttribute("value", valuableInventory[i].name);
+	btn.setAttribute("type", "button");
+	btn.setAttribute("id", valuableInventory[i].id);
+	valuableItemList.appendChild(btn);
+}
+
 inventoryBtnArr = document.querySelectorAll(".inventoryBtn");        
 subMenu(inventoryBtnArr);
 return(inventoryBtnArr);
 }
-inventoryUpdate();
 
+inventoryUpdate();
 
 function subMenu(array){
 	array.forEach((element, index) => {
@@ -468,7 +511,6 @@ let descItmShop = document.querySelector(".itemDescShop");
 let itmAmntShop = document.querySelector(".itemAmntShop");
 let itemConfirm = document.querySelector(".shopConfirm");
 let closeBtnSH = document.getElementById("closeBtnSH");
-let shopTextbox = document.querySelector(".shopTextbox");
 
 
 
@@ -519,9 +561,10 @@ let shopBtnArr;
 //This function checks what shop the player just entered with a name that will be called when needed, since each shop has its own inventory, they all need to be declared separately to make sure that the right inventory appears at the right time, the switch statement is used to verify which shop is currently being used.
 
 function enterShop(shopName, data, num){
+	console.log(shopName);
 	console.log(wallet);
 	pageNum = num;
-	shopTextbox.innerText = '';
+	shopText.innerText = '';
 	currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];	
 	typeWriter(data.scenes[sceneSwap].pages[currentPage].pageText, "shop");
 	shop.style.backgroundImage = data.scenes[sceneSwap].background;
@@ -563,20 +606,22 @@ function enterShop(shopName, data, num){
 	})
 	sellMenuBtn.addEventListener("click", () => {
 		if(shopName == "pawn"){
+			console.log(valuableInventory);
 			shopItemList.innerHTML = "";
 			shopChoice.style.display = "none";
 			shopPrimary.style.display = "block";
-			for(let i = 0; i <= valuableInventory.length; i++){
+			shopSubMenu.style.display = "flex";
+			for(let i = 0; i <= valuableInventory.length - 1; i++){
 				const btn = document.createElement("button");
 				if(valuableInventory[i].consumable == true){
 							const node = document.createTextNode(valuableInventory[i].name + "x" + valuableInventory[i].amount);
 							btn.appendChild(node);
 				}
 				else{
-					const node = document.createTextNode(valuableInventory[i]);
+					const node = document.createTextNode(valuableInventory[i].name);
 					btn.appendChild(node);
 				}
-				btn.setAttribute("class", "shopBtn" + valuableInventory[i].name);
+				btn.setAttribute("class", "shopBtn " + valuableInventory[i].name);
 				btn.setAttribute("type", "button");
 				shopItemList.appendChild(btn);
 			}		
@@ -587,7 +632,7 @@ function enterShop(shopName, data, num){
 		}
 		else {
 			pageNum = 15;
-			shopTextbox.innerText = '';
+			shopText.innerText = '';
 			currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];	
 			typeWriter(data.scenes[sceneSwap].pages[currentPage].pageText, "shop");
 		}
@@ -638,7 +683,7 @@ function selectItem(btnArr, name){
 				shopPrimary.style.display = "none";
 				shopChoice.style.display = "flex";
 				shopSubMenu.style.display = "none";
-				enterShop(shop, json, mathFunction(5, 7))
+				enterShop(name, json, mathFunction(5, 7));
 			}
 			else{
 				switch(name){
@@ -789,64 +834,97 @@ function itemManage(itemName) {
 	}
 }
 
+/*
+FUNCTION TO GIVE ITEM
+*/
+
 function giveItem(item) {
 	console.log(wallet);
-	console.log(item);
-	if(item.consumable == true){
-		if(inventory.includes(item)){
-			inventoryPosition = inventory.indexOf(item);
-			inventory[inventoryPosition].amount++;
-			inventoryUpdate();
-		}
-		else{
-			inventory.push(item);
-			inventoryPosition = inventory.indexOf(item);
-			inventory[inventoryPosition].amount++;
-			inventoryUpdate();
-		}
+	console.log(item);		
+	if(item.sell == false){
+		if(item.consumable == true){
+			if(consumableInventory.includes(item)){
+				inventoryPosition = consumableInventory.indexOf(item);
+				consumableInventory[inventoryPosition].amount++;
+				inventoryUpdate();
+				}
+			else{
+				consumableInventory.push(item);
+				inventoryPosition = consumableInventory.indexOf(item);
+				consumableInventory[inventoryPosition].amount++;
+				inventoryUpdate();
+				}
+			}
+			else{
+				inventory.push(item);
+				inventoryUpdate();
+			}
 	}
 	else{
-		inventory.push(item);
-		inventoryUpdate();
+		if(item.consumable == true){
+			if(valuableInventory.includes(item)){
+				inventoryPosition = valuableInventory.indexOf(item);
+				valuableInventory[inventoryPosition].amount++;
+				inventoryUpdate();
+				}
+			else{
+				valuableInventory.push(item);
+				inventoryPosition = valuableInventory.indexOf(item);
+				valuableInventory[inventoryPosition].amount++;
+				inventoryUpdate();
+				}
+			}
+			else{
+				valuableInventory.push(item);
+				inventoryUpdate();
+			}
 	}
+	
 }
 
-function sellItem(item, shop){
+/*
+SELLING FUNCTIONS 
+*/
+
+let sellPrice;
+
+function sellItem(item){
 	console.log(item);
-	priceDisplay.innerText = item.value + "$";
-	stackPrice = item.price;
+	priceDisplay.innerText = item.price + " $";
+	sellPrice = item.price;
 	selectedItemId = item;
-	input.value = 1;
 	if (item.consumable == true) {
 		sliderContainer.style.display = "block";
 		input.setAttribute("max", item.amount);
 		input.addEventListener("input", () => {
-		  stackPrice = item.price * input.value;
-		  priceDisplay.innerText = stackPrice + " $";
+			sellPrice = item.price * input.value;
+		  	priceDisplay.innerText = sellPrice + " $";
+		  	console.log(sellPrice);
 		});
 	
-		buyBtn.addEventListener("click", handleSalesOnce.bind(null, item, shop));
+		buyBtn.addEventListener("click", handleSalesOnce.bind(null, item));
 	  } else {
 		sliderContainer.style.display = "none";
 		priceDisplay.innerText = item.price + " $";
 	
-		buyBtn.addEventListener("click", handleSalesOnce.bind(null, item, shop));
+		buyBtn.addEventListener("click", handleSalesOnce.bind(null, item));
 	  }
 }
 
-function handleSalesOnce(item, shop) {
+function handleSalesOnce(item) {
 	if (salesMade) {
 	  return; // Exit the function if purchase has already been made
 	}
   
 	salesMade = true; // Set the flag to indicate purchase has been made
 
-	if (selectedItemId.consumable) {
-		amountLeft = item.amount - input.value;		
-		removeItem(selectedItemId, item.amountLeft);
-		wallet = wallet + stackPrice;
-		item.amount = amountLeft;		
-		enterShop(shop, json, mathFunction(12, 14));
+	if (item.consumable == true) {
+		for (let i = 0; i <= input.value - 1; i++) {
+			removeItem(selectedItemId);
+		  }
+		console.log(sellPrice);
+		wallet = wallet + sellPrice;
+		enterShop("pawn", json, mathFunction(12, 14));
 		itemConfirm.style.display = "none";
 		shopPrimary.style.display = "none";
 		shopChoice.style.display = "flex";
@@ -854,14 +932,18 @@ function handleSalesOnce(item, shop) {
 	}
 
 	else{		
-		removeItem(selectedItemId, item.amountLeft);
-		wallet = wallet + item.value;
-		enterShop(shop, json, mathFunction(12, 14));
+		removeItem(selectedItemId);
+		wallet = wallet + item.price;
+		enterShop("pawn", json, mathFunction(12, 14));
 		itemConfirm.style.display = "none";
 		shopPrimary.style.display = "none";
 		shopChoice.style.display = "flex";
 	} 
 }
+
+/*
+FUNCTION FOR RANDOM SHOP DIALOGUE
+*/
 
 function mathFunction(min, max){
 	min = Math.ceil(min);
@@ -869,16 +951,22 @@ function mathFunction(min, max){
 	return Math.floor(Math.random() * (max - min) + min);
 }
 
-function removeItem(item, newAmount){
+/*
+FUNCTION TO REMOVE ITEM
+*/
+
+function removeItem(item){
 	if(item.consumable == true){
-		let index = inventory.findIndex(item);
-		inventory[index].amount = inventory[index].amount - newAmount;
-		if(inventory[index].amount == 0){
-			inventory.splice(index, index);
+		inventoryPosition = valuableInventory.indexOf(item);
+		valuableInventory[inventoryPosition].amount--;		
+		if(valuableInventory[inventoryPosition].amount == 0){
+			valuableInventory.splice(inventoryPosition, 1);
 		}
+		inventoryUpdate();
 	}
 	else{
-		let index = inventory.findIndex(item);
-		inventory.splice(index, index);
+		inventoryPosition = valuableInventory.indexOf(item);
+		valuableInventory.splice(inventoryPosition, 1);
+		inventoryUpdate();
 	}
 }

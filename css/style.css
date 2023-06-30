@@ -476,9 +476,29 @@ INVENTORY MAIN
     aspect-ratio: 1/1;
 }
 
-.itemList{
+
+.shopText{
+    width:100%;
+    height:100%;
+    overflow-wrap: break-word;
+}
+.keyItemList{
     display:flex;
     justify-content: space-around;
+}
+
+.consumableItemList{
+    display:flex;
+    justify-content: space-around;
+}
+
+.consumableItemList{
+    display:flex;
+    justify-content: space-around;
+}
+
+.itemCategory{
+    font-size:1.5em;
 }
 
 .inventoryTop{
