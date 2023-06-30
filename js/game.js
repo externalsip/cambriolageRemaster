@@ -251,6 +251,9 @@ const keyItemList = document.querySelector(".keyItemList");
 const consumableItemList = document.querySelector(".consumableItemList");
 const valuableItemList = document.querySelector(".valuableItemList");
 let inventoryBtnArr;
+let consumableBtnArr;
+let valuableBtnArr;
+let completeBtnArr;
 let subMenuName = document.querySelector(".itemName");
 let subMenuImg = document.querySelector(".itemImg");
 let subMenuDesc = document.querySelector(".itemDesc");
@@ -259,7 +262,7 @@ let inventoryCloseBtn = document.getElementById("closeBtnIN");
 let inventoryWrapper = document.querySelector(".inventoryWrapper");
 let inventoryCloseArea = document.querySelector(".inventoryCloseArea");
 let openInventoryBtn = document.querySelectorAll(".openInventory");
-let lastItem = 0;
+let lastItem;
 let presentBtn = document.getElementById("presentBtn");
 
 //Basic item class, will be used to create tools, valuables and other kind of items
@@ -319,12 +322,11 @@ function inventoryLang() {
 		dubloons = new Valuable ('Dubloons', 'link', true, "Pirate money","dubloons", 10, 3, true);
 		shillings = new Valuable ('Shillings', 'link', true, "All the rage in britain","shillings", 10, 5, true);
 		necklace = new Valuable ('Necklace', 'link', false, "I needed a non-consumable item test ok", "necklace", 1, 50, true);
-		valuableTest();
 		return crowbar, pins, gun, dubloons, shillings, necklace;
 	}
 	else{
 		crowbar = new Tool ('Pied-de-Biche', 'link', false, "Le fidèle compagnon de n'importe quel voleur", "crowbar");
-		pins = new Tool ('Pins', 'link', true, "Always handy to have around in case of locked doors.", "pins", false, 0);
+		pins = new Tool ('Pins', 'link', true, "Toujours pratique en cas de porte verouillée.", "pins", false, 0);
 		gun = new Tool ('Gun', 'link', false, "Fucking end me", 'gun');
 		dubloons = new Valuable ('Dubloons', 'link', true, "Pirate money", "dubloons", 10, 3);
 		shillings = new Valuable ('Shillings', 'link', true, "All the rage in britain","shillings", 10, 5);
@@ -342,90 +344,151 @@ function valuableTest(){
 
 //This is definetly not the best way to handle consumable items, but it is the only one I can think of right now, every consumable has their own variable for their number, with a default of zero and if the item is already present once in the inventory, instead of adding a second button for the item, it only makes the number go up by 1.
 let inventoryPosition;
-
-
 console.log(inventory);
+
+let keyHead = document.getElementById("keyHead");
+let consumableHead = document.getElementById("consumableHead");
+let valuableHead = document.getElementById("valuableHead");
 
 function inventoryUpdate(){
 	console.log(inventory);
 	keyItemList.innerHTML = "";
 	consumableItemList.innerHTML = "";
 	valuableItemList.innerHTML = "";
-    for(let i = 0; i <= inventory.length - 1; i++){
-        const btn = document.createElement("button");
-        if(inventory[i].consumable == true){
-					const node = document.createTextNode(inventory[i].name + "x" + inventory[i].amount);
-					btn.appendChild(node);
-        }
-        else{
-            const node = document.createTextNode(inventory[i].name);
-            btn.appendChild(node);
-        }
-
-        btn.setAttribute("class", "inventoryBtn " + inventory[i].name);
-        btn.setAttribute("value", inventory[i].name);
-        btn.setAttribute("type", "button");
-		btn.setAttribute("id", inventory[i].id);
-        keyItemList.appendChild(btn);
-}
-for(let i = 0; i <= consumableInventory.length - 1; i++){
-	const btn = document.createElement("button");
-		const node = document.createTextNode(consumableInventory[i].name + "x" + consumableInventory[i].amount);
-		btn.appendChild(node);
-        btn.setAttribute("class", "inventoryBtn " + consumableInventory[i].name);
-        btn.setAttribute("value", consumableInventory[i].name);
-        btn.setAttribute("type", "button");
-		btn.setAttribute("id", consumableInventory[i].id);
-        consumableItemList.appendChild(btn);
-}
-
-for(let i = 0; i <= valuableInventory.length - 1; i++){
-	const btn = document.createElement("button");
-	if(valuableInventory[i].consumable == true){
-				const node = document.createTextNode(valuableInventory[i].name + "x" + valuableInventory[i].amount);
-				btn.appendChild(node);
+	if(inventory.length != 0){
+		keyHead.style.display = "block";
+		keyItemList.style.display = "flex";
+		for(let i = 0; i <= inventory.length - 1; i++){
+        	const btn = document.createElement("button");
+        	const node = document.createTextNode(inventory[i].name);
+        	btn.appendChild(node);
+        	btn.setAttribute("class", "inventoryBtn key mb-2 " + inventory[i].name);
+        	btn.setAttribute("value", inventory[i].name);
+        	btn.setAttribute("type", "button");
+			btn.setAttribute("id", inventory[i].id);
+        	keyItemList.appendChild(btn);
+		}
 	}
 	else{
-		const node = document.createTextNode(valuableInventory[i].name);
-		btn.appendChild(node);
+		keyHead.style.display = "none";
+		keyItemList.style.display = "none";
+	}
+	if(consumableInventory.length != 0){
+		consumableHead.style.display = "block";
+		consumableItemList.style.display = "flex";
+		for(let i = 0; i <= consumableInventory.length - 1; i++){
+			const btn = document.createElement("button");
+			const span = document.createElement("span");
+			const spanNode = document.createTextNode("x" + consumableInventory[i].amount);
+			span.appendChild(spanNode);
+			span.setAttribute("class", "itemAmountBtn");
+			btn.appendChild(span);
+			const node = document.createTextNode(consumableInventory[i].name);
+			btn.appendChild(node);
+			btn.setAttribute("class", "inventoryBtn consumable mb-2 " + consumableInventory[i].name);
+			btn.setAttribute("value", consumableInventory[i].name);
+			btn.setAttribute("type", "button");
+			btn.setAttribute("id", consumableInventory[i].id);
+			consumableItemList.appendChild(btn);
+		}
+	}
+	else{
+		consumableHead.style.display = "none";
+		consumableItemList.style.display = "none";
+	}
+	if(valuableInventory.length != 0){
+		valuableHead.style.display = "block";
+		valuableItemList.style.display = "flex";
+		for(let i = 0; i <= valuableInventory.length - 1; i++){
+			const btn = document.createElement("button");
+			if(valuableInventory[i].consumable == true){
+				const span = document.createElement("span");
+				const spanNode = document.createTextNode("x" + valuableInventory[i].amount);
+				span.appendChild(spanNode);
+				span.setAttribute("class", "itemAmountBtn");
+				btn.appendChild(span);
+				const node = document.createTextNode(valuableInventory[i].name);
+				btn.appendChild(node);
+			}
+			else{
+				const node = document.createTextNode(valuableInventory[i].name);
+				btn.appendChild(node);
+			}		
+			btn.setAttribute("class", "inventoryBtn valuable mb-4 " + valuableInventory[i].name);
+			btn.setAttribute("value", valuableInventory[i].name);
+			btn.setAttribute("type", "button");
+			btn.setAttribute("id", valuableInventory[i].id);
+			valuableItemList.appendChild(btn);
+		}
+
+	}
+	else{
+		valuableHead.style.display = "none";
+		valuableItemList.style.display = "none";
 	}
 
-	btn.setAttribute("class", "inventoryBtn " + valuableInventory[i].name);
-	btn.setAttribute("value", valuableInventory[i].name);
-	btn.setAttribute("type", "button");
-	btn.setAttribute("id", valuableInventory[i].id);
-	valuableItemList.appendChild(btn);
-}
+inventoryBtnArr = document.querySelectorAll(".key");    
+consumableBtnArr = document.querySelectorAll(".consumable");
+valuableBtnArr = document.querySelectorAll(".valuable");
+completeBtnArr = document.querySelectorAll(".inventoryBtn");
 
-inventoryBtnArr = document.querySelectorAll(".inventoryBtn");        
-subMenu(inventoryBtnArr);
-return(inventoryBtnArr);
+subMenu(inventoryBtnArr, consumableBtnArr, valuableBtnArr);
 }
 
 inventoryUpdate();
 
-function subMenu(array){
-	array.forEach((element, index) => {
+function subMenu(keyArray, consumableArray, valuableArray){
+	keyArray.forEach((element, index) => {
 		element.addEventListener("click",() => {
-			for(let i = 0; i <= inventory.length -1; i++){
-				if(element.getAttribute("value") == String(inventory[i].name)){
-					subMenuName.innerText = inventory[i].name;
-					subMenuImg.setAttribute("src", inventory[i].img);
-					subMenuDesc.innerText = inventory[i].desc;
-					if(inventory[i].consumable == true){
-								itemAmnt.innerText = "x" + inventory[i].amount;
+					for(let i = 0; i <= inventory.length -1; i++){
+						if(element.getAttribute("value") == String(inventory[i].name)){
+							subMenuName.innerText = inventory[i].name;
+							subMenuImg.setAttribute("src", inventory[i].img);
+							subMenuDesc.innerText = inventory[i].desc;			
+							itemAmnt.innerText = "";
+					}
+				}
+				presentBtn.setAttribute("class", inventory[index].id + " itemAction");
+				lastItem = inventory[index];	
+			}
+			)
+		})
+	consumableArray.forEach((element, index) => {
+		element.addEventListener("click", () => {
+			for(let i = 0; i <= consumableInventory.length - 1; i++){
+				if(element.getAttribute("value") == String(consumableInventory[i].name)){
+					subMenuName.innerText = consumableInventory[i].name;
+					subMenuImg.setAttribute("src", consumableInventory[i].img);
+					subMenuDesc.innerText = consumableInventory[i].desc;
+					itemAmnt.innerText = "x" + consumableInventory[i].amount;	
+				}
+			}
+			presentBtn.setAttribute("class", consumableInventory[index].id + " itemAction");
+			lastItem = consumableInventory[index];	
+		})
+	})
+	valuableArray.forEach((element, index) => {
+		element.addEventListener("click", () => {
+			for(let i = 0; i <= valuableInventory.length - 1; i++){
+				if(element.getAttribute("value") == String(valuableInventory[i].name)){
+					subMenuName.innerText = valuableInventory[i].name;
+					subMenuImg.setAttribute("src", valuableInventory[i].img);
+					subMenuDesc.innerText = valuableInventory[i].desc;
+					if(valuableInventory[i].consumable){
+						itemAmnt.innerText = "x" + valuableInventory[i].amount;	
 					}
 					else{
 						itemAmnt.innerText = "";
 					}
 				}
 			}
-			presentBtn.setAttribute("class", inventory[index].id + " itemAction");
-			lastItem = index;	
-			return lastItem;
+			presentBtn.setAttribute("class", valuableInventory[index].id + " itemAction");			
+			lastItem = valuableInventory[index];	
 		})
-	})
+	});
+	return lastItem;
 }
+
 
 inventoryCloseBtn.addEventListener("click", () => {
 	gsap.timeline()
@@ -441,18 +504,25 @@ inventoryCloseArea.addEventListener("click", () => {
 
 openInventoryBtn.forEach((button) => {
 	button.addEventListener("click", () => {
-	if(inventory.length > 0){
-		subMenuName.innerText = inventory[lastItem].name;
-		subMenuImg.setAttribute("src", inventory[lastItem].img);
-		subMenuDesc.innerText = inventory[lastItem].desc;
-		if(inventory[lastItem].consumable == true){
-			itemAmnt.innerText = "x" + inventory[lastItem].amount;
-		}
-		else{
-		itemAmnt.innerText = "";
-		}
+	if(lastItem != undefined){
+		if(inventory.length > 0 || consumableInventory.length > 0 || valuableInventory.length > 0){
+				subMenuName.innerText = lastItem.name;
+				subMenuImg.setAttribute("src", lastItem.img);
+				subMenuDesc.innerText = lastItem.desc;
+				if(lastItem.consumable == true){
+					itemAmnt.innerText = "x" + lastItem.amount;
+				}
+				else{
+				itemAmnt.innerText = "";
+				}
+			}
 	}
-
+	else{
+		subMenuName.innerText = "";
+				subMenuImg.setAttribute("src", "");
+				subMenuDesc.innerText = "";
+					itemAmnt.innerText = "";
+	}
 		gsap.timeline()		
 		.set(inventoryWrapper, {x: "100%"})
 		.to(inventoryWrapper, {opacity: 1, duration: 0.5})
@@ -460,33 +530,33 @@ openInventoryBtn.forEach((button) => {
 });
 
 function present(puzzle, data){
-if(puzzle == "noPuzzle"){
-	presentBtn.style.display = "none";
-}
-else{
-	presentBtn.style.display = "block";
-		presentBtn.addEventListener("click", () => {
+	if(puzzle == "noPuzzle"){
+		presentBtn.style.display = "none";
+	}
+	else{
 		presentBtn.style.display = "block";
-		switch(puzzle){
-			case "presentPuzzleTest":
-				if(presentBtn.classList.contains("crowbar")){
-					pageNum = 3;
-					currentPage = Object.keys(data.scenes[sceneSwap].pages)[pageNum];
-				}
-				else{
-					pageNum = 4;
-					currentPage = Object.keys(data.scenes[sceneSwap].pages)[pageNum];
+		presentBtn.addEventListener("click", () => {
+			presentBtn.style.display = "block";
+			switch(puzzle){
+				case "presentPuzzleTest":
+					if(presentBtn.classList.contains("crowbar")){
+						pageNum = 3;
+						currentPage = Object.keys(data.scenes[sceneSwap].pages)[pageNum];
+					}
+					else{
+						pageNum = 4;
+						currentPage = Object.keys(data.scenes[sceneSwap].pages)[pageNum];
 
-				}					
-				initialize(data);
-				handleOptions(data);
-				break;
-		}
-		gsap.timeline()
-		.to(inventoryWrapper, {opacity: 0, duration: 0.2})
-		.set(inventoryWrapper, {x: "-100%"})				
-	})
-}
+					}					
+					initialize(data);
+					handleOptions(data);
+					break;
+			}
+			gsap.timeline()
+			.to(inventoryWrapper, {opacity: 0, duration: 0.2})
+			.set(inventoryWrapper, {x: "-100%"})
+		})
+	}
 }
 
 /*/////////////////////////////////////////////////////////
@@ -504,7 +574,7 @@ let shopChoice = document.querySelector(".shopChoice");
 let leaveBtn = document.getElementById("leaveBtn");
 const shopItemList = document.querySelector(".itemListShop");
 const shop = document.querySelector(".shopWrapper");
-let subItemShopName = document.querySelector(".itemNameShop");
+let subItemShopNameArr = document.querySelectorAll(".itemNameShop");
 let shopSubMenu = document.querySelector(".shopSub");
 let itemImgShop = document.querySelector(".itemImgShop");
 let descItmShop = document.querySelector(".itemDescShop");
@@ -579,7 +649,12 @@ function enterShop(shopName, data, num){
 				for(let i = 0; i <= shopInventory1.length - 1; i++){
 					const btn = document.createElement("button");
 					if(shopInventory1[i].consumable == true){
-						const node = document.createTextNode(shopInventory1[i].name + " x" + shopInventory1[i].amount);
+						const span = document.createElement("p");
+						const spanNode = document.createTextNode("x" + shopInventory1[i].amount);
+						span.appendChild(spanNode);
+						span.setAttribute("class", "itemAmountBtn");
+						btn.appendChild(span);
+						const node = document.createTextNode(shopInventory1[i].name);
 						btn.appendChild(node);
 					}
 					else{
@@ -653,7 +728,9 @@ function hoverShopBtn(btnArr, name){
 				case "shop1":
 					for(let i = 0; i <= shopInventory1.length - 1; i++){
 						if(btn.getAttribute("value") == String(shopInventory1[i].name)){
-							subItemShopName.innerText = shopInventory1[i].name;
+							for(let e = 0; e <= subItemShopNameArr.length - 1; e++){
+								subItemShopNameArr[e].innerText = shopInventory1[i].name;
+							}
 							itemImgShop.setAttribute("src", shopInventory1[i].img);
 							descItmShop.innerText = shopInventory1[i].desc;
 							if(shopInventory1[i].consumable == true){
@@ -690,6 +767,8 @@ function selectItem(btnArr, name){
 					case "shop1":
 						shopSubMenu.style.display = "none";
 						itemConfirm.style.display = "flex";
+						buyBtn.style.display = "block";
+						sellBtn.style.display = "none";
 						purchaseMade = false;
 						buyItem(shopInventory1[index], "shop1");								
 						break;
@@ -707,7 +786,9 @@ function hoverSellBtn(btnArr){
 		btn.addEventListener("mouseover",() => {
 					for(let i = 0; i <= valuableInventory.length - 1; i++){
 						if(btn.getAttribute("value") == String(valuableInventory[i].name)){
-							subItemShopName.innerText = valuableInventory[i].name;
+							for(let i = 0; i <= subItemShopNameArr.length; i++){
+								subItemShopNameArr[i].innerText = valuableInventory[i].name;
+							}
 							itemImgShop.setAttribute("src", valuableInventory[i].img);
 							descItmShop.innerText = valuableInventory[i].desc;
 							if(valuableInventory[i].consumable == true){
@@ -733,6 +814,8 @@ function selectItemSell(btnArr, name){
 		btn.addEventListener("click", () => {
 			shopSubMenu.style.display = "none";
 			itemConfirm.style.display = "flex";
+			buyBtn.style.display = "none";
+			sellBtn.style.display = "block";
 			salesMade = false;
 			sellItem(valuableInventory[index], name);								
 		});
@@ -747,6 +830,7 @@ let cancelBtn = document.getElementById("cancelBtn");
 let sliderContainer = document.querySelector(".shopSliderContainer");
 let input = document.getElementById("shopSlider");
 let priceDisplay = document.querySelector(".itemPrice");
+let sellBtn = document.getElementById("sellBtn");
 let stackPrice;
 let amountLeft;
 
@@ -773,12 +857,14 @@ function buyItem(item, shop) {
   }
 }
 
+/*PURCHASE HANDLER*/
+
 function handlePurchaseOnce(item, shop) {
 	if (purchaseMade) {
-	  return; // Exit the function if purchase has already been made
+	  return;
 	}
   
-	purchaseMade = true; // Set the flag to indicate purchase has been made
+	purchaseMade = true;
   
 	if (selectedItemId.consumable) {
 	  if (wallet >= stackPrice) {
@@ -812,6 +898,8 @@ function handlePurchaseOnce(item, shop) {
 	  }
 	}
   }
+
+/*CANCEL AND CLOSE */
 
 cancelBtn.addEventListener("click", () => {
 	itemConfirm.style.display = "none";
@@ -902,12 +990,12 @@ function sellItem(item){
 		  	console.log(sellPrice);
 		});
 	
-		buyBtn.addEventListener("click", handleSalesOnce.bind(null, item));
+		sellBtn.addEventListener("click", handleSalesOnce.bind(null, item));
 	  } else {
 		sliderContainer.style.display = "none";
 		priceDisplay.innerText = item.price + " $";
 	
-		buyBtn.addEventListener("click", handleSalesOnce.bind(null, item));
+		sellBtn.addEventListener("click", handleSalesOnce.bind(null, item));
 	  }
 }
 

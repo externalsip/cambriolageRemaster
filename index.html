@@ -140,6 +140,7 @@ SHOPS UI
                 <span class="itemPrice"></span>
                 <div class="itemBtnContainer">
                     <button type="button" class="shopAction" id="buyBtn">Acheter</button>
+                    <button type="button" class="shopAction" id="sellBtn">Vendre</button>
                     <button type="button" class="shopAction" id="cancelBtn">Annuler</button>
                 </div>
             </div>
@@ -227,16 +228,23 @@ INVENTORY
                 <div class="inventoryPrimary">
                     <div class="inventoryTop">
                         <span class="inventoryTitle">Inventaire</span>
+
                         <button type="button" id="closeBtnIN">X</button>
                     </div>
                     <div class="itemList">
-                        <h2 class="itemCategory">Objet clés</h2>
-                        <div class="keyItemList"></div>
-                        <h2 class="itemCategory">Consommables</h2>
-                        <div class="consumableItemList"></div>
-                        <h2 class="itemCategory">Objets de valeur</h2>
-                        <div class="valuableItemList"></div>
+                        <h2 class="itemCategory mb-3" id="keyHead">Objet clés</h2>
+                        <div class="keyItemList mb-3"></div>
+                        <h2 class="itemCategory mb-3" id="consumableHead">Consommables</h2>
+                        <div class="consumableItemList mb-3"></div>
+                        <h2 class="itemCategory mb-3" id="valuableHead">Objets de valeur</h2>
+                        <div class="valuableItemList mb-3"></div>
                     </div>
+                    <div class="inventoryBottom">
+                        <div class="moneyCount">
+                            <span class="count moneyCounter">0</span>
+                            <span class="money moneyCounter">$</span>
+                        </div>
+                    </div>         
                 </div>
                 <div class="inventorySub">
                 <h2 class="itemName"></h2>

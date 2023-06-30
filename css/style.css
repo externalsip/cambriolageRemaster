@@ -456,6 +456,35 @@ INVENTORY
 INVENTORY MAIN
 //////////////////////////////////////////////*/
 
+.moneyCount{
+    width:60%;
+    height:80%;
+    border: 2px var(--white) solid;
+    background-color: var(--darkGray);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size:2em;
+    padding:5px;
+}
+
+.moneyCounter{
+    display:inline-block;
+}
+
+.inventoryBottom{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:8%;
+    left:0;
+    border: 2px var(--white) solid;
+    background-color: var(--black);
+    padding:5px;
+    display:flex;
+    align-items: center;
+    justify-content: flex-end;
+}
 
 .inventoryPrimary{
     width:40%;
@@ -464,7 +493,9 @@ INVENTORY MAIN
     right:0;
     background-color: var(--black);
     padding:30px;
-
+    border: 2px var(--white) solid;
+    border-bottom: none;
+    border-left:none;
 }
 
 .inventoryTitle{
@@ -472,10 +503,14 @@ INVENTORY MAIN
 }
 
 .inventoryBtn{
+    display:flex;
     width:40%;
     aspect-ratio: 1/1;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7em;
 }
-
 
 .shopText{
     width:100%;
@@ -485,16 +520,24 @@ INVENTORY MAIN
 .keyItemList{
     display:flex;
     justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .consumableItemList{
     display:flex;
     justify-content: space-around;
+    flex-wrap: wrap;
 }
 
-.consumableItemList{
+.valuableItemList{
     display:flex;
     justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.valuableItemList::after{
+    content:"";
+    width:40%;
 }
 
 .itemCategory{
@@ -503,15 +546,16 @@ INVENTORY MAIN
 
 .inventoryTop{
     height:15%;
+    position:relative;
 }
 
 #closeBtnIN{
     position:absolute;
-    top:2vmin;
     right:2vmin;
     width:5vmin;
     height:5vmin;
     font-size:2em;
+    right:0;
     text-align: center;
     background:none;
     border:none;
@@ -538,6 +582,7 @@ INVENTORY SUB
     flex-direction: column;
     justify-content: space-between;
     font-family: 'Press Start 2P', cursive;
+    border: 2px var(--white) solid;
 }
 
 .itemName{
