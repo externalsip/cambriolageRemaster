@@ -517,16 +517,34 @@ INVENTORY MAIN
     height:100%;
     overflow-wrap: break-word;
 }
+
+.itemList{
+    width:100%;
+    height:77%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 .keyItemList{
     display:flex;
     justify-content: space-around;
     flex-wrap: wrap;
 }
 
+.keyItemList::after{
+    content:"";
+    width:40%;
+}
+
 .consumableItemList{
     display:flex;
     justify-content: space-around;
     flex-wrap: wrap;
+}
+
+.consumableItemList::after{
+    content:"";
+    width:40%;
 }
 
 .valuableItemList{
@@ -566,6 +584,25 @@ INVENTORY MAIN
     color:var(--white)
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: var(--white); 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: var(--gray); 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--darkGray); 
+  }
+
 /*//////////////////////////////////////////////
 INVENTORY SUB
 //////////////////////////////////////////////*/
@@ -594,22 +631,62 @@ INVENTORY SUB
     aspect-ratio: 1/1;
     background-color: var(--black);
     align-self: center;
+    border: 2px var(--white) solid;
 }
 
 .itemBtnContainer{
     width:100%;
+    height:25%;
     display: flex;
     justify-content: space-around;
+    border-top: var(--white) 2px solid;
 }
 
 .itemAmnt{
+    width:25%;
+    height:100%;
     align-self: flex-end;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.itemPrc{
+    width:25%;
+    height:100%;
+    align-self: flex-end;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.infoContainer{
+    width:100%;
+    height:15%;
+    display:flex;
+    justify-content: space-between;
 }
 
 .descContainer{
     width:100%;
     display:flex;
     flex-direction: column;
+    height:30%;
+    background-color: var(--black);
+    position:relative;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    border: var(--white) 2px solid;
+}
+
+.itemDesc{
+    width:100%;
+    height: 50%;
+    border-bottom: var(--white) 2px solid;
+    display:inline-block;
+    margin:0;
+    padding:20px;
 }
 
 .itemAction{
@@ -706,13 +783,19 @@ SHOP PRIMARY
 
 .shopBtn{
     width:40%;
+    font-size: 0.7em;
     aspect-ratio:1/1;
+}
 
+.itemListShop::after{
+    content:"";
+    width:40%;
 }
 
 .itemListShop{
     display:flex;
     justify-content: space-around;
+    flex-wrap:wrap;
 }
 
 .shopTop{

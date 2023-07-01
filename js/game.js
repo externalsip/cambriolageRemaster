@@ -264,6 +264,7 @@ let inventoryCloseArea = document.querySelector(".inventoryCloseArea");
 let openInventoryBtn = document.querySelectorAll(".openInventory");
 let lastItem;
 let presentBtn = document.getElementById("presentBtn");
+let itemPrc = document.querySelector(".itemPrc");
 
 //Basic item class, will be used to create tools, valuables and other kind of items
 
@@ -432,6 +433,7 @@ consumableBtnArr = document.querySelectorAll(".consumable");
 valuableBtnArr = document.querySelectorAll(".valuable");
 completeBtnArr = document.querySelectorAll(".inventoryBtn");
 
+
 subMenu(inventoryBtnArr, consumableBtnArr, valuableBtnArr);
 }
 
@@ -473,13 +475,12 @@ function subMenu(keyArray, consumableArray, valuableArray){
 				if(element.getAttribute("value") == String(valuableInventory[i].name)){
 					subMenuName.innerText = valuableInventory[i].name;
 					subMenuImg.setAttribute("src", valuableInventory[i].img);
-					subMenuDesc.innerText = valuableInventory[i].desc;
+					subMenuDesc.innerText = valuableInventory[i].desc;						
+					itemAmnt.innerText = "";
 					if(valuableInventory[i].consumable){
 						itemAmnt.innerText = "x" + valuableInventory[i].amount;	
 					}
-					else{
-						itemAmnt.innerText = "";
-					}
+					itemPrc.innerText = valuableInventory[i].price + "$";
 				}
 			}
 			presentBtn.setAttribute("class", valuableInventory[index].id + " itemAction");			
@@ -563,7 +564,7 @@ function present(puzzle, data){
 SHOPS
 /////////////////////////////////////////////////////////*/
 
-let wallet = 50;
+let wallet = 45;
 let crowbarShop;
 let pinsShop;
 let gunShop;
@@ -632,7 +633,6 @@ let shopBtnArr;
 
 function enterShop(shopName, data, num){
 	console.log(shopName);
-	console.log(wallet);
 	pageNum = num;
 	shopText.innerText = '';
 	currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];	
@@ -664,14 +664,13 @@ function enterShop(shopName, data, num){
 					btn.setAttribute("type", "button");
 					btn.setAttribute("value", shopInventory1[i].name);
 					if(shopInventory1[i].amount == 0){
-						btn.setAttribute("class", "shopBtn noStock " + shopInventory1[i].name);
+						btn.setAttribute("class", "shopBtn noStock mb-4 " + shopInventory1[i].name);
 						shopItemList.appendChild(btn);
 					}
 					else{
-						btn.setAttribute("class", "shopBtn " + shopInventory1[i].name);
+						btn.setAttribute("class", "shopBtn mb-4 " + shopInventory1[i].name);
 						shopItemList.appendChild(btn);
 					}
-
 				}
 		}
 		shopBtnArr = document.querySelectorAll(".shopBtn");
@@ -696,7 +695,7 @@ function enterShop(shopName, data, num){
 					const node = document.createTextNode(valuableInventory[i].name);
 					btn.appendChild(node);
 				}
-				btn.setAttribute("class", "shopBtn " + valuableInventory[i].name);
+				btn.setAttribute("class", "shopBtn mb-4 " + valuableInventory[i].name);
 				btn.setAttribute("type", "button");
 				shopItemList.appendChild(btn);
 			}		
@@ -845,14 +844,21 @@ function buyItem(item, shop) {
     input.setAttribute("max", item.amount);
     input.addEventListener("input", () => {
       stackPrice = item.price * input.value;
-      priceDisplay.innerText = stackPrice + " $";
+      priceDisplay.innerText = stackPrice + " $";	  
+	  priceDisplay.style.color = "var(--white)";
+	  if(stackPrice > wallet){
+		priceDisplay.style.color = "var(--red)";
+	  }
     });
-
     buyBtn.addEventListener("click", handlePurchaseOnce.bind(null, item, shop));
-  } else {
+  } 
+  else {
     sliderContainer.style.display = "none";
     priceDisplay.innerText = item.price + " $";
-
+	priceDisplay.style.color = "var(--white)";
+	if(item.price > wallet){
+		priceDisplay.style.color = "var(--red)";
+	}
     buyBtn.addEventListener("click", handlePurchaseOnce.bind(null, item, shop));
   }
 }
@@ -874,15 +880,17 @@ function handlePurchaseOnce(item, shop) {
 		wallet = wallet - stackPrice;
 		amountLeft = item.amount - input.value;
 		item.amount = amountLeft;		
-
 		enterShop(shop, json, mathFunction(2, 4));
 		itemConfirm.style.display = "none";
 		shopPrimary.style.display = "none";
 		shopChoice.style.display = "flex";
-	  } else {
-		alert("broke");
+		walletUpdate();
+	  } 
+	  else {
+		enterShop(shop, json, mathFunction(8, 10));
 	  }
-	} else {
+	} 
+	else {
 	  if (wallet >= item.price) {
 		giveItem(selectedItemId);
 		wallet = wallet - item.price;
@@ -892,9 +900,9 @@ function handlePurchaseOnce(item, shop) {
 		itemConfirm.style.display = "none";
 		shopPrimary.style.display = "none";
 		shopChoice.style.display = "flex";
-
+		walletUpdate();
 	  } else {
-		alert("broke");
+		enterShop(shop, json, mathFunction(8, 10));
 	  }
 	}
   }
@@ -927,7 +935,6 @@ FUNCTION TO GIVE ITEM
 */
 
 function giveItem(item) {
-	console.log(wallet);
 	console.log(item);		
 	if(item.sell == false){
 		if(item.consumable == true){
@@ -991,12 +998,13 @@ function sellItem(item){
 		});
 	
 		sellBtn.addEventListener("click", handleSalesOnce.bind(null, item));
-	  } else {
+	} 
+	else {
 		sliderContainer.style.display = "none";
 		priceDisplay.innerText = item.price + " $";
 	
 		sellBtn.addEventListener("click", handleSalesOnce.bind(null, item));
-	  }
+	}
 }
 
 function handleSalesOnce(item) {
@@ -1016,7 +1024,7 @@ function handleSalesOnce(item) {
 		itemConfirm.style.display = "none";
 		shopPrimary.style.display = "none";
 		shopChoice.style.display = "flex";
-		console.log(wallet);
+		walletUpdate();
 	}
 
 	else{		
@@ -1026,6 +1034,7 @@ function handleSalesOnce(item) {
 		itemConfirm.style.display = "none";
 		shopPrimary.style.display = "none";
 		shopChoice.style.display = "flex";
+		walletUpdate();
 	} 
 }
 
@@ -1058,3 +1067,11 @@ function removeItem(item){
 		inventoryUpdate();
 	}
 }
+
+let moneyCount = document.querySelector(".count");
+
+function walletUpdate() {
+	moneyCount.innerText = String(wallet);
+}
+
+walletUpdate();
