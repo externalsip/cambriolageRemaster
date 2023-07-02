@@ -145,6 +145,7 @@ VISUAL NOVEL
     height:27vh;
     background-color: var(--darkerGray);
     border: var(--white) solid 2px;
+    border-bottom: none;
     font-size:1em;
     color: var(--white);
     position:absolute;
@@ -260,7 +261,7 @@ MAP
     overflow-y: hidden;
 }
 
-.mapText{
+.mapTextBottom{
     width: 100%;
     height:15vmax;
     position:absolute;
@@ -270,21 +271,50 @@ MAP
     color:var(--white);
 }
 
-.mapInfo{
+.mapInfoBottom{
     height:75%;
     background-color: var(--black);
     border: var(--white) solid 2px;
+    border-bottom: none;
     position:absolute;
     bottom:0;
     left:0;
     padding:20px;
 }
 
-.mapName{
+.mapNameBottom{
     height:25%;
     background-color: var(--black);
     position:absolute;
     top:0;
+    border: var(--white) solid 2px;
+}
+
+.mapTextTop{
+    width: 100%;
+    height:15vmax;
+    position:absolute;
+    top:-35%;
+    left:0;
+    font-family: 'Press Start 2P', cursive;
+    color:var(--white);
+}
+
+.mapInfoTop{
+    height:75%;
+    background-color: var(--black);
+    border: var(--white) solid 2px;
+    position:absolute;
+    top:0;
+    left:0;
+    padding:20px;
+}
+
+.mapNameTop{
+    height:25%;
+    background-color: var(--black);
+    position:absolute;
+    bottom:0;
     border: var(--white) solid 2px;
 }
 
@@ -376,6 +406,7 @@ SETTINGS
     position:absolute;
     right:0;
 }
+
 #closeBtnST{
     position:absolute;
     top:2vmin;
@@ -465,7 +496,7 @@ INVENTORY MAIN
     justify-content: space-between;
     align-items: center;
     font-size:2em;
-    padding:5px;
+    padding:20px;
 }
 
 .moneyCounter{
@@ -498,9 +529,6 @@ INVENTORY MAIN
     border-left:none;
 }
 
-.inventoryTitle{
-    font-size:2em;
-}
 
 .inventoryBtn{
     display:flex;
@@ -562,10 +590,58 @@ INVENTORY MAIN
     font-size:1.5em;
 }
 
+#consWrap{
+    display: none;
+}
+
+#valWrap{
+    display:none;
+}
+
+/*////////////////////////////////////////////////
+TOP OF MAIN INVENTORY
+//////////////////////////////////////////////////*/
+
+.inventoryTitle{
+    font-size:2em;
+}
+
 .inventoryTop{
     height:15%;
     position:relative;
+    margin-bottom:25px;
 }
+
+.categoryWrapper{
+    width:100%;
+    height:30%;
+    position:absolute;
+    bottom:15%;
+    left:0;
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.categoryBtn{
+    height:100%;
+    aspect-ratio: 1/1;
+    background-color: var(--darkerGray);
+    border:2px var(--white) solid;
+}
+
+.categoryBtn:hover{
+    background-color: var(--gray);
+}
+
+.categoryBtn.emptyCategory{
+    background-color: var(--black);
+}
+
+.categoryBtn.emptyCategory:hover{
+    cursor: default;
+}
+
 
 #closeBtnIN{
     position:absolute;
@@ -583,6 +659,11 @@ INVENTORY MAIN
 #closeBtnIN:hover{
     color:var(--white)
 }
+
+
+/*////////////////////////////////////
+SCROLLBAR
+//////////////////////////////////////*/
 
 ::-webkit-scrollbar {
     width: 10px;
@@ -623,7 +704,7 @@ INVENTORY SUB
 }
 
 .itemName{
-    font-size:2.5em;
+    font-size:2em;
 }
 
 .itemImg{
@@ -711,6 +792,7 @@ SHOP
     top:0;
     position:absolute;
     display:none;
+    overflow-x: hidden;
 }
 
 .shopInterface{
@@ -726,6 +808,8 @@ SHOP
     height:27vh;
     background-color: var(--darkerGray);
     border: var(--white) solid 2px;
+    border-bottom:none;
+    border-right:none;
     font-size:1em;
     color: var(--white);
     position:absolute;
@@ -743,6 +827,7 @@ SHOP
     right:0;
     bottom:0;
     border: var(--white) solid 2px;
+    border-bottom:none;
     display:flex;
     flex-direction: column;
     justify-content: space-around;
@@ -761,6 +846,20 @@ SHOP
     background-color: var(--gray);
 }
 
+.shopBottom{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:8%;
+    left:0;
+    border: 2px var(--white) solid;
+    background-color: var(--black);
+    padding:5px;
+    display:flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
 
 /*/////////////////////////////////////////////////////
 SHOP PRIMARY
@@ -771,10 +870,12 @@ SHOP PRIMARY
     height:100%;
     position:absolute;
     right:0;
-    background-color: var(--darkGray);
+    background-color: var(--black);
     padding:30px;
     display: none;
-    
+    border: var(--white) 2px solid;
+    border-bottom:none;
+    overflow-y: auto;
 }
 
 .shopTitle{
@@ -796,6 +897,13 @@ SHOP PRIMARY
     display:flex;
     justify-content: space-around;
     flex-wrap:wrap;
+}
+
+.listShopWrap{
+    width:100%;
+    height:77%;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .shopTop{
@@ -838,6 +946,8 @@ SHOP SUB
     flex-direction: column;
     justify-content: space-around;
     font-family: 'Press Start 2P', cursive;
+    border: var(--white) 2px solid;
+    border-bottom:none;
 }
 
 .itemNameShop{
@@ -849,6 +959,11 @@ SHOP SUB
     aspect-ratio: 1/1;
     background-color: var(--black);
     align-self: center;
+    display:flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding:10px;
+    border: var(--white) 2px solid;
 }
 
 .itemBtnContainerShop{
@@ -858,7 +973,39 @@ SHOP SUB
 }
 
 .itemAmntShop{
-    align-self: flex-end;
+    font-size:3em;
+    -webkit-text-stroke: 1px var(--black);
+}
+
+.descContainerShop{
+    background-color: var(--black);
+    width:100%;
+    height:30%;
+    padding:20px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: var(--white) 2px solid;
+}
+
+.itemPriceSub{
+    font-size:1.5em;
+}
+
+.itemPriceShopCont{
+    width:50%;
+    height:40%;
+    background-color: var(--darkGray);
+    align-self: center;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    border: var(--white) solid 2px;
+    padding:20px;
+}
+
+.itemDescShop{
+    align-self: center;
 }
 
 /*/////////////////////////////////////////////////
@@ -877,15 +1024,76 @@ SHOP PURCHASE
     font-family: 'Press Start 2P', cursive;
 }
 
+.shopConfirmOptionsContainer{
+    width:100%;
+    height:35%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--black);
+    border: var(--white) 2px solid;
+    padding:15px;
+}
+
 .shopAction{
     width:30%;
-    aspect-ratio: 3/1;
+    aspect-ratio: 3 / 1;
     background-color: var(--black);
     color: var(--white);
     border: var(--white) solid 2px;
 }
 
-.itemPrice{
-    text-align: center;
+.shopAction:hover{
+    background-color: var(--darkGray);
+}
+
+.itemPriceConfirm{
     font-size:1.5em;
+}
+
+.priceContainer{
+    width:50%;
+    height:40%;
+    background-color: var(--darkGray);
+    align-self: center;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    border: var(--white) solid 2px;
+    padding:20px;
+}
+
+.shopBtnContainer{
+    width:100%;
+    display: flex;
+    position:relative;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.shopSliderContainer{
+    width:80%;
+}
+#shopSlider{
+    appearance: none;
+    width:100%;
+    background: var(--black);
+    border: var(--white) 1px solid;
+    border-radius: 15px;
+}
+
+#shopSlider::-webkit-slider-thumb {
+    appearance: none;
+    width: 5%;
+    aspect-ratio:1/1;
+    background: var(--gray); /* Green background */
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 10px;
+    transform:scale(1.5);
+  }
+
+#shopSlider::-webkit-slider-thumb:hover{
+    background: var(--white);
+    transform:scale(1.8);
 }

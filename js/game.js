@@ -254,6 +254,7 @@ let inventoryBtnArr;
 let consumableBtnArr;
 let valuableBtnArr;
 let completeBtnArr;
+let invSubMenu = document.querySelector(".inventorySub");
 let subMenuName = document.querySelector(".itemName");
 let subMenuImg = document.querySelector(".itemImg");
 let subMenuDesc = document.querySelector(".itemDesc");
@@ -347,18 +348,24 @@ function valuableTest(){
 let inventoryPosition;
 console.log(inventory);
 
-let keyHead = document.getElementById("keyHead");
-let consumableHead = document.getElementById("consumableHead");
-let valuableHead = document.getElementById("valuableHead");
+let keyCategory = document.getElementById("keyCategory");
+let consCategory = document.getElementById("consCategory");
+let valCategory = document.getElementById("valCategory");
+let keyWrap = document.getElementById("keyWrap");
+let consWrap = document.getElementById("consWrap");
+let valWrap = document.getElementById("valWrap");
+
 
 function inventoryUpdate(){
 	console.log(inventory);
 	keyItemList.innerHTML = "";
 	consumableItemList.innerHTML = "";
 	valuableItemList.innerHTML = "";
+	if(lastItem != undefined && lastItem.amount == 0){
+		lastItem = undefined;
+	}
 	if(inventory.length != 0){
-		keyHead.style.display = "block";
-		keyItemList.style.display = "flex";
+		keyCategory.classList.remove("emptyCategory");
 		for(let i = 0; i <= inventory.length - 1; i++){
         	const btn = document.createElement("button");
         	const node = document.createTextNode(inventory[i].name);
@@ -371,12 +378,11 @@ function inventoryUpdate(){
 		}
 	}
 	else{
-		keyHead.style.display = "none";
-		keyItemList.style.display = "none";
+		keyItemList.innerText = "Cette catégorie est vide!!!";
+		keyCategory.classList.add("emptyCategory");
 	}
 	if(consumableInventory.length != 0){
-		consumableHead.style.display = "block";
-		consumableItemList.style.display = "flex";
+		consCategory.classList.remove("emptyCategory");
 		for(let i = 0; i <= consumableInventory.length - 1; i++){
 			const btn = document.createElement("button");
 			const span = document.createElement("span");
@@ -394,12 +400,11 @@ function inventoryUpdate(){
 		}
 	}
 	else{
-		consumableHead.style.display = "none";
-		consumableItemList.style.display = "none";
+		consumableItemList.innerText = "Cette catégorie est vide!!!";
+		consCategory.classList.add("emptyCategory");
 	}
 	if(valuableInventory.length != 0){
-		valuableHead.style.display = "block";
-		valuableItemList.style.display = "flex";
+		valCategory.classList.remove("emptyCategory");
 		for(let i = 0; i <= valuableInventory.length - 1; i++){
 			const btn = document.createElement("button");
 			if(valuableInventory[i].consumable == true){
@@ -424,8 +429,7 @@ function inventoryUpdate(){
 
 	}
 	else{
-		valuableHead.style.display = "none";
-		valuableItemList.style.display = "none";
+		valCategory.classList.add("emptyCategory");
 	}
 
 inventoryBtnArr = document.querySelectorAll(".key");    
@@ -435,9 +439,39 @@ completeBtnArr = document.querySelectorAll(".inventoryBtn");
 
 
 subMenu(inventoryBtnArr, consumableBtnArr, valuableBtnArr);
+return lastItem;
 }
 
-inventoryUpdate();
+
+
+/*FUNCTIONS FOR MAKING CERTAIN CATEGORIES APPEAR IN INVENTORY */
+
+keyCategory.addEventListener("click", () => {
+	if(inventory.length != 0){
+		keyWrap.style.display = "block";
+		consWrap.style.display = "none";
+		valWrap.style.display = "none";
+	}
+	else{
+		return;
+	}
+});
+
+consCategory.addEventListener("click", () => {
+	if(consumableInventory.length != 0){
+		keyWrap.style.display = "none";
+		consWrap.style.display = "block";
+		valWrap.style.display = "none";
+	}
+});
+
+valCategory.addEventListener("click", () => {
+	if(valuableInventory.length != 0){
+		keyWrap.style.display = "none";
+		consWrap.style.display = "none";
+		valWrap.style.display = "block";
+	}
+});
 
 function subMenu(keyArray, consumableArray, valuableArray){
 	keyArray.forEach((element, index) => {
@@ -451,7 +485,12 @@ function subMenu(keyArray, consumableArray, valuableArray){
 					}
 				}
 				presentBtn.setAttribute("class", inventory[index].id + " itemAction");
-				lastItem = inventory[index];	
+				if(inventory[index].amount != 0){
+					lastItem = inventory[index];	
+				}
+				else{
+					lastItem = undefined;
+				}
 			}
 			)
 		})
@@ -466,7 +505,12 @@ function subMenu(keyArray, consumableArray, valuableArray){
 				}
 			}
 			presentBtn.setAttribute("class", consumableInventory[index].id + " itemAction");
-			lastItem = consumableInventory[index];	
+			if(inventory[index].amount != 0){
+				lastItem = consumableInventory[index];	
+			}
+			else{
+				lastItem = undefined;
+			}
 		})
 	})
 	valuableArray.forEach((element, index) => {
@@ -483,13 +527,18 @@ function subMenu(keyArray, consumableArray, valuableArray){
 					itemPrc.innerText = valuableInventory[i].price + "$";
 				}
 			}
-			presentBtn.setAttribute("class", valuableInventory[index].id + " itemAction");			
-			lastItem = valuableInventory[index];	
+			presentBtn.setAttribute("class", valuableInventory[index].id + " itemAction");
+			if(valuableInventory[index].amount != 0){
+				lastItem = valuableInventory[index];
+			}
+			else{
+				lastItem = undefined;
+			}
+
 		})
 	});
 	return lastItem;
 }
-
 
 inventoryCloseBtn.addEventListener("click", () => {
 	gsap.timeline()
@@ -519,10 +568,11 @@ openInventoryBtn.forEach((button) => {
 			}
 	}
 	else{
-		subMenuName.innerText = "";
-				subMenuImg.setAttribute("src", "");
-				subMenuDesc.innerText = "";
+		subMenuName.innerText = "Pas d'objet séléctionné";
+				subMenuImg.removeAttribute("src");
+				subMenuDesc.innerText = "Veuillez cliquer sur un objet pour voir sa description";
 					itemAmnt.innerText = "";
+					itemPrc.innerText = "";
 	}
 		gsap.timeline()		
 		.set(inventoryWrapper, {x: "100%"})
@@ -559,6 +609,7 @@ function present(puzzle, data){
 		})
 	}
 }
+inventoryUpdate();
 
 /*/////////////////////////////////////////////////////////
 SHOPS
@@ -579,7 +630,8 @@ let subItemShopNameArr = document.querySelectorAll(".itemNameShop");
 let shopSubMenu = document.querySelector(".shopSub");
 let itemImgShop = document.querySelector(".itemImgShop");
 let descItmShop = document.querySelector(".itemDescShop");
-let itmAmntShop = document.querySelector(".itemAmntShop");
+let itmAmntShop = document.querySelectorAll(".itemAmntShop");
+let itemPrice = document.querySelector(".itemPriceNumber");
 let itemConfirm = document.querySelector(".shopConfirm");
 let closeBtnSH = document.getElementById("closeBtnSH");
 
@@ -696,6 +748,7 @@ function enterShop(shopName, data, num){
 					btn.appendChild(node);
 				}
 				btn.setAttribute("class", "shopBtn mb-4 " + valuableInventory[i].name);
+				btn.setAttribute("value", valuableInventory[i].name);
 				btn.setAttribute("type", "button");
 				shopItemList.appendChild(btn);
 			}		
@@ -727,25 +780,21 @@ function hoverShopBtn(btnArr, name){
 				case "shop1":
 					for(let i = 0; i <= shopInventory1.length - 1; i++){
 						if(btn.getAttribute("value") == String(shopInventory1[i].name)){
-							for(let e = 0; e <= subItemShopNameArr.length - 1; e++){
-								subItemShopNameArr[e].innerText = shopInventory1[i].name;
-							}
-							itemImgShop.setAttribute("src", shopInventory1[i].img);
+							subItemShopNameArr[0].innerText = shopInventory1[i].name;
+							itemPrice.innerText = shopInventory1[i].price;
+							itemImgShop.style.backgroundImage = 'url(' + shopInventory1[i].img + ')';
 							descItmShop.innerText = shopInventory1[i].desc;
 							if(shopInventory1[i].consumable == true){
-								itmAmntShop.innerText = shopInventory1[i].amount;
+								itmAmntShop[0].innerText = "x" + shopInventory1[i].amount;
 							}
 							else{
-								itmAmntShop.innerText = "";
+								itmAmntShop[0].innerText = "";
 							}
 						}
 					}
 			}
 			gsap.to(shopSubMenu, {left: 0, duration: 0.5});
 		});
-		btn.addEventListener("mouseout", () => {
-			gsap.to(shopSubMenu, {left: "-35%", duration: 0.5});
-		})
 	})
 }
 
@@ -768,6 +817,13 @@ function selectItem(btnArr, name){
 						itemConfirm.style.display = "flex";
 						buyBtn.style.display = "block";
 						sellBtn.style.display = "none";
+						if(shopInventory1[index].consumable == true){
+							itmAmntShop[1].innerText = "x" + shopInventory1[index].amount;
+						}
+						else{
+							itmAmntShop[1].innerText = "";
+						}
+						subItemShopNameArr[1].innerText = shopInventory1[index].name;
 						purchaseMade = false;
 						buyItem(shopInventory1[index], "shop1");								
 						break;
@@ -785,24 +841,22 @@ function hoverSellBtn(btnArr){
 		btn.addEventListener("mouseover",() => {
 					for(let i = 0; i <= valuableInventory.length - 1; i++){
 						if(btn.getAttribute("value") == String(valuableInventory[i].name)){
-							for(let i = 0; i <= subItemShopNameArr.length; i++){
-								subItemShopNameArr[i].innerText = valuableInventory[i].name;
-							}
+							subItemShopNameArr[0].innerText = valuableInventory[i].name;
 							itemImgShop.setAttribute("src", valuableInventory[i].img);
 							descItmShop.innerText = valuableInventory[i].desc;
+							itemPrice.innerText = valuableInventory[i].price;
 							if(valuableInventory[i].consumable == true){
-								itmAmntShop.innerText = valuableInventory[i].amount;
+								itmAmntShop[0].innerText = "x" + valuableInventory[i].amount;
 							}
 							else{
-								itmAmntShop.innerText = "";
+								itmAmntShop[0].innerText = "";
 							}
+						}
+						else{
 						}
 					}
 			gsap.to(shopSubMenu, {left: 0, duration: 0.5});
 		});
-		btn.addEventListener("mouseout", () => {
-			gsap.to(shopSubMenu, {left: "-35%", duration: 0.5});
-		})
 	})
 }
 
@@ -816,6 +870,13 @@ function selectItemSell(btnArr, name){
 			buyBtn.style.display = "none";
 			sellBtn.style.display = "block";
 			salesMade = false;
+			subItemShopNameArr[1].innerText = valuableInventory[index].name;
+			if(valuableInventory[index].consumable == true){
+				itmAmntShop[1].innerText = "x" + valuableInventory[index].amount;
+			}
+			else{
+				itmAmntShop[1].innerText = "";
+			}
 			sellItem(valuableInventory[index], name);								
 		});
 	});
@@ -828,14 +889,15 @@ let buyBtn = document.getElementById("buyBtn");
 let cancelBtn = document.getElementById("cancelBtn");
 let sliderContainer = document.querySelector(".shopSliderContainer");
 let input = document.getElementById("shopSlider");
-let priceDisplay = document.querySelector(".itemPrice");
+let priceDisplayContainer = document.querySelector(".priceContainer")
+let priceDisplay = document.querySelector(".itemPriceConfirm");
 let sellBtn = document.getElementById("sellBtn");
 let stackPrice;
 let amountLeft;
 
 function buyItem(item, shop) {
   console.log(item);
-  priceDisplay.innerText = item.price + " $";
+  priceDisplay.innerText = item.price;
   stackPrice = item.price;
   selectedItemId = item.invEquivalent;
   input.value = 1;
@@ -844,20 +906,20 @@ function buyItem(item, shop) {
     input.setAttribute("max", item.amount);
     input.addEventListener("input", () => {
       stackPrice = item.price * input.value;
-      priceDisplay.innerText = stackPrice + " $";	  
-	  priceDisplay.style.color = "var(--white)";
+      priceDisplay.innerText = stackPrice;	  
+	  priceDisplayContainer.style.color = "var(--white)";
 	  if(stackPrice > wallet){
-		priceDisplay.style.color = "var(--red)";
+		priceDisplayContainer.style.color = "var(--red)";
 	  }
     });
     buyBtn.addEventListener("click", handlePurchaseOnce.bind(null, item, shop));
   } 
   else {
     sliderContainer.style.display = "none";
-    priceDisplay.innerText = item.price + " $";
-	priceDisplay.style.color = "var(--white)";
+    priceDisplay.innerText = item.price;
+	priceDisplayContainer.style.color = "var(--white)";
 	if(item.price > wallet){
-		priceDisplay.style.color = "var(--red)";
+		priceDisplayContainer.style.color = "var(--red)";
 	}
     buyBtn.addEventListener("click", handlePurchaseOnce.bind(null, item, shop));
   }
@@ -913,6 +975,7 @@ cancelBtn.addEventListener("click", () => {
 	itemConfirm.style.display = "none";
 	shopPrimary.style.display = "none";
 	shopChoice.style.display = "flex";
+	gsap.set(shopSubMenu, {left: "-35%", duration: 0.5});
 });
 
 closeBtnSH.addEventListener("click", () => {
@@ -920,6 +983,7 @@ closeBtnSH.addEventListener("click", () => {
 	shopPrimary.style.display = "none";
 	shopChoice.style.display = "flex";
 	shopSubMenu.style.display = "none";
+	gsap.set(shopSubMenu, {left: "-35%", duration: 0.5});
 });
 
 function itemManage(itemName) {
@@ -985,7 +1049,8 @@ let sellPrice;
 
 function sellItem(item){
 	console.log(item);
-	priceDisplay.innerText = item.price + " $";
+	input.value = 1;
+	priceDisplay.innerText = item.price;
 	sellPrice = item.price;
 	selectedItemId = item;
 	if (item.consumable == true) {
@@ -993,7 +1058,7 @@ function sellItem(item){
 		input.setAttribute("max", item.amount);
 		input.addEventListener("input", () => {
 			sellPrice = item.price * input.value;
-		  	priceDisplay.innerText = sellPrice + " $";
+		  	priceDisplay.innerText = sellPrice;
 		  	console.log(sellPrice);
 		});
 	
@@ -1001,7 +1066,7 @@ function sellItem(item){
 	} 
 	else {
 		sliderContainer.style.display = "none";
-		priceDisplay.innerText = item.price + " $";
+		priceDisplay.innerText = item.price;
 	
 		sellBtn.addEventListener("click", handleSalesOnce.bind(null, item));
 	}
@@ -1068,10 +1133,13 @@ function removeItem(item){
 	}
 }
 
-let moneyCount = document.querySelector(".count");
+let moneyCount = document.querySelectorAll(".count");
 
 function walletUpdate() {
-	moneyCount.innerText = String(wallet);
+	moneyCount.forEach((element) => {
+		element.innerText = String(wallet);
+	})
+
 }
 
 walletUpdate();

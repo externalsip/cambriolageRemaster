@@ -121,27 +121,48 @@ SHOPS UI
                     <span class="shopTitle">Test</span>
                     <button type="button" id="closeBtnSH">X</button>
                 </div>
-                <div class="itemListShop"></div>
+                <div class="listShopWrap">
+                    <div class="itemListShop"></div>
+                </div>
+
+                <div class="shopBottom">
+                    <div class="moneyCount">
+                        <span class="count moneyCounter">0</span>
+                        <span class="money moneyCounter">$</span>
+                    </div>
+                </div>
             </div>
             <div class="shopSub">
                 <h2 class="itemNameShop">Item Name</h2>
-                <img class="itemImgShop">
+                <div class="itemImgShop">
+                    <span class="itemAmntShop"></span>
+                </div>
                 <div class="descContainerShop">
                     <p class="itemDescShop">flavor text</p>
-                    <span class="itemAmntShop"></span>
+                    <div class="itemPriceShopCont">
+                        <span class="itemPriceNumber itemPriceSub">test</span>
+                        <span class="itemPriceSign itemPriceSub">$</span>
+                    </div>
                 </div>
             </div>
             <div class="shopConfirm">
                 <h2 class="itemNameShop">Item Name</h2>
-                <img class="itemImgShop">
-                <div class="shopSliderContainer">
-                    <input type="range" min="1" max="10" value="1" id="shopSlider">
+                <div class="itemImgShop">
+                    <span class="itemAmntShop"></span>
                 </div>
-                <span class="itemPrice"></span>
-                <div class="itemBtnContainer">
-                    <button type="button" class="shopAction" id="buyBtn">Acheter</button>
-                    <button type="button" class="shopAction" id="sellBtn">Vendre</button>
-                    <button type="button" class="shopAction" id="cancelBtn">Annuler</button>
+                <div class="shopConfirmOptionsContainer">
+                    <div class="priceContainer">
+                        <span class="itemPriceNumber itemPriceConfirm">test</span>
+                        <span class="itemPriceSign itemPriceConfirm">$</span>
+                    </div>                    
+                    <div class="shopSliderContainer">
+                        <input type="range" min="1" max="10" value="1" id="shopSlider">
+                    </div>
+                    <div class="shopBtnContainer">
+                        <button type="button" class="shopAction" id="buyBtn">Acheter</button>
+                        <button type="button" class="shopAction" id="sellBtn">Vendre</button>
+                        <button type="button" class="shopAction" id="cancelBtn">Annuler</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -173,9 +194,13 @@ MAP
         <div class="mapElement" id="place2"></div>
         <div class="mapElement" id="place3"></div>
         <div class="mapElement" id="place4"></div>
-        <div class="mapText hideableElem">
-            <div class="mapInfo col-12"></div>
-            <div class="mapName col-6 col-lg-4 col-xxl-3"></div>
+        <div class="mapTextBottom hideableElem">
+            <div class="mapInfoBottom col-12"></div>
+            <div class="mapNameBottom col-6 col-lg-4 col-xxl-3"></div>
+        </div>
+        <div class="mapTextTop hideableElem">
+            <div class="mapInfoTop col-12"></div>
+            <div class="mapNameTop col-6 col-lg-4 col-xxl-3"></div>
         </div>
         <div class="buttonBox col-12 hideableElem">
             <div class="buttonContainer col-12 col-xxl-3">
@@ -229,14 +254,25 @@ INVENTORY
                     <div class="inventoryTop">
                         <span class="inventoryTitle">Inventaire</span>
                         <button type="button" id="closeBtnIN">X</button>
+                        <div class="categoryWrapper">
+                            <button type="button" class="categoryBtn" id="keyCategory"></button>
+                            <button type="button" class="categoryBtn" id="consCategory"></button>
+                            <button type="button" class="categoryBtn" id="valCategory"></button>
+                        </div>
                     </div>
                     <div class="itemList">
-                        <h2 class="itemCategory mb-3" id="keyHead">Objet clés</h2>
-                        <div class="keyItemList mb-3"></div>
-                        <h2 class="itemCategory mb-3" id="consumableHead">Consommables</h2>
-                        <div class="consumableItemList mb-3"></div>
-                        <h2 class="itemCategory mb-3" id="valuableHead">Objets de valeur</h2>
-                        <div class="valuableItemList mb-3"></div>
+                        <div id="keyWrap">
+                            <h2 class="itemCategory mb-3" id="keyHead">Objet clés</h2>
+                            <div class="keyItemList mb-3"></div>
+                        </div>
+                        <div id="consWrap">
+                            <h2 class="itemCategory mb-3" id="consumableHead">Consommables</h2>
+                            <div class="consumableItemList mb-3"></div>
+                        </div>
+                        <div id="valWrap">
+                            <h2 class="itemCategory mb-3" id="valuableHead">Objets de valeur</h2>
+                            <div class="valuableItemList mb-3"></div>
+                        </div>
                     </div>
                     <div class="inventoryBottom">
                         <div class="moneyCount">
@@ -252,7 +288,7 @@ INVENTORY
                     <p class="itemDesc"></p>
                     <div class="infoContainer">
                         <span class="itemPrc"></span>
-                        <span class="itemAmnt"></span>  
+                        <span class="itemAmnt"></span>
                     </div>
 
                     <div class="itemBtnContainer">
