@@ -27,7 +27,7 @@
           Toute progression non-sauvegardée sera perdue.
         </div>
         <div class="modal-footer">          
-        <button type="button" id="backToMain" data-bs-dismiss="modal" class="menuModalBtn">Confirmer</button>
+            <button type="button" id="backToMain" data-bs-dismiss="modal" class="menuModalBtn">Confirmer</button>
           <button type="button" data-bs-dismiss="modal" class="menuModalBtn">Annuler</button>
         </div>
       </div>
@@ -47,8 +47,10 @@
             <label for="en" class="settingLabel">English</label>
             <input type="radio" id="en" class="setting langSetting" name="lang">
         </form>
+        <div class="langConfirmContainer">
             <button type="button" id="startGame" data-bs-dismiss="modal" class="menuModalBtn">Confirmer</button>
             <button type="button" data-bs-dismiss="modal" class="menuModalBtn">Annuler</button>
+        </div>
       </div>
     </div>
   </div>
@@ -80,11 +82,21 @@ VISUAL NOVEL
     <div class="wrapper visualNovel section" id="vn">
          
     
-        <div class="background"></div>
+        <div class="background">
+            <div class="sprite1 hideableElem">
+                <div class="sprite1eyes"></div>
+                <div class="sprite1mouth"></div>
+            </div>
+            <div class="sprite2 hideableElem">
+                <div class="sprite2eyes"></div>
+                <div class="sprite2mouth"></div>
+            </div>
+        </div>
         <div class="optionsbox hideableElem">
             
         </div>
-
+        <div class="namebox1 namebox hideableElem"></div>
+        <div class="namebox2 namebox hideableElem"></div>
         <div class="textbox hideableElem">
             <div class="text">                
             </div>            
@@ -308,9 +320,9 @@ INVENTORY
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"></script>
 <script src="js/mainMenu.js" type="module"></script>
 <script src="js/game.js" type="module"></script>
-<script src="js/textSwap.js" type="module"></script>
 <script src="js/map.js" type="module"></script>
 <script src="js/settings.js" type="module"></script>
+<script src="js/textSwap.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

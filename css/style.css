@@ -1,7 +1,8 @@
 *{box-sizing: border-box;
 padding:0;
 margin:0;}
-*{font-family: 'Press Start 2P', cursive;}
+*{font-family: 'Press Start 2P', cursive; 
+user-select: none;}
 :root{
     --white: #FFFFFF;
     --black: #000000;
@@ -75,11 +76,11 @@ MENU PRINCIPAL
     color:var(--white);
     background-color: var(--darkerGray);
     font-family: 'Press Start 2P', cursive;
-    border: var(--white) solid 5px;
+    border: var(--white) solid 2px;
 }
 
 .start:hover{
-    background-color: var(--darkGray);
+    background-color: var(--gray);
 }
 
 .tip{
@@ -87,6 +88,7 @@ MENU PRINCIPAL
     width:25vw;
     height:30vh;
     background-color: var(--darkerGray);
+    border: var(--white) 2px solid;
     bottom:0;
     left:0;
     opacity:0;
@@ -213,6 +215,28 @@ VISUAL NOVEL
     background-color: var(--gray);
 }
 
+.namebox{
+    width:20%;
+    aspect-ratio: 4/1;
+    background-color: var(--darkGray);
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--white) 2px solid;
+    border-bottom: none;
+    position:absolute;
+    bottom:35vh;
+    font-size: 2em;
+}
+
+.namebox1.namebox{
+    right: 5%;
+}
+
+.namebox2.namebox{
+    left: 5%;
+}
+
 .background{
    width:100%;
    height: 100%;
@@ -244,7 +268,73 @@ VISUAL NOVEL
     }
 }
 
+/*////////////////////////////////////////////////////
+SPRITES
+////////////////////////////////////////////////////*/
 
+.sprite1{    
+    width:12vw;
+    aspect-ratio: 1/2;
+    position:absolute;
+    bottom:35vh;
+    left:5%;
+    background-size: cover;    
+    filter: contrast(0.75);
+    opacity: 0.5;
+    transition: opacity 0.2s, filter 0.2s;
+}
+
+.sprite1.active{
+    filter: contrast(1);
+    opacity:1;
+    transition: opacity 0.2s, filter 0.2s;
+}
+
+.sprite1eyes{
+    width:12vw;
+    aspect-ratio: 1/2;
+    background-size: 48vw, 100%;
+    position:absolute;
+}
+
+.sprite1mouth{
+    width:12vw;
+    aspect-ratio: 1/2;
+    background-size: 48vw, 100%;
+    position:absolute;
+}
+
+.sprite2{
+    width:12vw;
+    aspect-ratio: 1/2;
+    position:absolute;
+    bottom:35vh;
+    right:5%;
+    background-size: cover;
+    transform: scaleX(-1);
+    filter: contrast(0.75);
+    opacity: 0.5;
+    transition: opacity 0.2s, filter 0.2s;
+}
+
+.sprite2.active{
+    filter: contrast(1);
+    opacity:1;
+}
+
+.sprite2eyes{
+    width:12vw;
+    aspect-ratio: 1/2;
+    background-size: 48vw, 100%;
+    position:absolute;
+}
+
+.sprite2mouth{
+    width:12vw;
+    aspect-ratio: 1/2;
+    background-size: 48vw, 100%;
+    position:absolute;
+}
 
 /*/////////////////////////////////////////////////////
 MAP
@@ -372,16 +462,27 @@ Modal
 }
 
 .menuModalBtn{
-    width:9vmax;
-    height:2vmax;
+    width:40%;
+    aspect-ratio: 3/1;
     background-color: var(--darkerGray);
     border:var(--white) solid 2px;
     color:var(--white);
     font-family: 'Press Start 2P', cursive;
 }
 
+.menuModalBtn:hover{
+    background-color: var(--gray);
+}
+
 .langModalContent{
     padding:30px;
+}
+
+.langConfirmContainer{
+    width:50%;
+    align-self: flex-end;
+    display:flex;
+    justify-content: space-around;
 }
 
 .text-red{

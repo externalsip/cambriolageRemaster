@@ -1,1 +1,0 @@
-let wallet = 0;

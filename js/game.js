@@ -5,6 +5,14 @@ let textbox = document.querySelector(".textbox");
 let textboxText = document.querySelector(".text");
 let optionsbox = document.querySelector(".optionsbox");
 let shopText = document.querySelector(".shopText");
+let sprite1 = document.querySelector(".sprite1");
+let sprite1eyes = document.querySelector(".sprite1eyes");
+let sprite1mouth = document.querySelector(".sprite1mouth");
+let sprite2 = document.querySelector(".sprite2");
+let sprite2eyes = document.querySelector(".sprite2eyes");
+let sprite2mouth = document.querySelector(".sprite2mouth");
+let namebox1 = document.querySelector(".namebox1");
+let namebox2 = document.querySelector(".namebox2");
 const map = document.getElementById("map");
 const mapPlace1 = document.getElementById("place1");
 const mapPlace2 = document.getElementById("place2");
@@ -18,12 +26,17 @@ let currentPage;
 let json, to;
 let sceneIndex;
 let sceneSwap;
+let currentWindow;
 
 import {fr, en} from './langSwap.js';
 
-btnStart.addEventListener("click", () => { 
+btnStart.addEventListener("click", () => {
+	localStorage.clear();
+	localStorage.setItem("langFR", fr);
+	localStorage.setItem("langEN", en);
     startMenu.style.display = "none";
     vn.style.display = "block";
+	currentWindow = "vn";
 	sceneIndex = 0;
 	pageNum = 0;
 	inventoryLang();
@@ -35,6 +48,7 @@ btnStart.addEventListener("click", () => {
 mapPlace1.addEventListener("click", () => { 
     map.style.display = "none";
     vn.style.display = "block";
+	currentWindow = "vn";
 	sceneIndex = 1;
     grabData();
 	if(inventory.find((item) => item.id=="pins")){
@@ -49,7 +63,20 @@ mapPlace1.addEventListener("click", () => {
 mapPlace2.addEventListener("click", () => {
 	map.style.display = "none";
 	vn.style.display = "block";
-	sceneIndex = 2;
+	currentWindow = "vn";
+	switch(true){		
+		case place2Return:
+			console.log(place2Return);
+			sceneIndex = 6;
+			break;
+		
+		case presentPuzzleTestSolved:
+			sceneIndex = 5;
+			break;
+
+		default:
+			sceneIndex = 2;
+	}
 	pageNum = 0;
 	grabData();
 	return sceneIndex, pageNum;
@@ -58,6 +85,7 @@ mapPlace2.addEventListener("click", () => {
 mapPlace3.addEventListener("click", () => {
 	map.style.display = "none";
 	vn.style.display = "block";
+	currentWindow = "vn";
 	sceneIndex = 3;
 	pageNum = 0;
 	grabData();
@@ -67,6 +95,7 @@ mapPlace3.addEventListener("click", () => {
 mapPlace4.addEventListener("click", () => {
 	map.style.display = "none";
 	vn.style.display = "block";
+	currentWindow = "vn";
 	sceneIndex = 4;
 	pageNum = 0;
 	grabData();
@@ -94,8 +123,75 @@ async function grabData() {
 
 async function initialize(data){
     textboxText.innerText = '';
+	namebox1.innerText = '';
+	namebox2.innerText = '';
+	if(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('character1')){
+		sprite1.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1].base +')';
+		sprite1mouth.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1][data.scenes[sceneSwap].pages[currentPage].sprite1].mouth +')';
+		sprite1eyes.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1][data.scenes[sceneSwap].pages[currentPage].sprite1].eyes +')';
+		if(data.scenes[sceneSwap].pages[currentPage].active == "sprite1"){
+			sprite1.classList.add("active");
+			sprite2.classList.remove("active");
+		}
+		else{
+			sprite1.classList.remove("active");
+		}
+	}
+	else{
+		sprite1.style.backgroundImage = "";
+		sprite1mouth.style.backgroundImage = "";
+		sprite1eyes.style.backgroundImage = "";
+	}
+	if(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('character2')){
+		sprite2.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character2].base +')';
+		sprite2mouth.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character2][data.scenes[sceneSwap].pages[currentPage].sprite2].mouth +')';
+		sprite2eyes.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character2][data.scenes[sceneSwap].pages[currentPage].sprite2].eyes +')';
+		if(data.scenes[sceneSwap].pages[currentPage].active == "sprite2"){
+			sprite2.classList.add("active");
+			sprite1.classList.remove("active");
+		}
+		else{
+			sprite2.classList.remove("active");
+		}
+	}
+	else{
+		sprite2.style.backgroundImage = "";
+		sprite2mouth.style.backgroundImage = "";
+		sprite2eyes.style.backgroundImage = "";
+	}
+	switch(true){
+		case data.scenes[sceneSwap].pages[currentPage].active == "sprite1":
+			namebox1.style.display = "flex";
+			namebox2.style.display = "none";
+			namebox1.innerText = data.scenes[sceneSwap].pages[currentPage].character1;
+			break;
+		case data.scenes[sceneSwap].pages[currentPage].active == "sprite2":
+			namebox2.style.display = "flex";
+			namebox1.style.display = "none";
+			namebox2.innerText = data.scenes[sceneSwap].pages[currentPage].character2;
+			break;
+		case data.scenes[sceneSwap].pages[currentPage].active == "hidden":
+			namebox1.style.display = "flex";
+			namebox2.style.display = "none";
+			namebox1.innerText = data.scenes[sceneSwap].pages[currentPage].characterName;
+			break;
+		default:
+			namebox1.style.display = "none";
+			namebox2.style.display = "none";
+			namebox1.innerText = "";
+			break;
+	}
+
         vn.style.backgroundImage = data.scenes[sceneSwap].background;
+
 		typeWriter(data.scenes[sceneSwap].pages[currentPage].pageText, "vn");
+		if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('check')){
+			switch(json.scenes[sceneSwap].pages[currentPage].check){
+				case "place2Return":
+					place2Return = true;
+					break;
+			}
+		}
 }
 
 let dialogItem;
@@ -146,6 +242,8 @@ function handleOptions(data){
 	}
 }
 
+let isTalking = false;
+
 function typeWriter(txt, check, i) {
 		i = i || 0;
 	if(!i) {
@@ -159,6 +257,8 @@ function typeWriter(txt, check, i) {
 	}
 	var speed = 30; /* The speed/duration of the effect in milliseconds */
 	if (i < txt.length) {
+		isTalking = true;
+		spriteAnimation();
 		var c = txt.charAt(i++);
 		if(c === ' ') c = '&nbsp;'
 		if(check == "vn"){
@@ -171,6 +271,11 @@ function typeWriter(txt, check, i) {
 	    	typeWriter(txt, check, i)
 	    }, speed);
 	}
+	else{
+		isTalking = false;
+		spriteAnimation();
+	}
+
 }
 
 
@@ -240,8 +345,40 @@ optionsbox.addEventListener('click', () => {
 function worldMap(){
 	vn.style.display = "none";
 	map.style.display = "block";
+	currentWindow = "map";
 }
 
+/*Checks which character is currently talking and makes it so their mouth only moves while needed*/
+
+let talk1 = gsap.to(sprite1mouth, {backgroundPositionX: "-36vw", ease: SteppedEase.config(3), duration: 0.5, repeat: -1});
+let talk2 = gsap.to(sprite2mouth, {backgroundPositionX: "-36vw", ease: SteppedEase.config(3), duration: 0.5, repeat: -1});
+talk1.pause();
+talk2.pause();
+
+function spriteAnimation() {
+	switch(true){
+		case sprite1.classList.contains("active"):
+			if(isTalking == true){
+				talk1.play();
+			}
+			else{
+				talk1.pause();
+				gsap.set(sprite1mouth, {backgroundPositionX: 0});
+			}
+			break;
+		case sprite2.classList.contains("active"):
+			if(isTalking == true){
+				talk2.play();
+			}
+			else{
+				talk2.pause();
+				gsap.set(sprite2mouth, {backgroundPositionX: 0});
+			}
+			break;
+	}			
+	gsap.to(sprite1eyes, {backgroundPositionX: "-48vw", ease: SteppedEase.config(4), duration: 0.5, repeat: -1, repeatDelay: 5});
+	gsap.to(sprite2eyes, {backgroundPositionX: "-48vw", ease: SteppedEase.config(4), duration: 0.5, repeat: -1, repeatDelay: 5, delay: 1});
+}
 
 /*//////////////////////////////////////////////////////
 INVENTORY
@@ -327,12 +464,12 @@ function inventoryLang() {
 		return crowbar, pins, gun, dubloons, shillings, necklace;
 	}
 	else{
-		crowbar = new Tool ('Pied-de-Biche', 'link', false, "Le fidèle compagnon de n'importe quel voleur", "crowbar");
+		crowbar = new Tool ('Pied-de-Biche', 'link', false, "Le fidèle compagnon de n'importe quel voleur", "crowbar", false);
 		pins = new Tool ('Pins', 'link', true, "Toujours pratique en cas de porte verouillée.", "pins", false, 0);
-		gun = new Tool ('Gun', 'link', false, "Fucking end me", 'gun');
-		dubloons = new Valuable ('Dubloons', 'link', true, "Pirate money", "dubloons", 10, 3);
-		shillings = new Valuable ('Shillings', 'link', true, "All the rage in britain","shillings", 10, 5);
-		necklace = new Valuable ('Necklace', 'link', false, "I needed a non-consumable item test ok", "necklace", 1, 50);
+		gun = new Tool ('Gun', 'link', false, "Fucking end me", 'gun', false);
+		dubloons = new Valuable ('Dubloons', 'link', true, "Pirate money", "dubloons", 10, 3, true);
+		shillings = new Valuable ('Shillings', 'link', true, "All the rage in britain","shillings", 10, 5, true);
+		necklace = new Valuable ('Necklace', 'link', false, "I needed a non-consumable item test ok", "necklace", 1, 50, true);
 		valuableTest();
 		return crowbar, pins, gun, dubloons, shillings, necklace;
 	}
@@ -580,6 +717,10 @@ openInventoryBtn.forEach((button) => {
 });
 });
 
+let presentPuzzleTestSolved = false;
+let place2Return = false;
+
+
 function present(puzzle, data){
 	if(puzzle == "noPuzzle"){
 		presentBtn.style.display = "none";
@@ -593,6 +734,7 @@ function present(puzzle, data){
 					if(presentBtn.classList.contains("crowbar")){
 						pageNum = 3;
 						currentPage = Object.keys(data.scenes[sceneSwap].pages)[pageNum];
+						presentPuzzleTestSolved = true;
 					}
 					else{
 						pageNum = 4;
@@ -615,7 +757,11 @@ inventoryUpdate();
 SHOPS
 /////////////////////////////////////////////////////////*/
 
-let wallet = 45;
+/*Variable contains amount of money in wallet */
+
+let wallet = 50;
+
+
 let crowbarShop;
 let pinsShop;
 let gunShop;
@@ -690,7 +836,9 @@ function enterShop(shopName, data, num){
 	currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];	
 	typeWriter(data.scenes[sceneSwap].pages[currentPage].pageText, "shop");
 	shop.style.backgroundImage = data.scenes[sceneSwap].background;
+	vn.style.display = "none";
 	shop.style.display = "block";
+	currentWindow = "shop";
 	buyMenuBtn.addEventListener("click", () => {			
 		shopItemList.innerHTML = "";
 		shopChoice.style.display = "none";
@@ -1014,10 +1162,11 @@ function giveItem(item) {
 				inventoryUpdate();
 				}
 			}
-			else{
-				inventory.push(item);
-				inventoryUpdate();
-			}
+		else{
+			console.log(item);
+			inventory.push(item);
+			inventoryUpdate();
+		}
 	}
 	else{
 		if(item.consumable == true){
@@ -1143,3 +1292,65 @@ function walletUpdate() {
 }
 
 walletUpdate();
+
+const saveBtn = document.getElementById("saveBtn");
+
+saveBtn.addEventListener("click", () => {
+	localStorage.setItem("currentPage", currentPage);
+	localStorage.setItem("sceneIndex", sceneIndex);
+	localStorage.setItem("sceneSwap", sceneSwap);
+	localStorage.setItem("pageNum", pageNum);
+	localStorage.setItem("keyInventory", JSON.stringify(inventory));
+	localStorage.setItem("consInventory", JSON.stringify(consumableInventory));
+	localStorage.setItem("valInventory", JSON.stringify(valuableInventory));
+	localStorage.setItem("shopInventory1", JSON.stringify(shopInventory1));
+	localStorage.setItem("wallet", wallet);
+	localStorage.setItem("place2ReturnCheck", place2Return);
+	localStorage.setItem("presentPuzzleTestSolvedCheck", presentPuzzleTestSolved);
+	localStorage.setItem("presentArea", currentWindow);
+});
+
+const continueBtn = document.getElementById("continue");
+
+continueBtn.addEventListener("click", () => {
+	currentPage = localStorage.getItem("currentPage");
+	sceneIndex = localStorage.getItem("sceneIndex");
+	sceneSwap = localStorage.getItem("sceneSwap");
+	pageNum = localStorage.getItem("pageNum");
+	inventory = JSON.parse(localStorage["keyInventory"]);
+	consumableInventory = JSON.parse(localStorage["consInventory"]);
+	valuableInventory = JSON.parse(localStorage["valInventory"]);
+	shopInventory1 = JSON.parse(localStorage["shopInventory1"]);
+	wallet = localStorage.getItem("wallet");
+	place2Return = checkValue(localStorage.getItem("place2ReturnCheck"));
+	presentPuzzleTestSolved = checkValue(localStorage.getItem("presentPuzzleTestSolvedCheck"));
+	startMenu.style.display = "none";
+	switch(localStorage.getItem("presentArea")){
+		case "vn":
+			vn.style.display = "block";
+			break;
+		case "shop":
+			shop.style.display = "block";
+			break;
+		case "map":
+			map.style.display = "block";
+			break;
+		default:
+			startMenu.style.display = "block";
+	}
+	inventoryUpdate();
+	grabData();
+	walletUpdate();
+	console.log(shopInventory1);
+});
+
+function checkValue(value){
+	switch(value){
+		case 'true':
+			value = true;
+			return value;
+		case 'false':
+			value = false;
+			return value;
+	}
+}

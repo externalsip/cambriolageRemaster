@@ -1,12 +1,37 @@
 {
+"characters": {
+    "female01": {
+        "base": "/media/img/characters/Playable/Female01/Female01_basesprite.png",
+        "neutral": {
+            "eyes": "/media/img/characters/Playable/Female01/spritesheet/Female01_blinking-sheet.png",
+            "mouth": "/media/img/characters/Playable/Female01/spritesheet/Female01_talking-sheet.png"
+        }
+    },
+    "male01": {
+        "base": "/media/img/characters/Playable/Male01/Male01_basesprite.png",
+        "neutral": {
+            "eyes": "/media/img/characters/Playable/Male01/spritesheet/Male01_blinking-sheet.png",
+            "mouth": "/media/img/characters/Playable/Male01/spritesheet/Male01_talking-sheet.png"
+        }
+    }
+    
+},
     "scenes": {
                 "intro": {
                 "background" : "black",
                 "pages": {
                     "page0": {
+                        "character1": "female01",
+                        "sprite1": "neutral",
+                        "active": "sprite1",
                         "pageText": "asdja^pjdadâsdasdaknwinaskl;anda^dwandadsd"
                     },
                     "page1": {
+                        "character1": "female01",
+                        "sprite1": "neutral",
+                        "character2": "male01",
+                        "sprite2": "neutral",
+                        "active": "sprite2",
                         "pageText": "hi this hasidhaawc his hi adhh hi hi",
                         "options": {
                         "See the map": "worldMap",

@@ -1,5 +1,4 @@
 import {fr, en} from '../js/langSwap.js';
-
 let langBtn = document.querySelectorAll(".langSetting");
 let title = document.querySelector(".title");
 let mainBtnArr = document.querySelectorAll(".start");
@@ -23,6 +22,18 @@ langBtn.forEach((element) => {
 	})
 });
 
+function langRefresh(){
+    switch(true){
+        case fr:
+            french();
+            langBtn[0].checked = true;
+            break;
+        case en:
+            english();
+            langBtn[1].checked = true;
+    }
+}
+
 function french(){
     // Main menu
     title.innerText = "Cambriolage";
@@ -44,7 +55,7 @@ function french(){
 
 function english(){
     // Main menu
-    title.innerText = "Break in";
+    title.innerText = "Larceny";
     mainBtnArr[0].innerText = "Start";
     mainBtnArr[1].innerText = "Continue";
     mainBtnArr[2].innerText = "Settings";
@@ -60,3 +71,5 @@ function english(){
     inventoryTitle.innerText = "Inventory";
     inventoryAction[0].innerText = "Present";
 }
+
+langRefresh();
