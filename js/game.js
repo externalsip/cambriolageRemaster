@@ -18,6 +18,7 @@ const mapPlace1 = document.getElementById("place1");
 const mapPlace2 = document.getElementById("place2");
 const mapPlace3 = document.getElementById("place3");
 const mapPlace4 = document.getElementById("place4");
+let playArea = document.querySelectorAll(".playArea");
 
 const vnDataFR= './json/vnFR.json';
 const vnDataEN= './json/vnEN.json';
@@ -288,59 +289,36 @@ function checkPage(data){
 	return true;
 }
 
-textbox.addEventListener('click', () => {
-	if(!json) return;
-    if(checkPage(json)){
-		if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('shop')){
-			enterShop(json.scenes[sceneSwap].pages[currentPage].shop, json, 1);
-		}
-		else{
-			if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('NextPage')){
-				currentPage = json.scenes[sceneSwap].pages[currentPage].NextPage;
-			}
-			else {
-				pageNum++;
-				currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
-			}
-			if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('action')){
-				present(json.scenes[sceneSwap].pages[currentPage].action, json);
+playArea.forEach((element) => {
+	element.addEventListener('click', () => {
+		if(!json) return;
+		if(checkPage(json)){
+			if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('shop')){
+				enterShop(json.scenes[sceneSwap].pages[currentPage].shop, json, 1);
 			}
 			else{
-				present("noPuzzle", json);
+				if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('NextPage')){
+					currentPage = json.scenes[sceneSwap].pages[currentPage].NextPage;
+				}
+				else {
+					pageNum++;
+					currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
+				}
+				if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('action')){
+					present(json.scenes[sceneSwap].pages[currentPage].action, json);
+				}
+				else{
+					present("noPuzzle", json);
+				}
+				initialize(json);
+				handleOptions(json);
 			}
-			initialize(json);
-			handleOptions(json);
 		}
-	}
-    else return;
-})
-optionsbox.addEventListener('click', () => {
-	if(!json) return;
-    if(checkPage(json)){		
-		
-		if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('shop')){
-			enterShop(json.scenes[sceneSwap].pages[currentPage].shop, json, 1);
-		}
-		else{
-			if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('NextPage')){
-			currentPage = json.scenes[sceneSwap].pages[currentPage].NextPage;
-			}
-			else {
-				pageNum++;
-				currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
-			}
-			if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('action')){
-				present(json.scenes[sceneSwap].pages[currentPage].action, json);
-			}
-			else{
-				present("noPuzzle", json);
-			}
-			initialize(json);
-			handleOptions(json);
-		}
-	}
-    else return;
-})
+		else return;
+	});
+});
+
+
 
 function worldMap(){
 	vn.style.display = "none";
