@@ -155,6 +155,7 @@ VISUAL NOVEL
     left:0;
     padding:50px;
     font-family: 'Press Start 2P', cursive;
+    overflow-wrap: break-word;
 }
 
 .buttonBox{
@@ -637,10 +638,22 @@ INVENTORY MAIN
     display:flex;
     width:40%;
     aspect-ratio: 1/1;
-    flex-direction: column-reverse;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     font-size: 0.7em;
+    background-size: contain;
+    background-color: var(--darkerGray);
+    border: 2px solid var(--white);
+}
+
+.itemAmountBtn{
+    color: var(--white);
+    font-size:3em;
+    align-self: flex-end;
+}
+
+.inventoryBtn:hover{
+    background-color: var(--darkGray);
 }
 
 .shopText{
@@ -885,6 +898,8 @@ INVENTORY SUB
 .itemAction:hover{
     background-color: var(--gray);
 }
+
+
 
 /*/////////////////////////////////////////////////
 SHOP

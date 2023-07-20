@@ -86,6 +86,9 @@
                     "page2": {
                         "pageText": "",
                         "action": "presentPuzzleTest",
+                        "options":{
+                            "Présenter" : "present"
+                        },
                         "NextPage": "End"
                     },
                     "page3": {

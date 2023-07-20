@@ -35,6 +35,7 @@ btnStart.addEventListener("click", () => {
 	localStorage.clear();
 	localStorage.setItem("langFR", fr);
 	localStorage.setItem("langEN", en);
+	console.log(en);
     startMenu.style.display = "none";
     vn.style.display = "block";
 	currentWindow = "vn";
@@ -121,11 +122,20 @@ async function grabData() {
     handleOptions(json);
 }
 
-
+let stop = false;
+//initialize function 
 async function initialize(data){
+	if(isTalking == true){
+		textboxText.innerHTML = data.scenes[sceneSwap].pages[currentPage].pageText;
+		stop = true;
+	}
+
+	else{
     textboxText.innerText = '';
 	namebox1.innerText = '';
 	namebox2.innerText = '';
+
+	//manages the sprites currently on screen, and which sprite is the active one, the inactive sprite is greyed out so we clearly know who is talking.
 	if(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('character1')){
 		sprite1.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1].base +')';
 		sprite1mouth.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1][data.scenes[sceneSwap].pages[currentPage].sprite1].mouth +')';
@@ -184,7 +194,7 @@ async function initialize(data){
 	}
 
         vn.style.backgroundImage = data.scenes[sceneSwap].background;
-
+		stop = false;
 		typeWriter(data.scenes[sceneSwap].pages[currentPage].pageText, "vn");
 		if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('check')){
 			switch(json.scenes[sceneSwap].pages[currentPage].check){
@@ -192,7 +202,7 @@ async function initialize(data){
 					place2Return = true;
 					break;
 			}
-		}
+		}	}
 }
 
 let dialogItem;
@@ -219,65 +229,131 @@ function handleOptions(data){
 
 			row.addEventListener('click', () => { 
 				console.log(o[k]);
-				if(o[k] == "worldMap"){
-					worldMap();
+				switch(o[k]){
+					case "worldMap":
+						worldMap();
+						break;
+
+					case "giveItem":
+						dialogItem = json.scenes[sceneSwap].pages[currentPage].class;
+						itemManage(dialogItem);
+						console.log(data.scenes[sceneSwap].pages[currentPage].class);
+						pageNum = pageNum + 1;
+						currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
+						console.log(pageNum);
+						initialize(json); 
+						optionsbox.innerHTML = "";
+						handleOptions(json);
+						break;
+
+					case "present":
+						if(lastItem != undefined){
+							if(inventory.length > 0 || consumableInventory.length > 0 || valuableInventory.length > 0){
+									subMenuName.innerText = lastItem.name;
+									subMenuImg.setAttribute("src", lastItem.img);
+									subMenuDesc.innerText = lastItem.desc;
+									if(lastItem.consumable == true){
+										itemAmnt.innerText = "x" + lastItem.amount;
+									}
+									else{
+									itemAmnt.innerText = "";
+									}
+								}
+						}
+						else{
+							subMenuName.innerText = "Pas d'objet séléctionné";
+									subMenuImg.removeAttribute("src");
+									subMenuDesc.innerText = "Veuillez cliquer sur un objet pour voir sa description";
+										itemAmnt.innerText = "";
+										itemPrc.innerText = "";
+						}
+						gsap.timeline()		
+						.set(inventoryWrapper, {x: "100%"})
+						.to(inventoryWrapper, {opacity: 1, duration: 0.5})
+						break;
+
+					default:
+						currentPage = (o[k]);
+						pageNum = Object.keys(json.scenes[sceneSwap].pages).indexOf(currentPage);
+						initialize(json); 
+						optionsbox.innerHTML = "";
+						break;
 				}
-				else if(o[k] == "giveItem"){	
-					dialogItem = json.scenes[sceneSwap].pages[currentPage].class;
-					itemManage(dialogItem);
-					console.log(data.scenes[sceneSwap].pages[currentPage].class);
-					pageNum = pageNum + 1;
-					currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
-					console.log(pageNum);
-					initialize(json); 
-					optionsbox.innerHTML = "";
-					handleOptions(json);
-				}
-				else{
-				currentPage = (o[k]);
-				pageNum = Object.keys(json.scenes[sceneSwap].pages).indexOf(currentPage);
-				initialize(json); 
-				optionsbox.innerHTML = "";
-			}})
+				})
 		})
 	}
 }
 
 let isTalking = false;
 
-function typeWriter(txt, check, i) {
-		i = i || 0;
-	if(!i) {
-		if(check == "vn"){
-			textboxText.innerHTML = '';
-		}
-		else if(check == "shop"){
-			shopText.innerHTML = '';
-		}
-		clearTimeout(to);
+function typeWriter(txt, check, i, wordsArr, currentWord) {
+	i = i || 0;
+	wordsArr = wordsArr || txt.split(' ');
+	currentWord = currentWord || 0;
+  
+	if (!i) {
+	  if (check === "vn") {
+		textboxText.innerHTML = '';
+	  } else if (check === "shop") {
+		shopText.innerHTML = '';
+	  }
+	  clearTimeout(to);
 	}
+  
 	var speed = 30; /* The speed/duration of the effect in milliseconds */
-	if (i < txt.length) {
-		isTalking = true;
-		spriteAnimation();
-		var c = txt.charAt(i++);
-		if(c === ' ') c = '&nbsp;'
-		if(check == "vn"){
-			textboxText.innerHTML += c;
-		}
-		else if(check == "shop"){
-			shopText.innerHTML += c;
-		}
-	    to = setTimeout(function() {
-	    	typeWriter(txt, check, i)
-	    }, speed);
+  
+	if (stop === true) {
+	  i = wordsArr.length;
 	}
-	else{
+  
+	if (currentWord < wordsArr.length) {
+	  isTalking = true;
+	  spriteAnimation();
+  
+	  var word = wordsArr[currentWord];
+	  var charsToShow = i > word.length ? word.length : i;
+	  var visibleWord = word.slice(0, charsToShow);
+  
+	  if (check === "vn") {
+		textboxText.innerHTML = wordsArr.slice(0, currentWord).join(' ') + ' ' + visibleWord;
+	  } else if (check === "shop") {
+		shopText.innerHTML = wordsArr.slice(0, currentWord).join(' ') + ' ' + visibleWord;
+	  }
+  
+	  // Check if the text overflows the container
+	  var textContainer = check === "vn" ? textboxText : shopText;
+	  if (textContainer.scrollHeight > textContainer.clientHeight) {
+		// If overflowed, remove the last character and stop the typing for the current word
+		visibleWord = word.slice(0, charsToShow - 1);
+		if (check === "vn") {
+		  textboxText.innerHTML = wordsArr.slice(0, currentWord).join(' ') + ' ' + visibleWord;
+		} else if (check === "shop") {
+		  shopText.innerHTML = wordsArr.slice(0, currentWord).join(' ') + ' ' + visibleWord;
+		}
 		isTalking = false;
 		spriteAnimation();
+		return;
+	  }
+  
+	  if (i >= word.length) {
+		i = 0;
+		currentWord++;
+	  }
+  
+	  var charDelay = speed;
+	  if (i === 0) {
+		// Add a delay before starting the next word
+		charDelay = speed * 5;
+	  }
+  
+	  to = setTimeout(function() {
+		typeWriter(txt, check, i + 1, wordsArr, currentWord);
+	  }, charDelay);
+	} else {
+	  isTalking = false;
+	  spriteAnimation();
 	}
-
-}
+  }
 
 
 function checkPage(data){
@@ -291,6 +367,11 @@ function checkPage(data){
 
 playArea.forEach((element) => {
 	element.addEventListener('click', () => {
+		if(isTalking == true){
+			initialize(json);
+			handleOptions(json);
+		}
+		else{
 		if(!json) return;
 		if(checkPage(json)){
 			if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('shop')){
@@ -315,6 +396,8 @@ playArea.forEach((element) => {
 			}
 		}
 		else return;
+		}
+
 	});
 });
 
@@ -354,7 +437,7 @@ function spriteAnimation() {
 			}
 			break;
 	}			
-	gsap.to(sprite1eyes, {backgroundPositionX: "-48vw", ease: SteppedEase.config(4), duration: 0.5, repeat: -1, repeatDelay: 5});
+	gsap.to(sprite1eyes, {backgroundPositionX: "-48vw", ease: SteppedEase.config(4), duration: 0.5, repeat: -1});
 	gsap.to(sprite2eyes, {backgroundPositionX: "-48vw", ease: SteppedEase.config(4), duration: 0.5, repeat: -1, repeatDelay: 5, delay: 1});
 }
 
@@ -433,18 +516,18 @@ let consumableInventory = [];
 
 function inventoryLang() {
 	if(en == true){
-		crowbar = new Tool ('Crowbar', 'link', false, "A thief's best friend.", "crowbar", false);
-		pins = new Tool ('Pins', 'link', true, "Always handy to have around in case of locked doors.", "pins", false, 0);
-		gun = new Tool ('Gun', 'link', false, "Fucking end me", 'gun', false);
+		crowbar = new Tool ('Crowbar', '/media/img/items/crowbar.png', false, "A thief's best friend.", "crowbar", false);
+		pins = new Tool ('Pins', '/media/img/items/lockpick.png', false, "Always handy to have around in case of locked doors.", "pins", false, 0);
+		gun = new Tool ('Gun', '/media/img/items/gun.png', false, "I dont think you're supposed to own that actually.", 'gun', false);
 		dubloons = new Valuable ('Dubloons', 'link', true, "Pirate money","dubloons", 10, 3, true);
 		shillings = new Valuable ('Shillings', 'link', true, "All the rage in britain","shillings", 10, 5, true);
 		necklace = new Valuable ('Necklace', 'link', false, "I needed a non-consumable item test ok", "necklace", 1, 50, true);
 		return crowbar, pins, gun, dubloons, shillings, necklace;
 	}
 	else{
-		crowbar = new Tool ('Pied-de-Biche', 'link', false, "Le fidèle compagnon de n'importe quel voleur", "crowbar", false);
-		pins = new Tool ('Pins', 'link', true, "Toujours pratique en cas de porte verouillée.", "pins", false, 0);
-		gun = new Tool ('Gun', 'link', false, "Fucking end me", 'gun', false);
+		crowbar = new Tool ('Pied-de-Biche', '/media/img/items/crowbar.png', false, "Le fidèle compagnon de n'importe quel voleur", "crowbar", false);
+		pins = new Tool ('Pins', '/media/img/items/lockpick.png', true, "Toujours pratique en cas de porte verouillée.", "pins", false, 0);
+		gun = new Tool ('Gun', '/media/img/items/gun.png', false, "Je ne pense pas que tu est sensé posséder cet objet.", 'gun', false);
 		dubloons = new Valuable ('Dubloons', 'link', true, "Pirate money", "dubloons", 10, 3, true);
 		shillings = new Valuable ('Shillings', 'link', true, "All the rage in britain","shillings", 10, 5, true);
 		necklace = new Valuable ('Necklace', 'link', false, "I needed a non-consumable item test ok", "necklace", 1, 50, true);
@@ -459,7 +542,7 @@ function valuableTest(){
 	giveItem(necklace);
 }
 
-//This is definetly not the best way to handle consumable items, but it is the only one I can think of right now, every consumable has their own variable for their number, with a default of zero and if the item is already present once in the inventory, instead of adding a second button for the item, it only makes the number go up by 1.
+
 let inventoryPosition;
 console.log(inventory);
 
@@ -469,6 +552,8 @@ let valCategory = document.getElementById("valCategory");
 let keyWrap = document.getElementById("keyWrap");
 let consWrap = document.getElementById("consWrap");
 let valWrap = document.getElementById("valWrap");
+
+//updates the inventory, inventory is separated in different categories each categories dont appear at the same moment.
 
 
 function inventoryUpdate(){
@@ -483,9 +568,8 @@ function inventoryUpdate(){
 		keyCategory.classList.remove("emptyCategory");
 		for(let i = 0; i <= inventory.length - 1; i++){
         	const btn = document.createElement("button");
-        	const node = document.createTextNode(inventory[i].name);
-        	btn.appendChild(node);
         	btn.setAttribute("class", "inventoryBtn key mb-2 " + inventory[i].name);
+			btn.style.backgroundImage = 'url(' + inventory[i].img +')'
         	btn.setAttribute("value", inventory[i].name);
         	btn.setAttribute("type", "button");
 			btn.setAttribute("id", inventory[i].id);
@@ -505,8 +589,7 @@ function inventoryUpdate(){
 			span.appendChild(spanNode);
 			span.setAttribute("class", "itemAmountBtn");
 			btn.appendChild(span);
-			const node = document.createTextNode(consumableInventory[i].name);
-			btn.appendChild(node);
+			btn.style.backgroundImage = 'url(' + consumableInventory[i].img +')'
 			btn.setAttribute("class", "inventoryBtn consumable mb-2 " + consumableInventory[i].name);
 			btn.setAttribute("value", consumableInventory[i].name);
 			btn.setAttribute("type", "button");
@@ -778,16 +861,16 @@ let shopInventory1 = [];
 
 function ShopLang() {
 	if(en == true){
-		crowbarShop = new shopItem ('Crowbar', 'link', false, "A thief's best friend.", 50, false, "crowbar", 1, crowbar);
-		pinsShop = new shopItem ('Pins', 'link', true, "Always handy to have around in case of locked doors.", 5, false, "pins", 10, pins);
-		gunShop = new shopItem('Gun', 'link', false, "Fucking end me", 50, false, "gun", 1, gun);
+		crowbarShop = new shopItem ('Crowbar', '/media/img/items/crowbar.png', false, "A thief's best friend.", 50, false, "crowbar", 1, crowbar);
+		pinsShop = new shopItem ('Pins', '/media/img/items/lockpick.png', true, "Always handy to have around in case of locked doors.", 5, false, "pins", 10, pins);
+		gunShop = new shopItem('Gun', '/media/img/items/gun.png', false, "Fucking end me", 50, false, "gun", 1, gun);
 		shopInventories();
 		return crowbarShop, pinsShop, gunShop;
 	}
 	else{
-		crowbarShop = new shopItem ('Pied-de-Biche', 'link', false, "Le fidèle compagnon de n'importe quel voleur", 50, false, "crowbar", 1, crowbar);
-		pinsShop = new shopItem ('Crochets', 'link', true, "Toujours pratique à avoir sous la main en cas de porte verouillée", 5, false, "pins", 10, pins);
-		gunShop = new shopItem('Gun', 'link', false, "Fucking end me", 50, false, "gun", 1, gun);
+		crowbarShop = new shopItem ('Pied-de-Biche', '/media/img/items/crowbar.png', false, "Le fidèle compagnon de n'importe quel voleur", 50, false, "crowbar", 1, crowbar);
+		pinsShop = new shopItem ('Crochets', '/media/img/items/lockpick.png', true, "Toujours pratique à avoir sous la main en cas de porte verouillée", 5, false, "pins", 10, pins);
+		gunShop = new shopItem('Gun', '/media/img/items/gun.png', false, "Fucking end me", 50, false, "gun", 1, gun);
 		shopInventories();
 		return crowbarShop, pinsShop, gunShop;
 	}
