@@ -296,6 +296,7 @@ SPRITES
     aspect-ratio: 1/2;
     background-size: 48vw, 100%;
     position:absolute;
+    animation: eyes 5.5s steps(4) infinite;
 }
 
 .sprite1mouth{
@@ -303,6 +304,7 @@ SPRITES
     aspect-ratio: 1/2;
     background-size: 48vw, 100%;
     position:absolute;
+
 }
 
 .sprite2{
@@ -328,6 +330,7 @@ SPRITES
     aspect-ratio: 1/2;
     background-size: 48vw, 100%;
     position:absolute;
+    animation: eyes 5.5s steps(4) infinite 1.5s;
 }
 
 .sprite2mouth{
@@ -337,6 +340,10 @@ SPRITES
     position:absolute;
 }
 
+@keyframes eyes {
+    0% {background-position-x: 0;}
+    10%, 100% {background-position-x: -48vw;}
+}
 /*/////////////////////////////////////////////////////
 MAP
 /////////////////////////////////////////////////////*/

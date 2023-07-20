@@ -124,7 +124,7 @@ async function grabData() {
 
 let stop = false;
 //initialize function 
-async function initialize(data){
+async function initialize(data){		
 	if(isTalking == true){
 		textboxText.innerHTML = data.scenes[sceneSwap].pages[currentPage].pageText;
 		stop = true;
@@ -304,9 +304,11 @@ function typeWriter(txt, check, i, wordsArr, currentWord) {
   
 	if (stop === true) {
 	  i = wordsArr.length;
+	  isTalking = false;
+	  spriteAnimation();
 	}
-  
-	if (currentWord < wordsArr.length) {
+	else{
+		if (currentWord < wordsArr.length) {
 	  isTalking = true;
 	  spriteAnimation();
   
@@ -345,6 +347,7 @@ function typeWriter(txt, check, i, wordsArr, currentWord) {
 		// Add a delay before starting the next word
 		charDelay = speed * 5;
 	  }
+
   
 	  to = setTimeout(function() {
 		typeWriter(txt, check, i + 1, wordsArr, currentWord);
@@ -353,6 +356,9 @@ function typeWriter(txt, check, i, wordsArr, currentWord) {
 	  isTalking = false;
 	  spriteAnimation();
 	}
+	}
+	
+	
   }
 
 
@@ -413,32 +419,42 @@ function worldMap(){
 
 let talk1 = gsap.to(sprite1mouth, {backgroundPositionX: "-36vw", ease: SteppedEase.config(3), duration: 0.5, repeat: -1});
 let talk2 = gsap.to(sprite2mouth, {backgroundPositionX: "-36vw", ease: SteppedEase.config(3), duration: 0.5, repeat: -1});
+//let blink1 = gsap.to(sprite1eyes, {backgroundPositionX: "-48vw", ease: SteppedEase.config(4), duration: 0.5, repeat: -1, repeatDelay: 5});
+//let blink2 = gsap.to(sprite2eyes, {backgroundPositionX: "-48vw", ease: SteppedEase.config(4), duration: 0.5, repeat: -1, repeatDelay: 5, delay: 1});
 talk1.pause();
 talk2.pause();
+//blink1.pause();
+//blink2.pause();
 
 function spriteAnimation() {
 	switch(true){
 		case sprite1.classList.contains("active"):
-			if(isTalking == true){
+			if(isTalking == true){				
+				//blink1.pause();
+				//gsap.set(sprite1eyes, {backgroundPositionX: 0});
 				talk1.play();
 			}
 			else{
 				talk1.pause();
 				gsap.set(sprite1mouth, {backgroundPositionX: 0});
+				//blink1.play();
 			}
 			break;
 		case sprite2.classList.contains("active"):
 			if(isTalking == true){
+				//blink2.pause();
+				//gsap.set(sprite2eyes, {backgroundPositionX: 0});
 				talk2.play();
 			}
 			else{
 				talk2.pause();
-				gsap.set(sprite2mouth, {backgroundPositionX: 0});
+				//gsap.set(sprite2mouth, {backgroundPositionX: 0});
+				//blink2.play();
 			}
 			break;
-	}			
-	gsap.to(sprite1eyes, {backgroundPositionX: "-48vw", ease: SteppedEase.config(4), duration: 0.5, repeat: -1});
-	gsap.to(sprite2eyes, {backgroundPositionX: "-48vw", ease: SteppedEase.config(4), duration: 0.5, repeat: -1, repeatDelay: 5, delay: 1});
+	}
+
+
 }
 
 /*//////////////////////////////////////////////////////
