@@ -2,6 +2,7 @@
 "characters": {
     "female01": {
         "name": "female01",
+        "gender": "female",
         "base": "/media/img/characters/Playable/Female01/Female01_basesprite.png",
         "neutral": {
             "eyes": "/media/img/characters/Playable/Female01/spritesheet/Female01_blinking-sheet.png",
@@ -9,15 +10,17 @@
         }
     },
     "female02":{
-        "name": "female02",
+        "name": "Marisa",
+        "gender": "female",
         "base": "/media/img/characters/Playable/Female02/Female02_basesprite.png",
         "neutral": {
-            "eyes": "/media/img/characters/Playable/Female02/spritesheet/Female02_blinking-sheet.png",
-            "mouth": "/media/img/characters/Playable/Female02/spritesheet/Female02_talking-sheet.png"
+            "eyes": "/media/img/characters/Playable/Female02/spritesheet/Female02_blink-Sheet.png",
+            "mouth": "/media/img/characters/Playable/Female02/spritesheet/Female02_talking-Sheet.png"
         }
     },
     "male01": {
         "name": "male01",
+        "gender": "male",
         "base": "/media/img/characters/Playable/Male01/Male01_basesprite.png",
         "neutral": {
             "eyes": "/media/img/characters/Playable/Male01/spritesheet/Male01_blinking-sheet.png",

@@ -188,6 +188,25 @@ async function initialize(data){
 	let updatedText = originalText;
 	if(hero != undefined){
 		updatedText = originalText.replace("%PROTAG%", hero.name);
+		switch(hero.gender){
+			case "male":
+				updatedText = originalText.replace("%HE/SHE%", "he");
+				updatedText = originalText.replace("%HE/SHE(Cap)%", "He");
+				updatedText = originalText.replace("%HE/SHE(Caps)%", "HE");
+				updatedText = originalText.replace("%HIM/HER%", "him");
+				updatedText = originalText.replace("%HIM/HER(Cap)%", "Him");
+				updatedText = originalText.replace("%HIM/HER(Caps)%", "HIM");
+				break;
+			case "female":
+				updatedText = originalText.replace("%HE/SHE%", "she");
+				updatedText = originalText.replace("%HE/SHE(Cap)%", "She");
+				updatedText = originalText.replace("%HE/SHE(Caps)%", "SHE");
+				updatedText = originalText.replace("%HIM/HER%", "her");
+				updatedText = originalText.replace("%HIM/HER(Cap)%", "Her");
+				updatedText = originalText.replace("%HIM/HER(Caps)%", "HER");
+				break;
+			
+		}
 	}
 
 	console.log(updatedText);
