@@ -190,20 +190,42 @@ async function initialize(data){
 		updatedText = originalText.replace("%PROTAG%", hero.name);
 		switch(hero.gender){
 			case "male":
-				updatedText = originalText.replace("%HE/SHE%", "he");
-				updatedText = originalText.replace("%HE/SHE(Cap)%", "He");
-				updatedText = originalText.replace("%HE/SHE(Caps)%", "HE");
-				updatedText = originalText.replace("%HIM/HER%", "him");
-				updatedText = originalText.replace("%HIM/HER(Cap)%", "Him");
-				updatedText = originalText.replace("%HIM/HER(Caps)%", "HIM");
+				if(fr == true){
+					updatedText = originalText.replace("%HE/SHE%", "il");
+					updatedText = originalText.replace("%HE/SHE(Cap)%", "Il");
+					updatedText = originalText.replace("%HE/SHE(Caps)%", "IL");
+					updatedText = originalText.replace("%HIM/HER%", "lui");
+					updatedText = originalText.replace("%HIM/HER(Cap)%", "Lui");
+					updatedText = originalText.replace("%HIM/HER(Caps)%", "LUI");
+				}
+				else{
+					updatedText = originalText.replace("%HE/SHE%", "he");
+					updatedText = originalText.replace("%HE/SHE(Cap)%", "He");
+					updatedText = originalText.replace("%HE/SHE(Caps)%", "HE");
+					updatedText = originalText.replace("%HIM/HER%", "him");
+					updatedText = originalText.replace("%HIM/HER(Cap)%", "Him");
+					updatedText = originalText.replace("%HIM/HER(Caps)%", "HIM");
+				}
+
 				break;
 			case "female":
-				updatedText = originalText.replace("%HE/SHE%", "she");
-				updatedText = originalText.replace("%HE/SHE(Cap)%", "She");
-				updatedText = originalText.replace("%HE/SHE(Caps)%", "SHE");
-				updatedText = originalText.replace("%HIM/HER%", "her");
-				updatedText = originalText.replace("%HIM/HER(Cap)%", "Her");
-				updatedText = originalText.replace("%HIM/HER(Caps)%", "HER");
+				if(fr == true){
+					updatedText = originalText.replace("%HE/SHE%", "elle");
+					updatedText = originalText.replace("%HE/SHE(Cap)%", "Elle");
+					updatedText = originalText.replace("%HE/SHE(Caps)%", "ELLE");
+					updatedText = originalText.replace("%HIM/HER%", "lui");
+					updatedText = originalText.replace("%HIM/HER(Cap)%", "Lui");
+					updatedText = originalText.replace("%HIM/HER(Caps)%", "LUI");
+				}
+				else{
+					updatedText = originalText.replace("%HE/SHE%", "she");
+					updatedText = originalText.replace("%HE/SHE(Cap)%", "She");
+					updatedText = originalText.replace("%HE/SHE(Caps)%", "SHE");
+					updatedText = originalText.replace("%HIM/HER%", "her");
+					updatedText = originalText.replace("%HIM/HER(Cap)%", "Her");
+					updatedText = originalText.replace("%HIM/HER(Caps)%", "HER");
+				}
+
 				break;
 			
 		}
