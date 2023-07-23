@@ -1,6 +1,7 @@
 {
 "characters": {
     "female01": {
+        "name": "female01",
         "base": "/media/img/characters/Playable/Female01/Female01_basesprite.png",
         "neutral": {
             "eyes": "/media/img/characters/Playable/Female01/spritesheet/Female01_blinking-sheet.png",
@@ -8,6 +9,7 @@
         }
     },
     "female02":{
+        "name": "female02",
         "base": "/media/img/characters/Playable/Female02/Female02_basesprite.png",
         "neutral": {
             "eyes": "/media/img/characters/Playable/Female02/spritesheet/Female02_blinking-sheet.png",
@@ -15,6 +17,7 @@
         }
     },
     "male01": {
+        "name": "male01",
         "base": "/media/img/characters/Playable/Male01/Male01_basesprite.png",
         "neutral": {
             "eyes": "/media/img/characters/Playable/Male01/spritesheet/Male01_blinking-sheet.png",
@@ -64,10 +67,10 @@
             "background" : "black",
             "pages": {
                 "page0": {
-                    "character1": "female01",
+                    "character1": "hero",
                     "sprite1": "neutral",
                     "active": "sprite1",
-                    "pageText": "test"
+                    "pageText": "Hi %PROTAG%"
                 },
                 "page1": {
                     "pageText": "test2",

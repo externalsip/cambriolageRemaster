@@ -1045,6 +1045,7 @@ SHOP PRIMARY
     display:flex;
     justify-content: flex-end;
     align-items: flex-end;
+    background-size:cover;
 }
 
 .itemListShop::after{

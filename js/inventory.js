@@ -289,19 +289,26 @@ function subMenu(keyArray, consumableArray, valuableArray){
 }
 
 inventoryCloseBtn.addEventListener("click", () => {
-	gsap.timeline()
-    .to(inventoryWrapper, {opacity: 0, duration: 0.5})
-    .set(inventoryWrapper, {x: "-100%"})
+	closeInventory();
 });
 
 inventoryCloseArea.addEventListener("click", () => {
+	closeInventory();
+});
+
+export function closeInventory(){
 	gsap.timeline()
     .to(inventoryWrapper, {opacity: 0, duration: 0.5})
     .set(inventoryWrapper, {x: "-100%"})
-});
+}
 
 openInventoryBtn.forEach((button) => {
 	button.addEventListener("click", () => {
+		openInventory();
+});
+});
+
+export function openInventory() {
 	if(lastItem != undefined){
 		if(inventory.length > 0 || consumableInventory.length > 0 || valuableInventory.length > 0){
 				subMenuName.innerText = lastItem.name;
@@ -325,8 +332,7 @@ openInventoryBtn.forEach((button) => {
 		gsap.timeline()		
 		.set(inventoryWrapper, {x: "100%"})
 		.to(inventoryWrapper, {opacity: 1, duration: 0.5})
-});
-});
+}
 
 
 inventoryUpdate();
@@ -407,7 +413,7 @@ const shopItemList = document.querySelector(".itemListShop");
 const shop = document.querySelector(".shopWrapper");
 let subItemShopNameArr = document.querySelectorAll(".itemNameShop");
 let shopSubMenu = document.querySelector(".shopSub");
-let itemImgShop = document.querySelector(".itemImgShop");
+let itemImgShop = document.querySelectorAll(".itemImgShop");
 let descItmShop = document.querySelector(".itemDescShop");
 let itmAmntShop = document.querySelectorAll(".itemAmntShop");
 let itemPrice = document.querySelector(".itemPriceNumber");
@@ -574,7 +580,7 @@ function hoverShopBtn(btnArr, name){
 						if(btn.getAttribute("value") == String(shopInventory1[i].name)){
 							subItemShopNameArr[0].innerText = shopInventory1[i].name;
 							itemPrice.innerText = shopInventory1[i].price;
-							itemImgShop.style.backgroundImage = 'url(' + shopInventory1[i].img + ')';
+							itemImgShop[0].style.backgroundImage = 'url(' + shopInventory1[i].img + ')';
 							descItmShop.innerText = shopInventory1[i].desc;
 							if(shopInventory1[i].consumable == true){
 								itmAmntShop[0].innerText = "x" + shopInventory1[i].amount;
@@ -693,8 +699,13 @@ function buyItem(item, shop) {
   stackPrice = item.price;
   selectedItemId = item.invEquivalent;
   input.value = 1;
+  itemImgShop[1].style.backgroundImage = 'url(' + item.img + ')';
   if (item.consumable == true) {
     sliderContainer.style.display = "block";
+	priceDisplayContainer.style.color = "var(--white)";
+	if(stackPrice > wallet){
+	  priceDisplayContainer.style.color = "var(--red)";
+	}
     input.setAttribute("max", item.amount);
     input.addEventListener("input", () => {
       stackPrice = item.price * input.value;
@@ -877,3 +888,18 @@ function walletUpdate() {
 }
 
 walletUpdate();
+
+export function recoverInventory(){
+	inventory = JSON.parse(localStorage["keyInventory"]);
+	consumableInventory = JSON.parse(localStorage["consInventory"]);
+	valuableInventory = JSON.parse(localStorage["valInventory"]);
+	shopInventory1 = JSON.parse(localStorage["shopInventory1"]);
+	wallet = Number(localStorage.getItem("wallet"));
+
+	lang();
+	inventoryLang();
+	walletUpdate();
+	inventoryUpdate();
+}
+
+export {lastItem, inventory, valuableInventory, consumableInventory, wallet, shopInventory1};

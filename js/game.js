@@ -34,10 +34,18 @@ let currentWindow;
 
 import {fr, en} from './langSwap.js';						
 import { grabQuizData, currentQuestion, quizJson, quizResults, handleAnswers } from './quiz.js';
-import { inventoryLang, enterShop, ShopLang, itemManage, lang } from './inventory.js';
+import { inventoryLang, enterShop, ShopLang, itemManage, lang, closeInventory, openInventory } from './inventory.js';
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-VISUAL NOVEL AND MAP
+
+ __   __  ___   _______  __   __  _______  ___        __    _  _______  __   __  _______  ___        _______  __    _  ______     __   __  _______  _______ 
+|  | |  ||   | |       ||  | |  ||   _   ||   |      |  |  | ||       ||  | |  ||       ||   |      |   _   ||  |  | ||      |   |  |_|  ||   _   ||       |
+|  |_|  ||   | |  _____||  | |  ||  |_|  ||   |      |   |_| ||   _   ||  |_|  ||    ___||   |      |  |_|  ||   |_| ||  _    |  |       ||  |_|  ||    _  |
+|       ||   | | |_____ |  |_|  ||       ||   |      |       ||  | |  ||       ||   |___ |   |      |       ||       || | |   |  |       ||       ||   |_| |
+|       ||   | |_____  ||       ||       ||   |___   |  _    ||  |_|  ||       ||    ___||   |___   |       ||  _    || |_|   |  |       ||       ||    ___|
+ |     | |   |  _____| ||       ||   _   ||       |  | | |   ||       | |     | |   |___ |       |  |   _   || | |   ||       |  | ||_|| ||   _   ||   |    
+  |___|  |___| |_______||_______||__| |__||_______|  |_|  |__||_______|  |___|  |_______||_______|  |__| |__||_|  |__||______|   |_|   |_||__| |__||___|    
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 //btnStart is the button after the language confirm in the main menu, it starts the game by calling the json for the script.
@@ -60,9 +68,15 @@ btnStart.addEventListener("click", () => {
 });
 
 /*////////////////////////////////////////////////////////////////////////////////////
+ __   __  _______  _______ 
+|  |_|  ||   _   ||       |
+|       ||  |_|  ||    _  |
+|       ||       ||   |_| |
+|       ||       ||    ___|
+| ||_|| ||   _   ||   |    
+|_|   |_||__| |__||___|    
 
-
-*/
+/////////////////////////////////////////////////////////////////////////////////////////*/
 
 //The map places are map elements, for now they are placeholders, they each lead to their own place, with their own dialogue, some places run checks to see if you performed certain actions, like having come there at least once, so the same dialogue isnt executed twice.
 
@@ -70,7 +84,7 @@ mapPlace1.addEventListener("click", () => {
     map.style.display = "none";
     vn.style.display = "block";
 	currentWindow = "vn";
-	sceneIndex = 1;
+	sceneIndex = 2;
     grabData();
 	if(inventory.find((item) => item.id=="pins")){
 		pageNum = 0;
@@ -88,15 +102,15 @@ mapPlace2.addEventListener("click", () => {
 	switch(true){		
 		case place2Return:
 			console.log(place2Return);
-			sceneIndex = 6;
+			sceneIndex = 7;
 			break;
 		
 		case presentPuzzleTestSolved:
-			sceneIndex = 5;
+			sceneIndex = 6;
 			break;
 
 		default:
-			sceneIndex = 2;
+			sceneIndex = 3;
 	}
 	pageNum = 0;
 	grabData();
@@ -123,27 +137,6 @@ mapPlace4.addEventListener("click", () => {
 	return sceneIndex, pageNum;
 });
 
-export function finalizeQuiz(){
-	let highScore = 0;
-	let highResult = "";
-
-	for (const result in quizResults){
-		if(quizResults[result] > highScore) {
-			highScore = quizResults[result];
-			highResult = result;
-		}
-	}
-	quizArea.forEach((element) => {
-		element.style.display = "none";
-	})
-	playArea[1].style.display = "block";
-	playArea[0].style.display = "flex";
-	sceneIndex = 1;
-	pageNum = 0;
-	console.log(highResult);
-	grabData();
-}
-
 async function grabData() {
 	if(fr == true){
 		    const resp = await fetch(vnDataFR)    
@@ -157,18 +150,32 @@ async function grabData() {
 			sceneSwap = Object.keys(json.scenes)[sceneIndex];
 			currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
 	}
-	
     initialize(json);
 
 }
 
 let stop = false;
-//initialize function 
+/*///////////////////////////////////////////////////////////////
+
+ ___   __    _  ___   _______  ___   _______  ___      ___   _______  _______ 
+|   | |  |  | ||   | |       ||   | |   _   ||   |    |   | |       ||       |
+|   | |   |_| ||   | |_     _||   | |  |_|  ||   |    |   | |____   ||    ___|
+|   | |       ||   |   |   |  |   | |       ||   |    |   |  ____|  ||   |___ 
+|   | |  _    ||   |   |   |  |   | |       ||   |___ |   | | ______||    ___|
+|   | | | |   ||   |   |   |  |   | |   _   ||       ||   | | |_____ |   |___ 
+|___| |_|  |__||___|   |___|  |___| |__| |__||_______||___| |_______||_______|
+
+/////////////////////////////////////////////////////////////////*/
 
 /*The  initialize function handles everything that is visual on the visual novel pages, the sprites, the text, the background images, the animations. For the letter by letter effect, it calls on the typewritter function, and if the screen is clicked again while the text is still being printed, it appears instantly.*/
 async function initialize(data){		
 	if(isTalking == true && optionClick == false){
-		textboxText.innerHTML = data.scenes[sceneSwap].pages[currentPage].pageText;
+		let originalText = data.scenes[sceneSwap].pages[currentPage].pageText;
+		let updatedText = originalText;
+		if(hero != undefined){
+			updatedText = originalText.replace("%PROTAG%", hero.name);
+		}
+		textboxText.innerHTML = updatedText;
 		stop = true;
 	}
 
@@ -177,12 +184,27 @@ async function initialize(data){
     textboxText.innerText = '';
 	namebox1.innerText = '';
 	namebox2.innerText = '';
+	let originalText = data.scenes[sceneSwap].pages[currentPage].pageText;
+	let updatedText = originalText;
+	if(hero != undefined){
+		updatedText = originalText.replace("%PROTAG%", hero.name);
+	}
+
+	console.log(updatedText);
 
 	//manages the sprites currently on screen, and which sprite is the active one, the inactive sprite is greyed out so we clearly know who is talking.
 	if(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('character1')){
-		sprite1.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1].base +')';
-		sprite1mouth.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1][data.scenes[sceneSwap].pages[currentPage].sprite1].mouth +')';
-		sprite1eyes.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1][data.scenes[sceneSwap].pages[currentPage].sprite1].eyes +')';
+		if(data.scenes[sceneSwap].pages[currentPage].character1 = "hero"){
+			sprite1.style.backgroundImage = 'url('+ hero.base +')';
+			sprite1mouth.style.backgroundImage = 'url('+ hero[data.scenes[sceneSwap].pages[currentPage].sprite1].mouth +')';
+			sprite1eyes.style.backgroundImage = 'url('+ hero[data.scenes[sceneSwap].pages[currentPage].sprite1].eyes +')';
+		}
+		else{
+			sprite1.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1].base +')';
+			sprite1mouth.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1][data.scenes[sceneSwap].pages[currentPage].sprite1].mouth +')';
+			sprite1eyes.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1][data.scenes[sceneSwap].pages[currentPage].sprite1].eyes +')';
+		}
+
 		if(data.scenes[sceneSwap].pages[currentPage].active == "sprite1"){
 			sprite1.classList.add("active");
 			sprite2.classList.remove("active");
@@ -239,7 +261,7 @@ async function initialize(data){
         vn.style.backgroundImage = data.scenes[sceneSwap].background;
 		stop = false;
 		console.log(data.scenes[sceneSwap].pages[currentPage].pageText);
-		typeWriter(data.scenes[sceneSwap].pages[currentPage].pageText, "vn");
+		typeWriter(updatedText, "vn");
 		if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('check')){
 			switch(json.scenes[sceneSwap].pages[currentPage].check){
 				case "place2Return":
@@ -250,6 +272,20 @@ async function initialize(data){
 }
 
 let dialogItem;
+
+/*/////////////////////////////////////////////////////////////////
+ _______  __   __  ___   _______    _______  __   __  __    _  _______  _______  ___   _______  __    _  _______ 
+|       ||  | |  ||   | |       |  |       ||  | |  ||  |  | ||       ||       ||   | |       ||  |  | ||       |
+|   _   ||  | |  ||   | |____   |  |    ___||  | |  ||   |_| ||       ||_     _||   | |   _   ||   |_| ||  _____|
+|  | |  ||  |_|  ||   |  ____|  |  |   |___ |  |_|  ||       ||       |  |   |  |   | |  | |  ||       || |_____ 
+|  |_|  ||       ||   | | ______|  |    ___||       ||  _    ||      _|  |   |  |   | |  |_|  ||  _    ||_____  |
+|      | |       ||   | | |_____   |   |    |       || | |   ||     |_   |   |  |   | |       || | |   | _____| |
+|____||_||_______||___| |_______|  |___|    |_______||_|  |__||_______|  |___|  |___| |_______||_|  |__||_______|
+
+///////////////////////////////////////////////////////////////////*/
+
+let tiedResults = [];
+let finalResult;
 
 export async function handleQuiz(data) {
 	stop = false;
@@ -266,6 +302,55 @@ quizArea.forEach((element) => {
 		}
     })
 })
+
+export function finalizeQuiz(){
+	let highScore = 0;
+
+	for (const result in quizResults){
+		if(quizResults[result] > highScore) {
+			highScore = quizResults[result];
+			tiedResults = [result];
+		}
+		else if (quizResults[result] === highScore) {
+			tiedResults.push(result);
+		  }
+	}
+
+	if (tiedResults.length > 1) {
+		const randomIndex = Math.floor(Math.random() * tiedResults.length);
+		finalResult = tiedResults[randomIndex];
+	  }
+	else{
+		finalResult = tiedResults[0];
+	}
+
+	quizArea.forEach((element) => {
+		element.style.display = "none";
+	})
+	playArea[1].style.display = "block";
+	playArea[0].style.display = "flex";
+	sceneIndex = 1;
+	pageNum = 0;
+	console.log(finalResult);
+	switch(finalResult){
+		case "male1":
+			hero = json.characters.male01;
+			break;
+		case "male2":
+			hero = json.characters.male02;
+			break;
+		case "female1":
+			console.log("female01");
+			hero = json.characters.female01;
+			console.log(hero);
+			break;
+		case "female2":
+			hero = json.characters.female02;
+			break;
+	}
+	grabData();
+	return hero;
+}
 
 let optionClick = false;
 
@@ -316,29 +401,7 @@ function handleOptions(data){
 						break;
 
 					case "present":
-						if(lastItem != undefined){
-							if(inventory.length > 0 || consumableInventory.length > 0 || valuableInventory.length > 0){
-									subMenuName.innerText = lastItem.name;
-									subMenuImg.setAttribute("src", lastItem.img);
-									subMenuDesc.innerText = lastItem.desc;
-									if(lastItem.consumable == true){
-										itemAmnt.innerText = "x" + lastItem.amount;
-									}
-									else{
-									itemAmnt.innerText = "";
-									}
-								}
-						}
-						else{
-							subMenuName.innerText = "Pas d'objet séléctionné";
-									subMenuImg.removeAttribute("src");
-									subMenuDesc.innerText = "Veuillez cliquer sur un objet pour voir sa description";
-										itemAmnt.innerText = "";
-										itemPrc.innerText = "";
-						}
-						gsap.timeline()		
-						.set(inventoryWrapper, {x: "100%"})
-						.to(inventoryWrapper, {opacity: 1, duration: 0.5})
+						openInventory();
 						break;
 
 					default:
@@ -568,6 +631,7 @@ function spriteAnimation() {
 let presentPuzzleTestSolved = false;
 let place2Return = false;
 
+let presentBtn = document.getElementById("presentBtn");
 
 function present(puzzle, data){
 	if(puzzle == "noPuzzle"){
@@ -588,7 +652,8 @@ function present(puzzle, data){
 						pageNum = 4;
 						currentPage = Object.keys(data.scenes[sceneSwap].pages)[pageNum];
 
-					}					
+					}		
+					closeInventory();			
 					initialize(data);
 					handleOptions(data);
 					break;
@@ -600,38 +665,12 @@ function present(puzzle, data){
 	}
 }
 
-/*Variable contains amount of money in wallet */
-
-
-const saveBtn = document.getElementById("saveBtn");
-
-saveBtn.addEventListener("click", () => {
-	localStorage.setItem("currentPage", currentPage);
-	localStorage.setItem("sceneIndex", sceneIndex);
-	localStorage.setItem("sceneSwap", sceneSwap);
-	localStorage.setItem("pageNum", pageNum);
-	localStorage.setItem("keyInventory", JSON.stringify(inventory));
-	localStorage.setItem("consInventory", JSON.stringify(consumableInventory));
-	localStorage.setItem("valInventory", JSON.stringify(valuableInventory));
-	localStorage.setItem("shopInventory1", JSON.stringify(shopInventory1));
-	localStorage.setItem("wallet", wallet);
-	localStorage.setItem("place2ReturnCheck", place2Return);
-	localStorage.setItem("presentPuzzleTestSolvedCheck", presentPuzzleTestSolved);
-	localStorage.setItem("presentArea", currentWindow);
-});
-
-const continueBtn = document.getElementById("continue");
-
-continueBtn.addEventListener("click", () => {
+export function recoverSave() {
 	currentPage = localStorage.getItem("currentPage");
 	sceneIndex = localStorage.getItem("sceneIndex");
 	sceneSwap = localStorage.getItem("sceneSwap");
 	pageNum = localStorage.getItem("pageNum");
-	inventory = JSON.parse(localStorage["keyInventory"]);
-	consumableInventory = JSON.parse(localStorage["consInventory"]);
-	valuableInventory = JSON.parse(localStorage["valInventory"]);
-	shopInventory1 = JSON.parse(localStorage["shopInventory1"]);
-	wallet = localStorage.getItem("wallet");
+	hero = JSON.parse(localStorage["hero"]);
 	place2Return = checkValue(localStorage.getItem("place2ReturnCheck"));
 	presentPuzzleTestSolved = checkValue(localStorage.getItem("presentPuzzleTestSolvedCheck"));
 	startMenu.style.display = "none";
@@ -648,11 +687,8 @@ continueBtn.addEventListener("click", () => {
 		default:
 			startMenu.style.display = "block";
 	}
-	inventoryUpdate();
 	grabData();
-	walletUpdate();
-	console.log(shopInventory1);
-});
+}
 
 function checkValue(value){
 	switch(value){
@@ -665,4 +701,4 @@ function checkValue(value){
 	}
 }
 
-export {isTalking, sceneSwap};
+export {isTalking, sceneSwap, currentPage, sceneIndex, pageNum, place2Return, presentPuzzleTestSolved, currentWindow, hero};
