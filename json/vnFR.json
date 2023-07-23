@@ -7,6 +7,13 @@
             "mouth": "/media/img/characters/Playable/Female01/spritesheet/Female01_talking-sheet.png"
         }
     },
+    "female02":{
+        "base": "/media/img/characters/Playable/Female02/Female02_basesprite.png",
+        "neutral": {
+            "eyes": "/media/img/characters/Playable/Female02/spritesheet/Female02_blinking-sheet.png",
+            "mouth": "/media/img/characters/Playable/Female02/spritesheet/Female02_talking-sheet.png"
+        }
+    },
     "male01": {
         "base": "/media/img/characters/Playable/Male01/Male01_basesprite.png",
         "neutral": {
@@ -17,6 +24,42 @@
     
 },
 "scenes": {
+            "beforeQuiz": {
+                "background" : "black",
+                "pages": {
+                    "page0": {
+                        "pageText": "Bienvenue."
+                    },
+                    "page1": {
+                        "pageText": "Avant de commencer, j'aurai besoin que vous répondiez à quelques questions."
+                    },
+                    "page2": {
+                        "pageText": "Est-ce que cela vous cause problème ?",
+                        "options": {
+                            "Oui": "page3",
+                            "Non": "page6"
+                        },
+                        "NextPage": "End"
+                    },
+                    "page3": {
+                        "pageText": "Je vois..."
+                    },
+                    "page4": {
+                        "pageText": "Malheureusement, le jeu ne peut pas progresser si vous ne répondez pas à ces questions."
+                    },
+                    "page5": {
+                        "pageText": "Sortez d'ici.",
+                        "jump": "titleScreen"
+                    },
+                    "page6": {
+                        "pageText": "Parfait."
+                    },
+                    "page7": {
+                        "pageText": "Ne vous en faites pas, ça ne sera pas long.",
+                        "jump": "quiz"
+                    }
+            }
+            },
             "intro": {
             "background" : "black",
             "pages": {
@@ -105,111 +148,23 @@
 
             }
             },
-            "shop1Interactions": {
+            "shop1Enter": {
                 "background" : "black",
-                "pages":{
+                "pages": {
                     "page0": {
                         "pageText": "Entrez!",
-                        "shop": "shop1"
-                    },
-                    "page1": {
-                        "pageText": "Qu'est-ce que ça sera cette fois?"
-                    },
-                    "page2": {
-                        "pageText": "Voilà!"
-                    },
-                    "page3": {
-                        "pageText": "Content de faire affaire avec vous!"
-                    },
-                    "page4": {
-                        "pageText": "À ce prix c'est comme si vous me voliez!"
-                    },
-                    "page5": {
-                        "pageText": "Je veux bien que vous vouliez acheter, mais je n'en ai plus."
-                    },
-                    "page6": {
-                        "pageText": "Tout a déjà été acheté, par vous d'ailleurs."
-                    },
-                    "page7": {
-                        "pageText": "Je n'ai plus de cet objet en stock, revenez plus tard peut être que ça changera."
-                    },
-                    "page8": {
-                        "pageText": "Pardon, je ne prend pas de crédit, revient quand tu sera un peu plus ummmmmm riche."
-                    },
-                    "page9": {
-                        "pageText": "Pauvre."
-                    },
-                    "page10": {
-                        "pageText": "Le prix est un peu trop élevé pour toi malheureusement."
-                    },
-                    "page11": {
-                        "pageText": "À la prochaine!"
-                    },
-                    "page12": {
-                        "pageText": "Ce que vous ne savez pas, c'est que vous auriez pu me vendre cet objet à deux fois ce prix."
-                    },
-                    "page13": {
-                        "pageText": "Je ne vais pas questionner comment vous avez obtenu cet objet."
-                    },
-                    "page14": {
-                        "pageText": "Profit."
-                    },
-                    "page15": {
-                        "pageText": "Est-ce qu'on a l'air d'un pawn shop?"
+                        "shop": "shop1",
+                        "shopNum": "0"
                     }
                 }
             },
-            "shop2Interactions": {
+            "shop2Enter": {
                 "background" : "black",
                 "pages":{
                     "page0": {
                         "pageText": "Entrez!",
-                        "shop": "pawn"
-                    },
-                    "page1": {
-                        "pageText": "Qu'est-ce que ça sera cette fois?"
-                    },
-                    "page2": {
-                        "pageText": "Voilà!"
-                    },
-                    "page3": {
-                        "pageText": "Content de faire affaire avec vous!"
-                    },
-                    "page4": {
-                        "pageText": "À ce prix c'est comme si vous me voliez!"
-                    },
-                    "page5": {
-                        "pageText": "Je veux bien que vous vouliez acheter, mais je n'en ai plus."
-                    },
-                    "page6": {
-                        "pageText": "Tout a déjà été acheté, par vous d'ailleurs."
-                    },
-                    "page7": {
-                        "pageText": "Je n'ai plus de cet objet en stock, revenez plus tard peut être que ça changera."
-                    },
-                    "page8": {
-                        "pageText": "Pardon, je ne prend pas de crédit, revient quand tu sera un peu plus ummmmmm riche."
-                    },
-                    "page9": {
-                        "pageText": "Pauvre."
-                    },
-                    "page10": {
-                        "pageText": "Le prix est un peu trop élevé pour toi malheureusement."
-                    },
-                    "page11": {
-                        "pageText": "À la prochaine!"
-                    },
-                    "page12": {
-                        "pageText": "Ce que vous ne savez pas, c'est que vous auriez pu me vendre cet objet à deux fois ce prix."
-                    },
-                    "page13": {
-                        "pageText": "Je ne vais pas questionner comment vous avez obtenez cet objet."
-                    },
-                    "page14": {
-                        "pageText": "Profit."
-                    },
-                    "page15": {
-                        "pageText": "Est-ce qu'on a l'air d'un pawn shop?"
+                        "shop": "pawn",
+                        "shopNum": "1"
                     }
                 }
             },

@@ -7,6 +7,13 @@
             "mouth": "/media/img/characters/Playable/Female01/spritesheet/Female01_talking-sheet.png"
         }
     },
+    "female02":{
+        "base": "/media/img/characters/Playable/Female02/Female02_basesprite.png",
+        "neutral": {
+            "eyes": "/media/img/characters/Playable/Female02/spritesheet/Female02_blinking-sheet.png",
+            "mouth": "/media/img/characters/Playable/Female02/spritesheet/Female02_talking-sheet.png"
+        }
+    },
     "male01": {
         "base": "/media/img/characters/Playable/Male01/Male01_basesprite.png",
         "neutral": {

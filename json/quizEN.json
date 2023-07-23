@@ -1,0 +1,21 @@
+{
+    "questions": {
+        "question1": {
+            "question": "this is a test",
+            "answers": {
+                "answer1": {
+                    "text": "testA", "points": 1, "target": "A"
+                },
+                "answer2": {
+                    "text": "testB", "points": 1, "target": "B"
+                },
+                "answer3": {
+                    "text": "testC", "points": 1, "target": "C"
+                },
+                "answer4": {
+                    "text": "testD", "points": 1, "target": "D"
+                }
+            }
+        }
+    }
+}
