@@ -989,7 +989,127 @@
                         "character1": "hero",
                         "sprite1": "question",
                         "active": "sprite1",
-                        "thinking": true
+                        "thinking": true,
+                        "interactionStart": true
+                    },
+                    "page4": {
+                        "pageText": "Un chat peut être décrit comme…",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "hidden",
+                        "characterName": "Jazzy"
+                    },
+                    "page5": {
+                        "pageText": "Un mammifère, un animal domestique, un animal carnivore, mais surtout…",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "hidden",
+                        "characterName": "Jazzy"
+                    },
+                    "page6": {
+                        "pageText": "Une créature! Une créature poilue et toute cute! Ils sont drôles aussi!",
+                        "character1": "hero",
+                        "sprite1": "surprise",
+                        "active": "hidden",
+                        "characterName": "Jazzy"
+                    },
+                    "page7": {
+                        "pageText": "Ils font juste dormir toute la journée",
+                        "character1": "hero",
+                        "sprite1": "surprise",
+                        "active": "hidden",
+                        "characterName": "Jazzy"
+                    },
+                    "page8": {
+                        "pageText": "Comme moi! (Colonne trois) J’aurais dû naître en tant que chat, pour vrai! Ma vie aurait été tellement plus cool!",
+                        "character1": "hero",
+                        "sprite1": "question",
+                        "active": "hidden",
+                        "characterName": "Jazzy"
+                    },
+                    "page9": {
+                        "pageText": "J’aime beaucoup les chats…. Pourquoi j’en suis pas un?!",
+                        "character1": "hero",
+                        "sprite1": "question",
+                        "active": "hidden",
+                        "characterName": "Jazzy"
+                    },
+                    "page10": {
+                        "pageText": "…",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "hidden",
+                        "characterName": "Jazzy"
+                    },
+                    "page11": {
+                        "pageText": "Penses-tu que je suis déjà un chat?!",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "hidden",
+                        "characterName": "Jazzy"
+                    },
+                    "page12": {
+                        "pageText": "Bonjour !",
+                        "character1": "hero",
+                        "sprite1": "smile",
+                        "active": "sprite1"
+                    },
+                    "page13": {
+                        "pageText": "Bonjour !",
+                        "character1": "hero",
+                        "sprite1": "smile",
+                        "active": "hidden",
+                        "characterName": "Jazzy"
+                    },
+                    "page14": {
+                        "pageText": "…",
+                        "character1": "hero",
+                        "sprite1": "smile",
+                        "active": "hidden",
+                        "characterName": "Jazzy"
+                    },
+                    "page15": {
+                        "pageText": "…",
+                        "character1": "hero",
+                        "sprite1": "question",
+                        "active": "sprite1"
+                    },
+                    "page16": {
+                        "pageText": "Oh, attend! Je pense que j’ai un GIF de chat pour une occasion comme ça! Donne moi une seconde.",
+                        "character1": "hero",
+                        "sprite1": "smile",
+                        "active": "hidden",
+                        "characterName": "Jazzy"
+                    },
+                    "page17": {
+                        "pageText": "Je vois.",
+                        "character1": "hero",
+                        "sprite1": "smile",
+                        "active": "sprite1"
+                    },
+                    "page18": {
+                        "pageText": "Je devrais probablement y aller.",
+                        "character1": "hero",
+                        "sprite1": "nervous",
+                        "active": "sprite1",
+                        "thinking": true,
+                        "check": "jazzyTalk1",
+                        "interactionStart": true
+                    },
+                    "page19": {
+                        "pageText": "Attend! tu n'a pas vu le GIF de chat !!",
+                        "character1": "hero",
+                        "sprite1": "smile",
+                        "active": "hidden",
+                        "characterName": "Jazzy",
+                        "interactionStart": true
+                    },
+                    "page20": {
+                        "pageText": "C’est quoi cette affaire-là ?",
+                        "character1": "hero",
+                        "sprite1": "question",
+                        "active": "sprite1",
+                        "shownItem": "fom1"
                     }
                 }
             },
