@@ -2,6 +2,7 @@ const btnStart = document.getElementById("startGame");
 const startMenu = document.getElementById("startMenu");
 const vn = document.getElementById("vn");
 let textboxText = document.querySelector(".text");
+let vnBackground = document.querySelector(".background");
 let optionsbox = document.querySelector(".optionsbox");
 let shopText = document.querySelector(".shopText");
 let sprite1 = document.querySelector(".sprite1");
@@ -186,44 +187,44 @@ async function initialize(data){
 	namebox2.innerText = '';
 	let originalText = data.scenes[sceneSwap].pages[currentPage].pageText;
 	let updatedText = originalText;
-	if(hero != undefined){
+	if(hero !== undefined){
 		updatedText = originalText.replace("%PROTAG%", hero.name);
 		switch(hero.gender){
 			case "male":
 				if(fr == true){
-					updatedText = originalText.replace("%HE/SHE%", "il");
-					updatedText = originalText.replace("%HE/SHE(Cap)%", "Il");
-					updatedText = originalText.replace("%HE/SHE(Caps)%", "IL");
-					updatedText = originalText.replace("%HIM/HER%", "lui");
-					updatedText = originalText.replace("%HIM/HER(Cap)%", "Lui");
-					updatedText = originalText.replace("%HIM/HER(Caps)%", "LUI");
+					updatedText = updatedText.replace("%HE/SHE%", "il");
+					updatedText = updatedText.replace("%HE/SHE(Cap)%", "Il");
+					updatedText = updatedText.replace("%HE/SHE(Caps)%", "IL");
+					updatedText = updatedText.replace("%HIM/HER%", "lui");
+					updatedText = updatedText.replace("%HIM/HER(Cap)%", "Lui");
+					updatedText = updatedText.replace("%HIM/HER(Caps)%", "LUI");
 				}
 				else{
-					updatedText = originalText.replace("%HE/SHE%", "he");
-					updatedText = originalText.replace("%HE/SHE(Cap)%", "He");
-					updatedText = originalText.replace("%HE/SHE(Caps)%", "HE");
-					updatedText = originalText.replace("%HIM/HER%", "him");
-					updatedText = originalText.replace("%HIM/HER(Cap)%", "Him");
-					updatedText = originalText.replace("%HIM/HER(Caps)%", "HIM");
+					updatedText = updatedText.replace("%HE/SHE%", "he");
+					updatedText = updatedText.replace("%HE/SHE(Cap)%", "He");
+					updatedText = updatedText.replace("%HE/SHE(Caps)%", "HE");
+					updatedText = updatedText.replace("%HIM/HER%", "him");
+					updatedText = updatedText.replace("%HIM/HER(Cap)%", "Him");
+					updatedText = updatedText.replace("%HIM/HER(Caps)%", "HIM");
 				}
 
 				break;
 			case "female":
 				if(fr == true){
-					updatedText = originalText.replace("%HE/SHE%", "elle");
-					updatedText = originalText.replace("%HE/SHE(Cap)%", "Elle");
-					updatedText = originalText.replace("%HE/SHE(Caps)%", "ELLE");
-					updatedText = originalText.replace("%HIM/HER%", "lui");
-					updatedText = originalText.replace("%HIM/HER(Cap)%", "Lui");
-					updatedText = originalText.replace("%HIM/HER(Caps)%", "LUI");
+					updatedText = updatedText.replace("%HE/SHE%", "elle");
+					updatedText = updatedText.replace("%HE/SHE(Cap)%", "Elle");
+					updatedText = updatedText.replace("%HE/SHE(Caps)%", "ELLE");
+					updatedText = updatedText.replace("%HIM/HER%", "lui");
+					updatedText = updatedText.replace("%HIM/HER(Cap)%", "Lui");
+					updatedText = updatedText.replace("%HIM/HER(Caps)%", "LUI");
 				}
 				else{
-					updatedText = originalText.replace("%HE/SHE%", "she");
-					updatedText = originalText.replace("%HE/SHE(Cap)%", "She");
-					updatedText = originalText.replace("%HE/SHE(Caps)%", "SHE");
-					updatedText = originalText.replace("%HIM/HER%", "her");
-					updatedText = originalText.replace("%HIM/HER(Cap)%", "Her");
-					updatedText = originalText.replace("%HIM/HER(Caps)%", "HER");
+					updatedText = updatedText.replace("%HE/SHE%", "she");
+					updatedText = updatedText.replace("%HE/SHE(Cap)%", "She");
+					updatedText = updatedText.replace("%HE/SHE(Caps)%", "SHE");
+					updatedText = updatedText.replace("%HIM/HER%", "her");
+					updatedText = updatedText.replace("%HIM/HER(Cap)%", "Her");
+					updatedText = updatedText.replace("%HIM/HER(Caps)%", "HER");
 				}
 
 				break;
@@ -298,8 +299,15 @@ async function initialize(data){
 			namebox1.innerText = "";
 			break;
 	}
-
-        vn.style.backgroundImage = data.scenes[sceneSwap].background;
+		if(data.scenes[sceneSwap].hasOwnProperty("backgroundElements")){
+			let backgroundElementsArr = JSON.parse(data.scenes[sceneSwap].backgroundElements);
+			for(let i = 0; i <= backgroundElementsArr.length; i++){
+				const node = document.createElement("div");
+				node.classList.add(backgroundElementsArr[i], "backgroundElem");
+				vnBackground.appendChild(node);
+			}
+		}
+        vnBackground.style.backgroundImage = data.scenes[sceneSwap].background;
 		stop = false;
 		console.log(data.scenes[sceneSwap].pages[currentPage].pageText);
 		typeWriter(updatedText, "vn");
@@ -590,6 +598,13 @@ playArea.forEach((element) => {
 								break;
 						case "quiz":
 								grabQuizData();
+							break;
+						case "nextScene":
+							sceneIndex++;
+							pageNum = 0;
+							sceneSwap = Object.keys(json.scenes)[sceneIndex];
+							currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
+							initialize(json);
 							break;
 					}
 					break;

@@ -1,7 +1,7 @@
 {
 "characters": {
     "female01": {
-        "name": "female01",
+        "name": "Takemi",
         "gender": "female",
         "base": "/media/img/characters/Playable/Female01/Female01_basesprite.png",
         "neutral": {
@@ -14,12 +14,12 @@
         "gender": "female",
         "base": "/media/img/characters/Playable/Female02/Female02_basesprite.png",
         "neutral": {
-            "eyes": "/media/img/characters/Playable/Female02/spritesheet/Female02_blink-Sheet.png",
+            "eyes": "/media/img/characters/Playable/Female02/spritesheet/Female02_blinking-Sheet.png",
             "mouth": "/media/img/characters/Playable/Female02/spritesheet/Female02_talking-Sheet.png"
         }
     },
     "male01": {
-        "name": "male01",
+        "name": "Daniel",
         "gender": "male",
         "base": "/media/img/characters/Playable/Male01/Male01_basesprite.png",
         "neutral": {
@@ -66,7 +66,934 @@
                     }
             }
             },
-            "intro": {
+            "afterQuiz": {
+                "background": "black",
+                "pages": {
+                    "page0": {
+                        "pageText": "Voilà."
+                    },
+                    "page1": {
+                        "pageText": "Par ces questions, le personnage qui vous convient le plus a été déterminé"
+                    },
+                    "page2": {
+                        "pageText": "Vous allez donc incarner..."
+                    },
+                    "page3": {
+                        "character1": "hero",
+                        "pageText": "%PROTAG%."
+                    },
+                    "page4": {
+                        "character1": "hero",
+                        "pageText": "Ne vous en faites pas, cela ne va pas changer l'histoire dont vous allez être témoin."
+                    },
+                    "page5": {
+                        "character1": "hero",
+                        "pageText": "Cette sélection de personnage est également permanent."
+                    },
+                    "page6": {
+                        "character1": "hero",
+                        "pageText": "Si vous n'êtes pas satisfait..."
+                    },
+                    "page7": {
+                        "character1": "hero",
+                        "pageText": "Tant pis."
+                    },
+                    "page8": {
+                        "pageText":"Ce que vous allez voir dans ce monde est quelqu'un qui aurait pu avoir une bonne vie."
+                    },
+                    "page9": {
+                        "pageText":"Mais dans un moment de faiblesse, la tentation du crime était trop forte."
+                    },
+                    "page10": {
+                        "pageText":"Maintenant que ça c'est fait, êtes-vous prêt ?",
+                        "options": {
+                            "Oui": "page11",
+                            "Non": "page16"
+                        },
+                        "NextPage": "End"
+                    },
+                    "page11": {
+                        "pageText":"Bien."
+                    },
+                    "page12": {
+                        "pageText":"N'oubliez pas de vous amuser, ce n'est pas l'histoire la plus sérieuse au monde."
+                    },
+                    "page13": {
+                        "pageText": "Oh."
+                    },
+                    "page14": {
+                        "pageText":"Une dernière chose."
+                    },
+                    "page15": {
+                        "pageText":"J'ai toujours mes yeux sur vous.",
+                        "jump": "nextScene"
+                    },
+                    "page16": {
+                        "pageText": "Tant pis."
+                    },
+                    "page17": {
+                        "pageText": "Votre de chance de partir a expirée il y a longtemps."
+                    },
+                    "page18": {
+                        "pageText":"Sauf si vous fermer la fenêtre."
+                    },
+                    "page19": {
+                        "pageText":"Ce qui serait assez plate."
+                    },
+                    "page20": {
+                        "pageText": "Avant de partir, j'ai une dernière chose à dire..."
+                    },
+                    "page21": {
+                        "pageText": "Je vous observe.",
+                        "jump": "nextScene"
+                    }
+                }
+            },
+            "Réveil": {
+                "background": "black",
+                "pages": {
+                    "page0": {
+                        "active": "hidden",
+                        "characterName": "Narrateur",
+                        "pageText": "..."
+                    },
+                    "page1": {
+                        "active": "hidden",
+                        "characterName": "Narrateur",
+                        "pageText": "Cette histoire est fictive, toutes resemblances à des personnes et événements réels sont probablement des coïncidences"
+                    },
+                    "page2": {
+                        "pageText": "*Toc Toc*"
+                    },
+                    "page3": {
+                        "active": "hero",
+                        "pageText": ".......zzz"
+                    },
+                    "page4": {
+                        "pageText": "*BANG BANG BANG*"
+                    },
+                    "page5": {
+                        "active": "hidden",
+                        "characterName": "Benoît Demers",
+                        "pageText": "GRAHHHHHHHHHHGH"
+                    },
+                    "page6": {
+                        "active": "Benoît Demers",
+                        "pageText": "%PROTAG%, tu vas-tu finir par répondre ?!",
+                        "jump": "nextScene"
+                    }
+                }
+            },
+            "Appartement[1]": {
+                "background": "appartement",
+                "backgroundElements": [
+                    "letters", "ramen", "computer", "bed", "door"
+                ],
+                "pages": {
+                    "page0": {
+                        "pageText": "Uh ?!",
+                        "character1": "hero",
+                        "sprite1": "shocked",
+                        "active": "sprite1"
+                    },
+                    "page1":{
+                        "pageText": "Eh merde, je m’en viens. Donne-moi deux minutes!",
+                        "character1": "hero",
+                        "sprite1": "annoyed",
+                        "active": "sprite1"
+                    },
+                    "page2": {
+                        "pageText": "J’ai sûrement encore oublié de payer le loyer… Comment je vais faire pour me sortir de cette marde là, moi?",
+                        "character1": "hero",
+                        "sprite1": "nervous",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "interactionStart" : true
+                    },
+                    "page3": {
+                        "pageText": "J’ai encore mes taxes à payer, mais c’est loin d’être ma priorité numéro un.",
+                        "character1": "hero",
+                        "sprite1": "neutrla",
+                        "thinking": true,
+                        "active": "sprite1"
+                    },
+                    "page4": {
+                        "pageText": "AAAAAAAAAAAAAAAAAAAAAHHHHHHHH!!!!!!",
+                        "active": "Benoît Demers",                     
+                        "check": "lettersInteraction1",
+                        "interactionStart": true
+                    },
+                    "page5": {
+                        "pageText": "Faudrait peut-être que j’apprenne à faire de la bouffe mangeable avant que je pogne le diabète ou quelconque autre maladie incurable.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "check": "ramenInteraction1",
+                        "interactionStart" : true
+                    },
+                    "page6": {
+                        "pageText": "Honnêtement je sais vraiment pas comment le monde fait pour manger cette cochonerie-là.",
+                        "character1": "hero",
+                        "sprite1": "angry",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "interactionStart" : true
+                    },
+                    "page7": {
+                        "pageText": "J’ai vu que y’a un nouveau jeu de survie en early-access, j’ai hâte que ça sorte!",
+                        "character1": "hero",
+                        "sprite1": "smile",
+                        "thinking": true,
+                        "active": "sprite1"
+                    },
+                    "page8": {
+                        "pageText": "C'est tellement rare ces jeux-là, il faut en profiter quand il y en a des nouveaux !",
+                        "character1": "hero",
+                        "sprite1": "smile",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "check": "computerInteraction1",
+                        "interactionStart": true
+                    },
+                    "page9": {
+                        "pageText": "Je suis fatigué, mais si je fais ça, je me tire une balle dans le pied.",
+                        "options":{
+                            "Se coucher": "BadEnd1",
+                            "Faire face à la musique": "page10"
+                        },
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "NextPage": "End"
+                    },                    
+                    "page10": {
+                        "pageText": "Je peux pas me sauver de mes problèmes éternellement.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "check": "noBadEnding1",
+                        "interactionStart": true
+                    },                    
+                    "page11": {
+                        "pageText": "Ma décision est déjà prise. Quand on fait un choix, on ne peut pas revenir en arrière.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "interactionStart": true
+                    },
+                    "page12": {
+                        "pageText": "Je sens que de l’autre côté de cette porte se trouve une créature assoiffée de sang. Cette conversation sera peut-être ma dernière…",
+                        "character1": "hero",
+                        "sprite1": "nervous",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "options": {
+                            "Ouvrir la porte": "page17",
+                            "Annuler": "page13"
+                        },
+                        "NextPage": "End"
+                    },
+                    "page13": {
+                        "pageText": "Meh… Il peut attendre.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "thinking": true,
+                        "active": "sprite1"
+                    },
+                    "page14": {
+                        "pageText": "ARGGGGGGGGGGGH...",
+                        "character1": "hero",
+                        "sprite1": "shocked",
+                        "active": "hidden",
+                        "characterName": "Benoît Demers",
+                        "check": "doorInteractionNo",
+                        "interactionStart": true
+                    },
+                    "page15": {
+                        "pageText": "Est-ce que je devrais lui ouvrir? Plus tôt c’est réglé, plus vite je peux retourner me coucher.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "options": {
+                            "Ouvrir la porte": "page17",
+                            "Annuler": "page13"
+                        },
+                        "NextPage": "End"
+                    },
+                    "page16": {
+                        "pageText": "Bon, je sais que j’ai dit que c’était pas possible de changer ses choix, mais c’est pas vrai: parfois la vie nous donne une chance de ne pas être stupide.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "options": {
+                            "Ouvrir la porte!": "page17",
+                            "Annuler": "page13"
+                        },
+                        "NextPage": "End"
+                    },
+                    "page17": {
+                        "pageText": "Bon, j'ouvre.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "thinking": true,
+                        "active": "sprite1"
+                    },
+                    "page18": {
+                        "pageText": "J’espère que je vais rester en un seul morceau…",
+                        "character1": "hero",
+                        "sprite1": "nervous",
+                        "thinking": true,
+                        "active": "sprite1"
+                    },
+                    "page19": {
+                        "pageText": "%PROTAG% ouvre la porte...",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "hidden",
+                        "characterName": "Narrateur"
+                    },
+                    "page20": {
+                        "pageText": "Bonjour monsieur Demers, comment puis-je vous aider?",
+                        "character1": "hero",
+                        "character2": "Benoît",
+                        "sprite1": "smiling",
+                        "sprite2": "angry",
+                        "active": "sprite1"
+                    },
+                    "page21": {
+                        "pageText": "Tu l’as pris en tas, ton temps, pour ouvrir la porte, hein ?",
+                        "character1": "hero",
+                        "character2": "Benoît",
+                        "sprite1": "smiling",
+                        "sprite2": "neutral",
+                        "active": "sprite2"
+                    },
+                    "page22": {
+                        "pageText": "C’est bizarre, c’est comme si tu savais déjà pourquoi je suis là.",
+                        "character1": "hero",
+                        "character2": "Benoît",
+                        "sprite1": "smiling",
+                        "sprite2": "neutral",
+                        "active": "sprite2"
+                    },
+                    "page23": {
+                        "pageText": "Tu faisais tes adieux à ta dompe ?",
+                        "character1": "hero",
+                        "character2": "Benoît",
+                        "sprite1": "smiling",
+                        "sprite2": "questionning",
+                        "active": "sprite2"
+                    },
+                    "page24": {
+                        "pageText": "Je ne vois pas de quoi vous parlez…",
+                        "character1": "hero",
+                        "character2": "Benoît",
+                        "sprite1": "nervous",
+                        "sprite2": "neutral",
+                        "active": "sprite1"
+                    },
+                    "page25": {
+                        "pageText": "C’est à quel sujet ?",
+                        "character1": "hero",
+                        "character2": "Benoît",
+                        "sprite1": "nervous",
+                        "sprite2": "neutral",
+                        "active": "sprite1"
+                    },
+                    "page26": {
+                        "pageText": "La même chose que d’habitude… Devine.",
+                        "character1": "hero",
+                        "character2": "Benoît",
+                        "sprite1": "nervous",
+                        "sprite2": "neutral",
+                        "active": "sprite2"
+                    },
+                    "page27": {
+                        "pageText": "Ah! Ne serait-ce pas à propos du fameux loyer ?",
+                        "character1": "hero",
+                        "character2": "Benoît",
+                        "sprite1": "neutral",
+                        "sprite2": "neutral",
+                        "active": "sprite1"
+                    },
+                    "page28": {
+                        "pageText": "Wow, t’es pas mal perspicace! Comme si ça faisait pas une semaine que je te le rappelle!",
+                        "character1": "hero",
+                        "character2": "Benoît",
+                        "sprite1": "neutral",
+                        "sprite2": "neutral",
+                        "active": "sprite2"
+                    },
+                    "page29": {
+                        "pageText": "Je vois. Je vous jure que j’ai une bonne excuse: il y a ces images de fèves au lard d’une valeur inestimable qui ont fait leur apparition récemment! Je ne pouvais pas juste laisser l’occasion passer!",
+                        "character1": "hero",
+                        "character2": "Benoît",
+                        "sprite1": "nervous",
+                        "sprite2": "neutral",
+                        "active": "sprite1"
+                    },
+                    "page30": {
+                        "pageText": "Tu m’a sortis cette excuse le mois passé, tu penses-tu que je suis sénile?",
+                        "character1": "hero",
+                        "character2": "Benoît",
+                        "sprite1": "nervous",
+                        "sprite2": "angry",
+                        "active": "sprite2"
+                    },
+                    "page31": {
+                        "pageText": "Ben non, voyons, jamais je penserais ça de vous, monsieur. Vous êtes encore jeune et en pleine forme!",
+                        "character1": "hero",
+                        "character2": "Benoît",
+                        "sprite1": "nervous",
+                        "sprite2": "angry",
+                        "active": "sprite1"
+                    },
+                    "page32": {
+                        "pageText": "Ben non, voyons, jamais je penserais ça de vous, monsieur. Vous êtes encore jeune et en pleine forme!",
+                        "character1": "hero",
+                        "character2": "Benoît",
+                        "sprite1": "nervous",
+                        "sprite2": "angry",
+                        "active": "sprite1"
+                    },
+                    "page33": {
+                        "pageText": "Ok je suis vraiment tanné de perdre mon temps avec toi.",
+                        "character1": "hero",
+                        "character2": "Benoît",
+                        "sprite1": "nervous",
+                        "sprite2": "neutral",
+                        "active": "sprite2"
+                    },
+                    "page34": {
+                        "pageText": "500$. Ce soir. Ou ben t’es dehors. Pis oublie pas le pourboire obligatoire!",
+                        "character1": "hero",
+                        "character2": "Benoît",
+                        "sprite1": "nervous",
+                        "sprite2": "neutral",
+                        "active": "sprite2"
+                    },
+                    "page35": {
+                        "pageText": "Je vois. Je vais m’arranger.",
+                        "character1": "hero",
+                        "character2": "Benoît",
+                        "sprite1": "sad",
+                        "sprite2": "neutral",
+                        "active": "sprite1"
+                    },
+                    "page36": {
+                        "pageText": "Benoît quitte la pièce.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "hidden",
+                        "characterName": "Narrateur"
+                    },
+                    "page37": {
+                        "pageText": "C’est plus facile à dire qu’à faire. J’ai pas une cenne.",
+                        "character1": "hero",
+                        "sprite1": "sad",
+                        "thinking": true,
+                        "active": "sprite1"
+                    },
+                    "page38": {
+                        "pageText": "Au moins, je peux me consoler en me disant que le marché de l'immobilier est moins pire qu’avant.",
+                        "character1": "hero",
+                        "sprite1": "nervous",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "interactionStart": true,
+                        "check": "landlordConversation"
+                    },
+                    "page39": {
+                        "pageText": "Je ne pense pas que ça va m’aider.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "interactionStart": true
+                    },
+                    "page40": {
+                        "pageText": "Faut que je trouve une solution avant de partir.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "interactionStart": true
+                    },
+                    "page41": {
+                        "pageText": "Pourquoi règler mon problème moi-même quand l’internet peut le faire à ma place?",
+                        "character1": "hero",
+                        "sprite1": "smile",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "jump": "nextScene"
+                    }
+                }
+            },
+            "ordinateur": {
+                "background": "computer",
+                "pages":{
+                    "page0": {
+                        "pageText": "Voyons…",
+                        "characterName": "hero",
+                        "active": "hidden"
+                    },
+                    "page1": {
+                        "pageText": "“Besoin d’argent rapidement pour loyer ce soir et je suis désespéré. Des conseils?”",
+                        "characterName": "hero",
+                        "active": "hidden",
+                        "typing": true
+                    },
+                    "page2": {
+                        "pageText": "Il me reste juste à attendre",
+                        "characterName": "hero",
+                        "active": "hidden"
+                    },
+                    "page3": {
+                        "pageText": "..."
+                    },
+                    "page4": {
+                        "pageText": "Nice, on dirait que j’ai eu des réponses!",
+                        "characterName": "hero",
+                        "active": "hidden"
+                    },
+                    "page5": {
+                        "pageText": "“Promène toi dans un parc, tu vas peut-être être chanceux et tomber sur quelque chose.”",
+                        "characterName": "Utilisateur",
+                        "active": "hidden",
+                        "typing": true
+                    },
+                    "page6": {
+                        "pageText": "Ben voyons! Je vais pas me fier au hasard, surtout en connaissant ma chance de merde.",
+                        "characterName": "hero",
+                        "active": "hidden"
+                    },
+                    "page7": {
+                        "pageText": "”Trouve toi une job.”",
+                        "characterName": "Utilisateur",
+                        "active": "hidden",
+                        "typing": true
+                    },
+                    "page8": {
+                        "pageText": "Si tu penses que je compte faire des efforts…",
+                        "characterName": "hero",
+                        "active": "hidden"
+                    },
+                    "page9": {
+                        "pageText": "“Cambriole une maison lol”",
+                        "characterName": "Utilisateur",
+                        "active": "hidden",
+                        "typing": true
+                    },
+                    "page10": {
+                        "pageText": "Huh, ça me semble, en effet, être la chose la plus logique à faire dans ce genre de situations. Je vais m’essayer.",
+                        "characterName": "hero",
+                        "active": "hidden",
+                        "jump": "nextScene",
+                        "check": "badDecision",
+                        "interactionStart": true
+                    }
+                    
+                }
+            },
+            "appartement[2]": {
+                "background": "appartement",
+                "backgroundElements": [
+                    "letters", "ramen", "computer", "bed", "door"
+                ],
+                "pages": {
+                    "page0": {
+                        "pageText": "C’est pas mon lit, ça",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "interactionStart": true
+                    },
+                    "page1": {
+                        "pageText": "Yes sir! J’avais raison!",
+                        "character1": "hero",
+                        "sprite1": "smile",
+                        "thinking": true,
+                        "active": "sprite1"
+                    },
+                    "page2": {
+                        "pageText": "Vous trouvez 460$.",
+                        "character1": "hero",
+                        "sprite1": "smile",
+                        "thinking": true,
+                        "active": "hidden",
+                        "characterName": "Narrateur",
+                        "money": 460
+                    },
+                    "page3": {
+                        "pageText": "Je devrais commencer par acheter ma passe de métro, je sens que je vais en avoir besoin.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "thinking": true,
+                        "active": "sprite1"
+                    },
+                    "page4": {
+                        "pageText": "Maintenant que vous avez votre objectif, vous pouvez sortir de chez vous !",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "hidden",
+                        "characterName": "Narrateur",
+                        "check": "moneyAcquired",
+                        "interactionStart": true
+                    },
+                    "page5": {
+                        "pageText": "Malheureusement, si je choisis d’aller me coucher maintenant, c’est certain que ça sera la dernière fois que je vais pouvoir dormir dans un lit…",
+                        "character1": "hero",
+                        "sprite1": "nervous",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "interactionStart": true
+                    },
+                    "page6": {
+                        "pageText": "Peut-être que je vais pouvoir payer l’IRS avec l’argent que je vais faire…",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "thinking": true,
+                        "active": "sprite1"
+                    },
+                    "page7": {
+                        "pageText": "Ah… C’était le bon temps quand l’IRS ne s’occupait que des États-Unis et qu’ils ne passaient pas leurs journées à rendre ma vie misérable.",
+                        "character1": "hero",
+                        "sprite1": "sad",
+                        "thinking": true,
+                        "active": "sprite1"
+                    },
+                    "page8": {
+                        "pageText": "…Faudrait vraiment que j'apprenne à payer mes impôts à temps.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "interactionStart": true
+                    },
+                    "page9": {
+                        "pageText": "Oh non! Une autre suite de péripéties m’empêche de me décider à apprendre à cuisiner… Un jour, peut-être",
+                        "character1": "hero",
+                        "sprite1": "sad",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "interactionStart": true
+                    },
+                    "page10": {
+                        "pageText": "Heureusement qu'internet existe! J’aurais jamais pensé à faire ça par moi-même!",
+                        "character1": "hero",
+                        "active": "sprite1",
+                        "thinking": true,
+                        "sprite1": "smile"
+                    },
+                    "page11": {
+                        "pageText": "Pourtant, c’est tellement évident, maintenant que j’y pense.",
+                        "character1": "hero",
+                        "sprite1": "smile",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "interactionStart": true
+                    },
+                    "page12": {
+                        "pageText": "Bon, je devrais y aller.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "sprite1",
+                        "jump": "worldMap"
+                    }
+                }
+            },
+            "metro[1]": {
+                "background": "subway",
+                "backgroundElements": [
+                    "groupMetro", "exit", "ticketMachine"
+                ],
+                "pages": {
+                    "page0": {
+                        "pageText": "Enfin arrivé. Maintenant, pour ma passe…",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "check": "firstVisitSubway",
+                        "interactionStart": true
+                    },
+                    "page1": {
+                        "pageText": "Donc, on fait ça à soir?",
+                        "character1": "unknown1",
+                        "sprite1": "neutral",
+                        "character2": "unknown2",
+                        "sprite2": "neutral",
+                        "active": "sprite1"
+                    },
+                    "page2": {
+                        "pageText": "Y revient en ville faque, oui, faut qu’on se dépêche.",
+                        "character1": "unknown1",
+                        "sprite1": "neutral",
+                        "character2": "unknown2",
+                        "sprite2": "neutral",
+                        "active": "sprite2"
+                    },
+                    "page3": {
+                        "pageText": "Compris. On devrait y aller.",
+                        "character1": "unknown1",
+                        "sprite1": "neutral",
+                        "character2": "unknown2",
+                        "sprite2": "neutral",
+                        "active": "sprite1"
+                    },
+                    "page4": {
+                        "pageText": "Hm, je me demande bien de quoi ils parlent.",
+                        "character1": "hero",
+                        "sprite1": "thinking",
+                        "active": "sprite1",
+                        "thinking": true,
+                        "interactionStart": true
+                    },
+                    "page5": {
+                        "pageText": "Ça risque de me coûter un bras.",
+                        "character1": "hero",
+                        "sprite1": "sad",
+                        "thinking": true,
+                        "active": "sprite1",
+                        "shop": "ticketShop"
+                    },
+                    "page6": {
+                        "pageText": "Bon, j’ai mon moyen de transport, maintenant il faut que je trouve ma cible.",
+                        "character1": "hero",
+                        "sprite1": "smile",
+                        "active": "sprite1",
+                        "thinking": true
+                    },
+                    "page7": {
+                        "pageText": "Y’avait pas un groupe de plus y’a pas long..? Je l’ai sûrement rêvé.",
+                        "character1": "hero",
+                        "sprite1": "thinking",
+                        "active": "sprite1",
+                        "thinking": true
+                    },
+                    "page8": {
+                        "pageText": "Dans tous les cas, il faut que je me mette en route.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "sprite1",
+                        "interactionStart": true,
+                        "thinking": true
+                    }
+                }
+            },
+            "devantMaison[1]": {
+                "background": "houseRoad",
+                "backgroundElements": [
+                    "groupHouse", "letterBox", "house"
+                ],
+                "pages": {
+                    "page0": {
+                        "pageText": "Oh ! Cette maison-là serait une bonne cible, je pense.",
+                        "character1": "hero",
+                        "sprite1": "smile",
+                        "active": "sprite1",
+                        "thinking": true
+                    },
+                    "page1": {
+                        "pageText": "On dirait qu’elle est inhabitée depuis un méchant bout.",
+                        "character1": "hero",
+                        "sprite1": "thinking",
+                        "active": "sprite1",
+                        "thinking": true
+                    },
+                    "page2": {
+                        "pageText": "Je vois pas ce qui pourrait mal se passer: je vais être sorti d’ici une heure.",
+                        "character1": "hero",
+                        "sprite1": "smile",
+                        "active": "sprite1",
+                        "thinking": true
+                    },
+                    "page3": {
+                        "pageText": "Il me reste juste à acheter une couple d’affaires à la quincaillerie.",
+                        "character1": "hero",
+                        "sprite1": "thinking",
+                        "active": "sprite1",
+                        "thinking": true
+                    },
+                    "page4": {
+                        "pageText": "Il va juste falloir que ce monde là s’en aille.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "sprite1",
+                        "check": "firstVisitHouse",
+                        "interactionStart": true,
+                        "thinking": true
+                    },
+                    "page5": {
+                        "pageText": "Hm ? C’est quoi cette affaire là autour du poteau ?",
+                        "character1": "hero",
+                        "sprite1": "question",
+                        "active": "sprite1",
+                        "thinking": true
+                    },
+                    "page6": {
+                        "pageText": "Un foulard ? Qu’est-ce que ça fait là, ça ?",
+                        "character1": "hero",
+                        "sprite1": "question",
+                        "active": "sprite1",
+                        "thinking": true
+                    },
+                    "page7": {
+                        "pageText": "Je pense pas que ça soit là depuis plus de quelques jours…",
+                        "character1": "hero",
+                        "sprite1": "thinking",
+                        "active": "sprite1",
+                        "thinking": true
+                    },
+                    "page8": {
+                        "pageText": "Assez étrange… Va falloir que je fasse attention.",
+                        "character1": "hero",
+                        "sprite1": "thinking",
+                        "active": "sprite1",
+                        "check": "letterBoxInteraction",
+                        "thinking": true,
+                        "interactionStart": true
+                    },
+                    "page9": {
+                        "pageText": "Hm ? Je les ai pas déjà vu quelque part, eux?",
+                        "character1": "hero",
+                        "sprite1": "question",
+                        "active": "sprite1",
+                        "thinking": true
+                    },
+                    "page10": {
+                        "pageText": "C’était où, dont?",
+                        "character1": "hero",
+                        "sprite1": "thinking",
+                        "active": "sprite1",
+                        "thinking": true
+                    },
+                    "page11": {
+                        "pageText": "…absolument sûr que c’est à soir qu’on passe à l’action?",
+                        "character1": "unknown3",
+                        "sprite1": "neutral",
+                        "character2": "unknown4",
+                        "sprite2": "neutral",
+                        "active": "sprite1"
+                    },
+                    "page12": {
+                        "pageText": "Ben oui, c’était ça le plan.",
+                        "character1": "unknown3",
+                        "sprite1": "neutral",
+                        "character2": "unknown4",
+                        "sprite2": "neutral",
+                        "active": "sprite2"
+                    },
+                    "page13": {
+                        "pageText": "Pourquoi est-ce que tu sors ça aléatoirement comme ça, d’un coup?",
+                        "character1": "unknown3",
+                        "sprite1": "neutral",
+                        "character2": "unknown4",
+                        "sprite2": "neutral",
+                        "active": "sprite2"
+                    },
+                    "page14": {
+                        "pageText": "Je sais pas, un genre de pulsion.",
+                        "character1": "unknown3",
+                        "sprite1": "neutral",
+                        "character2": "unknown4",
+                        "sprite2": "neutral",
+                        "active": "sprite1"
+                    },
+                    "page15": {
+                        "pageText": "T'as-tu au moins considéré les risques qu’on se fasse entendre? On se ferait prendre avant même de commettre un crime!",
+                        "character1": "unknown3",
+                        "sprite1": "neutral",
+                        "character2": "unknown1",
+                        "sprite2": "neutral",
+                        "active": "sprite2"
+                    },
+                    "page16": {
+                        "pageText": "…Ouais j’aurai peut-être dû y penser",
+                        "character1": "unknown3",
+                        "sprite1": "neutral",
+                        "character2": "unknown1",
+                        "sprite2": "neutral",
+                        "active": "sprite1"
+                    },
+                    "page17": {
+                        "pageText": "Anyway, on en parlera quand on sera dans un endroit un peu plus privé.",
+                        "character1": "unknown3",
+                        "sprite1": "neutral",
+                        "character2": "unknown2",
+                        "sprite2": "neutral",
+                        "active": "sprite2",
+                        "check": "groupInteractionHouseFront",
+                        "interactionStart": true
+                    },
+                    "page18": {
+                        "pageText": "Je pense que je devrais explorer un peu plus avant de m’en aller.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "sprite1",
+                        "interactionStart": true,
+                        "thinking": true
+                    },
+                    "page19": {
+                        "pageText": "Faudrait probablement que je me prépare comme il faut avant de rentrer.",
+                        "character1": "hero",
+                        "sprite1": "thinking",
+                        "active": "sprite1",
+                        "thinking": true
+                    },
+                    "page20": {
+                        "pageText": "Pour entrer, il faut que vous soyez en possession d’un pied de biche et 3 crochets",
+                        "character1": "hero",
+                        "sprite1": "thinking",
+                        "active": "hidden",
+                        "characterName": "Narrateur",
+                        "interactionStart": true
+                    }
+                }
+            },
+            "St-Chat [1]": {
+                "background": "st-chat",
+                "backgroundElements": [
+                    "Burg's Den", "Toolshed", "Jazzy", "poubelle"
+                ],
+                "pages": {
+                    "page0": {
+                        "pageText": "Bon, c’est pas mal l’endroit où je vais pouvoir acheter ce dont j’ai besoin.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "sprite1",
+                        "thinking": true
+                    },
+                    "page1": {
+                        "pageText": "C’est toujours pratique: un endroit qui a tout ce que tu veux.",
+                        "character1": "hero",
+                        "sprite1": "smile",
+                        "active": "sprite1",
+                        "thinking": true
+                    },
+                    "page2": {
+                        "pageText": "Huh ?",
+                        "character1": "hero",
+                        "sprite1": "question",
+                        "active": "sprite1"
+                    },
+                    "page3": {
+                        "pageText": "C’est quoi cette patente-là qui brille dans les vidanges ?",
+                        "character1": "hero",
+                        "sprite1": "question",
+                        "active": "sprite1",
+                        "thinking": true
+                    }
+                }
+            },
+            "test": {
             "background" : "black",
             "pages": {
                 "page0": {
