@@ -26,6 +26,15 @@
             "eyes": "/media/img/characters/Playable/Male01/spritesheet/Male01_blinking-sheet.png",
             "mouth": "/media/img/characters/Playable/Male01/spritesheet/Male01_talking-sheet.png"
         }
+    },
+    "male02": {
+        "name": "Waldo",
+        "gender": "male",
+        "base": "/media/img/characters/Playable/Male02/Male02_basesprite.png",
+        "neutral": {
+            "eyes": "/media/img/characters/Playable/Male02/spritesheet/Male02_blinking-sheet.png",
+            "mouth": "/media/img/characters/Playable/Male02/spritesheet/Male02_talking-sheet.png"
+        }
     }
     
 },
@@ -174,7 +183,6 @@
                     },
                     "page5": {
                         "active": "hidden",
-                        "characterName":"Benoît Demers",
                         "characterName": "Benoît Demers",
                         "pageText": "GRAHHHHHHHHHHGH"
                     },
@@ -222,7 +230,7 @@
                     "page4": {
                         "pageText": "AAAAAAAAAAAAAAAAAAAAAHHHHHHHH!!!!!!",
                         "active": "Benoît Demers",                     
-                        "check": "lettersInteraction1",
+                        "itemCheck": "lettersInteraction1",
                         "interactionStart": true
                     },
                     "page5": {
@@ -231,7 +239,7 @@
                         "sprite1": "neutral",
                         "thinking": true,
                         "active": "sprite1",
-                        "check": "ramenInteraction1",
+                        "itemCheck": "ramenInteraction1",
                         "interactionStart" : true
                     },
                     "page6": {
@@ -255,7 +263,7 @@
                         "sprite1": "smile",
                         "thinking": true,
                         "active": "sprite1",
-                        "check": "computerInteraction1",
+                        "itemCheck": "computerInteraction1",
                         "interactionStart": true
                     },
                     "page9": {
@@ -276,7 +284,7 @@
                         "sprite1": "neutral",
                         "thinking": true,
                         "active": "sprite1",
-                        "check": "noBadEnding1",
+                        "itemCheck": "noBadEnding1",
                         "interactionStart": true
                     },                    
                     "page11": {
@@ -312,7 +320,7 @@
                         "sprite1": "shocked",
                         "active": "hidden",
                         "characterName": "Benoît Demers",
-                        "check": "doorInteractionNo",
+                        "itemCheck": "doorInteractionNo",
                         "interactionStart": true
                     },
                     "page15": {
@@ -509,7 +517,7 @@
                         "thinking": true,
                         "active": "sprite1",
                         "interactionStart": true,
-                        "check": "landlordConversation"
+                        "itemCheck": "landlordConversation"
                     },
                     "page39": {
                         "pageText": "Je ne pense pas que ça va m’aider.",
@@ -597,7 +605,7 @@
                         "characterName": "hero",
                         "active": "hidden",
                         "jump": "nextScene",
-                        "check": "badDecision",
+                        "itemCheck": "badDecision",
                         "interactionStart": true
                     }
                     
@@ -646,7 +654,7 @@
                         "sprite1": "neutral",
                         "active": "hidden",
                         "characterName": "Narrateur",
-                        "check": "moneyAcquired",
+                        "itemCheck": "moneyAcquired",
                         "interactionStart": true
                     },
                     "page5": {
@@ -756,6 +764,7 @@
                         "sprite1": "thinking",
                         "active": "sprite1",
                         "thinking": true,
+                        "itemCheck": "groupInteractionSubway",
                         "interactionStart": true
                     },
                     "page5": {
@@ -859,7 +868,7 @@
                         "character1": "hero",
                         "sprite1": "thinking",
                         "active": "sprite1",
-                        "check": "letterBoxInteraction",
+                        "itemCheck": "letterBoxInteraction",
                         "thinking": true,
                         "interactionStart": true
                     },
@@ -932,7 +941,7 @@
                         "character2": "unknown2",
                         "sprite2": "neutral",
                         "active": "sprite2",
-                        "check": "groupInteractionHouseFront",
+                        "itemCheck": "groupInteractionHouseFront",
                         "interactionStart": true
                     },
                     "page18": {
@@ -991,6 +1000,7 @@
                         "character1": "hero",
                         "sprite1": "question",
                         "active": "sprite1",
+                        "check": "firstVisitStChat",
                         "thinking": true,
                         "interactionStart": true
                     },
@@ -1095,7 +1105,7 @@
                         "sprite1": "nervous",
                         "active": "sprite1",
                         "thinking": true,
-                        "check": "jazzyTalk1",
+                        "itemCheck": "jazzyTalk1",
                         "interactionStart": true
                     },
                     "page19": {
@@ -1141,8 +1151,52 @@
                         "character1": "hero",
                         "sprite1": "neutral",
                         "active": "sprite1",
-                        "characterName": "Jazzy",
                         "shownItem": "fom1"
+                    },
+                    "page25": {
+                        "pageText": " C’est des poupées qui se vendent drôlement cher. Il y en a qui sont vraiment rares juste parce qu’elles ont été mises en vente rien qu’une fois et même en édition limitée.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "hidden",
+                        "characterName": "Jazzy"
+                    },
+                    "page26": {
+                        "pageText": "Certains obsédés seraient près à se ruiner pour ce genre d'affaires-là!",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "hidden",
+                        "characterName": "Jazzy"
+                    },
+                    "page27": {
+                        "pageText": "Pas moi, par contre !",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "hidden",
+                        "characterName": "Jazzy"
+                    },
+                    "page28": {
+                        "pageText": "C’est même pas un chat… Pourquoi ça m’intéresserait.",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "hidden",
+                        "characterName": "Jazzy"
+                    },
+                    "page29": {
+                        "pageText": "Huh. Bon à savoir, ça.",
+                        "character1": "hero",
+                        "sprite1": "thinking",
+                        "active": "sprite1",
+                        "class": "fom1",
+                        "interactionStart": true,
+                        "itemCheck": "fomIntro"
+
+                    },
+                    "page30": {
+                        "pageText": "Je pense pas que j'aille à fouiller là encore.",
+                        "character1": "hero",
+                        "sprite1": "thinking",
+                        "active": "sprite1",
+                        "interactionStart": true
                     }
                 }
             },

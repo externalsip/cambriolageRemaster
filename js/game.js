@@ -22,6 +22,7 @@ let playArea = document.querySelectorAll(".playArea");
 let textboxTextQuiz = document.querySelector(".textQuiz");
 let quizArea = document.querySelectorAll(".playAreaQuiz");
 let sectionsArr = document.querySelectorAll(".section");
+let interactionBlocker = document.querySelector(".interactionBlocker");
 let hero;
 
 const vnDataFR= './json/vnFR.json';
@@ -36,6 +37,7 @@ let currentWindow;
 import {fr, en} from './langSwap.js';						
 import { grabQuizData, currentQuestion, quizJson, quizResults, handleAnswers } from './quiz.js';
 import { inventoryLang, enterShop, ShopLang, itemManage, lang, closeInventory, openInventory } from './inventory.js';
+import { itemCheck } from './backgroundElements.js';
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -169,7 +171,7 @@ let stop = false;
 /////////////////////////////////////////////////////////////////*/
 
 /*The  initialize function handles everything that is visual on the visual novel pages, the sprites, the text, the background images, the animations. For the letter by letter effect, it calls on the typewritter function, and if the screen is clicked again while the text is still being printed, it appears instantly.*/
-async function initialize(data){		
+export async function initialize(data, num){
 	if(isTalking == true && optionClick == false){
 		let originalText = data.scenes[sceneSwap].pages[currentPage].pageText;
 		let updatedText = originalText;
@@ -181,143 +183,162 @@ async function initialize(data){
 	}
 
 	else{
-	optionClick = false;
-    textboxText.innerText = '';
-	namebox1.innerText = '';
-	namebox2.innerText = '';
-	let originalText = data.scenes[sceneSwap].pages[currentPage].pageText;
-	let updatedText = originalText;
-	if(hero !== undefined){
-		updatedText = originalText.replace("%PROTAG%", hero.name);
-		switch(hero.gender){
-			case "male":
-				if(fr == true){
-					updatedText = updatedText.replace("%HE/SHE%", "il");
-					updatedText = updatedText.replace("%HE/SHE(Cap)%", "Il");
-					updatedText = updatedText.replace("%HE/SHE(Caps)%", "IL");
-					updatedText = updatedText.replace("%HIM/HER%", "lui");
-					updatedText = updatedText.replace("%HIM/HER(Cap)%", "Lui");
-					updatedText = updatedText.replace("%HIM/HER(Caps)%", "LUI");
-				}
-				else{
-					updatedText = updatedText.replace("%HE/SHE%", "he");
-					updatedText = updatedText.replace("%HE/SHE(Cap)%", "He");
-					updatedText = updatedText.replace("%HE/SHE(Caps)%", "HE");
-					updatedText = updatedText.replace("%HIM/HER%", "him");
-					updatedText = updatedText.replace("%HIM/HER(Cap)%", "Him");
-					updatedText = updatedText.replace("%HIM/HER(Caps)%", "HIM");
-				}
+		if(num != undefined){
+			pageNum = num;
+			currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
+		}
+		optionClick = false;
+		textboxText.innerText = '';
+		namebox1.innerText = '';
+		namebox2.innerText = '';
+		let originalText = data.scenes[sceneSwap].pages[currentPage].pageText;
+		let updatedText = originalText;
+		if(hero !== undefined){
+			updatedText = originalText.replace("%PROTAG%", hero.name);
+			switch(hero.gender){
+				case "male":
+					if(fr == true){
+						updatedText = updatedText.replace("%HE/SHE%", "il");
+						updatedText = updatedText.replace("%HE/SHE(Cap)%", "Il");
+						updatedText = updatedText.replace("%HE/SHE(Caps)%", "IL");
+						updatedText = updatedText.replace("%HIM/HER%", "lui");
+						updatedText = updatedText.replace("%HIM/HER(Cap)%", "Lui");
+						updatedText = updatedText.replace("%HIM/HER(Caps)%", "LUI");
+					}
+					else{
+						updatedText = updatedText.replace("%HE/SHE%", "he");
+						updatedText = updatedText.replace("%HE/SHE(Cap)%", "He");
+						updatedText = updatedText.replace("%HE/SHE(Caps)%", "HE");
+						updatedText = updatedText.replace("%HIM/HER%", "him");
+						updatedText = updatedText.replace("%HIM/HER(Cap)%", "Him");
+						updatedText = updatedText.replace("%HIM/HER(Caps)%", "HIM");
+					}
 
-				break;
-			case "female":
-				if(fr == true){
-					updatedText = updatedText.replace("%HE/SHE%", "elle");
-					updatedText = updatedText.replace("%HE/SHE(Cap)%", "Elle");
-					updatedText = updatedText.replace("%HE/SHE(Caps)%", "ELLE");
-					updatedText = updatedText.replace("%HIM/HER%", "lui");
-					updatedText = updatedText.replace("%HIM/HER(Cap)%", "Lui");
-					updatedText = updatedText.replace("%HIM/HER(Caps)%", "LUI");
-				}
-				else{
-					updatedText = updatedText.replace("%HE/SHE%", "she");
-					updatedText = updatedText.replace("%HE/SHE(Cap)%", "She");
-					updatedText = updatedText.replace("%HE/SHE(Caps)%", "SHE");
-					updatedText = updatedText.replace("%HIM/HER%", "her");
-					updatedText = updatedText.replace("%HIM/HER(Cap)%", "Her");
-					updatedText = updatedText.replace("%HIM/HER(Caps)%", "HER");
-				}
-
-				break;
-			
-		}
-	}
-
-	console.log(updatedText);
-
-	//manages the sprites currently on screen, and which sprite is the active one, the inactive sprite is greyed out so we clearly know who is talking.
-	if(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('character1')){
-		if(data.scenes[sceneSwap].pages[currentPage].character1 = "hero"){
-			sprite1.style.backgroundImage = 'url('+ hero.base +')';
-			sprite1mouth.style.backgroundImage = 'url('+ hero[data.scenes[sceneSwap].pages[currentPage].sprite1].mouth +')';
-			sprite1eyes.style.backgroundImage = 'url('+ hero[data.scenes[sceneSwap].pages[currentPage].sprite1].eyes +')';
-		}
-		else{
-			sprite1.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1].base +')';
-			sprite1mouth.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1][data.scenes[sceneSwap].pages[currentPage].sprite1].mouth +')';
-			sprite1eyes.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1][data.scenes[sceneSwap].pages[currentPage].sprite1].eyes +')';
-		}
-
-		if(data.scenes[sceneSwap].pages[currentPage].active == "sprite1"){
-			sprite1.classList.add("active");
-			sprite2.classList.remove("active");
-		}
-		else{
-			sprite1.classList.remove("active");
-		}
-	}
-	else{
-		sprite1.style.backgroundImage = "";
-		sprite1mouth.style.backgroundImage = "";
-		sprite1eyes.style.backgroundImage = "";
-	}
-	if(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('character2')){
-		sprite2.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character2].base +')';
-		sprite2mouth.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character2][data.scenes[sceneSwap].pages[currentPage].sprite2].mouth +')';
-		sprite2eyes.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character2][data.scenes[sceneSwap].pages[currentPage].sprite2].eyes +')';
-		if(data.scenes[sceneSwap].pages[currentPage].active == "sprite2"){
-			sprite2.classList.add("active");
-			sprite1.classList.remove("active");
-		}
-		else{
-			sprite2.classList.remove("active");
-		}
-	}
-	else{
-		sprite2.style.backgroundImage = "";
-		sprite2mouth.style.backgroundImage = "";
-		sprite2eyes.style.backgroundImage = "";
-	}
-	switch(true){
-		case data.scenes[sceneSwap].pages[currentPage].active == "sprite1":
-			namebox1.style.display = "flex";
-			namebox2.style.display = "none";
-			namebox1.innerText = data.scenes[sceneSwap].pages[currentPage].character1;
-			break;
-		case data.scenes[sceneSwap].pages[currentPage].active == "sprite2":
-			namebox2.style.display = "flex";
-			namebox1.style.display = "none";
-			namebox2.innerText = data.scenes[sceneSwap].pages[currentPage].character2;
-			break;
-		case data.scenes[sceneSwap].pages[currentPage].active == "hidden":
-			namebox1.style.display = "flex";
-			namebox2.style.display = "none";
-			namebox1.innerText = data.scenes[sceneSwap].pages[currentPage].characterName;
-			break;
-		default:
-			namebox1.style.display = "none";
-			namebox2.style.display = "none";
-			namebox1.innerText = "";
-			break;
-	}
-		if(data.scenes[sceneSwap].hasOwnProperty("backgroundElements")){
-			let backgroundElementsArr = JSON.parse(data.scenes[sceneSwap].backgroundElements);
-			for(let i = 0; i <= backgroundElementsArr.length; i++){
-				const node = document.createElement("div");
-				node.classList.add(backgroundElementsArr[i], "backgroundElem");
-				vnBackground.appendChild(node);
-			}
-		}
-        vnBackground.style.backgroundImage = data.scenes[sceneSwap].background;
-		stop = false;
-		console.log(data.scenes[sceneSwap].pages[currentPage].pageText);
-		typeWriter(updatedText, "vn");
-		if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('check')){
-			switch(json.scenes[sceneSwap].pages[currentPage].check){
-				case "place2Return":
-					place2Return = true;
 					break;
+				case "female":
+					if(fr == true){
+						updatedText = updatedText.replace("%HE/SHE%", "elle");
+						updatedText = updatedText.replace("%HE/SHE(Cap)%", "Elle");
+						updatedText = updatedText.replace("%HE/SHE(Caps)%", "ELLE");
+						updatedText = updatedText.replace("%HIM/HER%", "lui");
+						updatedText = updatedText.replace("%HIM/HER(Cap)%", "Lui");
+						updatedText = updatedText.replace("%HIM/HER(Caps)%", "LUI");
+					}
+					else{
+						updatedText = updatedText.replace("%HE/SHE%", "she");
+						updatedText = updatedText.replace("%HE/SHE(Cap)%", "She");
+						updatedText = updatedText.replace("%HE/SHE(Caps)%", "SHE");
+						updatedText = updatedText.replace("%HIM/HER%", "her");
+						updatedText = updatedText.replace("%HIM/HER(Cap)%", "Her");
+						updatedText = updatedText.replace("%HIM/HER(Caps)%", "HER");
+					}
+
+					break;
+				
 			}
-		}	}
+		}
+
+		console.log(updatedText);
+
+		//manages the sprites currently on screen, and which sprite is the active one, the inactive sprite is greyed out so we clearly know who is talking.
+		if(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('character1')){
+			if(data.scenes[sceneSwap].pages[currentPage].character1 = "hero"){
+				sprite1.style.backgroundImage = 'url('+ hero.base +')';
+				sprite1mouth.style.backgroundImage = 'url('+ hero[data.scenes[sceneSwap].pages[currentPage].sprite1].mouth +')';
+				sprite1eyes.style.backgroundImage = 'url('+ hero[data.scenes[sceneSwap].pages[currentPage].sprite1].eyes +')';
+			}
+			else{
+				sprite1.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1].base +')';
+				sprite1mouth.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1][data.scenes[sceneSwap].pages[currentPage].sprite1].mouth +')';
+				sprite1eyes.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1][data.scenes[sceneSwap].pages[currentPage].sprite1].eyes +')';
+			}
+
+			if(data.scenes[sceneSwap].pages[currentPage].active == "sprite1"){
+				sprite1.classList.add("active");
+				sprite2.classList.remove("active");
+			}
+			else{
+				sprite1.classList.remove("active");
+			}
+		}
+		else{
+			sprite1.style.backgroundImage = "";
+			sprite1mouth.style.backgroundImage = "";
+			sprite1eyes.style.backgroundImage = "";
+		}
+		if(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('character2')){
+			sprite2.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character2].base +')';
+			sprite2mouth.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character2][data.scenes[sceneSwap].pages[currentPage].sprite2].mouth +')';
+			sprite2eyes.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character2][data.scenes[sceneSwap].pages[currentPage].sprite2].eyes +')';
+			if(data.scenes[sceneSwap].pages[currentPage].active == "sprite2"){
+				sprite2.classList.add("active");
+				sprite1.classList.remove("active");
+			}
+			else{
+				sprite2.classList.remove("active");
+			}
+		}
+		else{
+			sprite2.style.backgroundImage = "";
+			sprite2mouth.style.backgroundImage = "";
+			sprite2eyes.style.backgroundImage = "";
+		}
+		switch(true){
+			case data.scenes[sceneSwap].pages[currentPage].active == "sprite1":
+				namebox1.style.display = "flex";
+				namebox2.style.display = "none";
+				if(data.scenes[sceneSwap].pages[currentPage].character1 == "hero"){
+					namebox1.innerText = hero.name;
+				}
+				else{
+					namebox1.innerText = data.scenes[sceneSwap].pages[currentPage].character1;
+				}
+				break;
+			case data.scenes[sceneSwap].pages[currentPage].active == "sprite2":
+				namebox2.style.display = "flex";
+				namebox1.style.display = "none";
+				namebox2.innerText = data.scenes[sceneSwap].pages[currentPage].character2;
+				break;
+			case data.scenes[sceneSwap].pages[currentPage].active == "hidden":
+				namebox1.style.display = "flex";
+				namebox2.style.display = "none";
+				namebox1.innerText = data.scenes[sceneSwap].pages[currentPage].characterName;
+				break;
+			default:
+				namebox1.style.display = "none";
+				namebox2.style.display = "none";
+				namebox1.innerText = "";
+				break;
+		}
+			if(data.scenes[sceneSwap].hasOwnProperty("backgroundElements")){
+				let backgroundElementsArr = JSON.parse(data.scenes[sceneSwap].backgroundElements);
+				for(let i = 0; i <= backgroundElementsArr.length; i++){
+					const node = document.createElement("div");
+					node.classList.add(backgroundElementsArr[i], "backgroundElem");
+					vnBackground.appendChild(node);
+				}
+			}
+			if(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('thinking')){
+				textboxText.style.color = "var(--blue)"
+			}
+			else{
+				textboxText.style.color = "var(--white)"
+			}
+			vnBackground.style.backgroundImage = data.scenes[sceneSwap].background;
+			stop = false;
+			console.log(data.scenes[sceneSwap].pages[currentPage].pageText);
+			typeWriter(updatedText, "vn");
+			if(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('check')){
+				switch(data.scenes[sceneSwap].pages[currentPage].check){
+					case "place2Return":
+						place2Return = true;
+						break;
+				}
+			}
+			else if(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('itemCheck')){
+				itemCheck(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('itemCheck'));
+			}
+			}
 }
 
 let dialogItem;
@@ -587,6 +608,12 @@ playArea.forEach((element) => {
 		else{
 		if(!json) return;
 		if(checkPage(json)){
+			if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('interactionStart')){
+				interactionBlocker.style.display = "none";
+			}
+			else{
+				interactionBlocker.style.display = "block";
+			}
 			switch(true){
 				case json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('jump'):
 					switch(json.scenes[sceneSwap].pages[currentPage].jump){
@@ -757,4 +784,4 @@ function checkValue(value){
 	}
 }
 
-export {isTalking, sceneSwap, currentPage, sceneIndex, pageNum, place2Return, presentPuzzleTestSolved, currentWindow, hero};
+export {isTalking, sceneSwap, currentPage, sceneIndex, pageNum, place2Return, presentPuzzleTestSolved, currentWindow, hero, json};

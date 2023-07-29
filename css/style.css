@@ -11,6 +11,7 @@ user-select: none;}
     --darkGray: #2e2e2e;
     --gray: #424242;
     --transparentGray: rgba(66, 66, 66, 0.2);
+    --blue: #6fcbf2;
 }
 
 .wrapper{
@@ -295,6 +296,12 @@ VISUAL NOVEL
     .optionBtn{
         font-size: 0.7em;
     }
+}
+
+.interactionBlocker{
+    width:100%;
+    height:100%;
+    position:absolute;
 }
 
 /*////////////////////////////////////////////////////
