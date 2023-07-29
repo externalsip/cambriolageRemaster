@@ -174,11 +174,13 @@
                     },
                     "page5": {
                         "active": "hidden",
+                        "characterName":"Benoît Demers",
                         "characterName": "Benoît Demers",
                         "pageText": "GRAHHHHHHHHHHGH"
                     },
                     "page6": {
-                        "active": "Benoît Demers",
+                        "active": "hidden",
+                        "characterName":"Benoît Demers",
                         "pageText": "%PROTAG%, tu vas-tu finir par répondre ?!",
                         "jump": "nextScene"
                     }
@@ -1110,9 +1112,41 @@
                         "sprite1": "question",
                         "active": "sprite1",
                         "shownItem": "fom1"
+                    },
+                    "page21": {
+                        "pageText": "Qui a bien pu jeter ça aux poubelles?",
+                        "character1": "hero",
+                        "sprite1": "question",
+                        "active": "sprite1",
+                        "shownItem": "fom1"
+                    },
+                    "page22": {
+                        "pageText": "Oh wow !",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "hidden",
+                        "characterName": "Jazzy",
+                        "shownItem": "fom1"
+                    },
+                    "page23": {
+                        "pageText": "C’est pas un Fom ça ?",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "hidden",
+                        "characterName": "Jazzy",
+                        "shownItem": "fom1"
+                    },
+                    "page24": {
+                        "pageText": "Un “Fom” ?",
+                        "character1": "hero",
+                        "sprite1": "neutral",
+                        "active": "sprite1",
+                        "characterName": "Jazzy",
+                        "shownItem": "fom1"
                     }
                 }
             },
+            
             "test": {
             "background" : "black",
             "pages": {
