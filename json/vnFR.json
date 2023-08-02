@@ -41,6 +41,7 @@
 "scenes": {
             "beforeQuiz": {
                 "background" : "black",
+                "backgroundName": "black",
                 "pages": {
                     "page0": {
                         "pageText": "Bienvenue."
@@ -77,6 +78,7 @@
             },
             "afterQuiz": {
                 "background": "black",
+                "backgroundName": "black",
                 "pages": {
                     "page0": {
                         "pageText": "Voilà."
@@ -89,22 +91,27 @@
                     },
                     "page3": {
                         "character1": "hero",
+                        "sprite1":"neutral",
                         "pageText": "%PROTAG%."
                     },
                     "page4": {
                         "character1": "hero",
+                        "sprite1":"neutral",
                         "pageText": "Ne vous en faites pas, cela ne va pas changer l'histoire dont vous allez être témoin."
                     },
                     "page5": {
                         "character1": "hero",
+                        "sprite1":"neutral",
                         "pageText": "Cette sélection de personnage est également permanent."
                     },
                     "page6": {
                         "character1": "hero",
+                        "sprite1":"neutral",
                         "pageText": "Si vous n'êtes pas satisfait..."
                     },
                     "page7": {
                         "character1": "hero",
+                        "sprite1":"neutral",
                         "pageText": "Tant pis."
                     },
                     "page8": {
@@ -160,6 +167,7 @@
             },
             "Réveil": {
                 "background": "black",
+                "backgroundName": "black",
                 "pages": {
                     "page0": {
                         "active": "hidden",
@@ -195,7 +203,8 @@
                 }
             },
             "Appartement[1]": {
-                "background": "appartement",
+                "background": "/media/img/background/bedroom/bedroom_bg.png",
+                "backgroundName": "apartment",
                 "backgroundElements": [
                     "letters", "ramen", "computer", "bed", "door"
                 ],
@@ -223,7 +232,7 @@
                     "page3": {
                         "pageText": "J’ai encore mes taxes à payer, mais c’est loin d’être ma priorité numéro un.",
                         "character1": "hero",
-                        "sprite1": "neutrla",
+                        "sprite1": "neutral",
                         "thinking": true,
                         "active": "sprite1"
                     },
@@ -547,6 +556,7 @@
             },
             "ordinateur": {
                 "background": "computer",
+                "backgroundName": "black",
                 "pages":{
                     "page0": {
                         "pageText": "Voyons…",
@@ -612,7 +622,8 @@
                 }
             },
             "appartement[2]": {
-                "background": "appartement",
+                "background": "/media/img/background/bedroomm/bedroom_bg.png",
+                "backgroundName": "apartment",
                 "backgroundElements": [
                     "letters", "ramen", "computer", "bed", "door"
                 ],

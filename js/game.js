@@ -23,6 +23,8 @@ let textboxTextQuiz = document.querySelector(".textQuiz");
 let quizArea = document.querySelectorAll(".playAreaQuiz");
 let sectionsArr = document.querySelectorAll(".section");
 let interactionBlocker = document.querySelector(".interactionBlocker");
+let bgMoveBtnArr = document.querySelectorAll(".bgMoveBtn");
+let hideableElemArr = document.querySelectorAll(".hideableElem");
 let hero;
 
 const vnDataFR= './json/vnFR.json';
@@ -37,7 +39,7 @@ let currentWindow;
 import {fr, en} from './langSwap.js';						
 import { grabQuizData, currentQuestion, quizJson, quizResults, handleAnswers } from './quiz.js';
 import { inventoryLang, enterShop, ShopLang, itemManage, lang, closeInventory, openInventory } from './inventory.js';
-import { itemCheck } from './backgroundElements.js';
+import { itemCheck, initializeAppartement } from './backgroundElements.js';
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -57,9 +59,8 @@ btnStart.addEventListener("click", () => {
 	localStorage.clear();
 	localStorage.setItem("langFR", fr);
 	localStorage.setItem("langEN", en);
-	console.log(en);
     startMenu.style.display = "none";
-    vn.style.display = "block";
+    vn.style.display = "flex";
 	currentWindow = "vn";
 	sceneIndex = 0;
 	pageNum = 0;
@@ -85,7 +86,7 @@ btnStart.addEventListener("click", () => {
 
 mapPlace1.addEventListener("click", () => { 
     map.style.display = "none";
-    vn.style.display = "block";
+    vn.style.display = "flex";
 	currentWindow = "vn";
 	sceneIndex = 2;
     grabData();
@@ -100,11 +101,10 @@ mapPlace1.addEventListener("click", () => {
 
 mapPlace2.addEventListener("click", () => {
 	map.style.display = "none";
-	vn.style.display = "block";
+	vn.style.display = "flex";
 	currentWindow = "vn";
 	switch(true){		
 		case place2Return:
-			console.log(place2Return);
 			sceneIndex = 7;
 			break;
 		
@@ -122,7 +122,7 @@ mapPlace2.addEventListener("click", () => {
 
 mapPlace3.addEventListener("click", () => {
 	map.style.display = "none";
-	vn.style.display = "block";
+	vn.style.display = "flex";
 	currentWindow = "vn";
 	sceneIndex = 4;
 	pageNum = 0;
@@ -132,7 +132,7 @@ mapPlace3.addEventListener("click", () => {
 
 mapPlace4.addEventListener("click", () => {
 	map.style.display = "none";
-	vn.style.display = "block";
+	vn.style.display = "flex";
 	currentWindow = "vn";
 	sceneIndex = 5;
 	pageNum = 0;
@@ -158,6 +158,13 @@ async function grabData() {
 }
 
 let stop = false;
+
+export function pageUpdate(data, num){
+	pageNum = num;
+	currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
+	initialize(data, num);
+	return pageNum, currentPage;
+}
 /*///////////////////////////////////////////////////////////////
 
  ___   __    _  ___   _______  ___   _______  ___      ___   _______  _______ 
@@ -183,10 +190,7 @@ export async function initialize(data, num){
 	}
 
 	else{
-		if(num != undefined){
-			pageNum = num;
-			currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
-		}
+
 		optionClick = false;
 		textboxText.innerText = '';
 		namebox1.innerText = '';
@@ -238,19 +242,25 @@ export async function initialize(data, num){
 			}
 		}
 
-		console.log(updatedText);
-
 		//manages the sprites currently on screen, and which sprite is the active one, the inactive sprite is greyed out so we clearly know who is talking.
 		if(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('character1')){
 			if(data.scenes[sceneSwap].pages[currentPage].character1 = "hero"){
 				sprite1.style.backgroundImage = 'url('+ hero.base +')';
-				sprite1mouth.style.backgroundImage = 'url('+ hero[data.scenes[sceneSwap].pages[currentPage].sprite1].mouth +')';
-				sprite1eyes.style.backgroundImage = 'url('+ hero[data.scenes[sceneSwap].pages[currentPage].sprite1].eyes +')';
+				if(hero[data.scenes[sceneSwap].pages[currentPage].sprite1] == undefined){
+					sprite1mouth.style.backgroundImage = 'url('+ hero.neutral.mouth +')';
+					sprite1eyes.style.backgroundImage = 'url('+ hero.neutral.eyes +')';
+				}
+				else{
+					sprite1mouth.style.backgroundImage = 'url('+ hero[data.scenes[sceneSwap].pages[currentPage].sprite1].mouth +')';
+					sprite1eyes.style.backgroundImage = 'url('+ hero[data.scenes[sceneSwap].pages[currentPage].sprite1].eyes +')';
+				}
 			}
 			else{
-				sprite1.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1].base +')';
-				sprite1mouth.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1][data.scenes[sceneSwap].pages[currentPage].sprite1].mouth +')';
-				sprite1eyes.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1][data.scenes[sceneSwap].pages[currentPage].sprite1].eyes +')';
+				if(data.characters[data.scenes[sceneSwap].pages[currentPage].character1].base != undefined){
+					sprite1.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1].base +')';
+					sprite1mouth.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1][data.scenes[sceneSwap].pages[currentPage].sprite1].mouth +')';
+					sprite1eyes.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character1][data.scenes[sceneSwap].pages[currentPage].sprite1].eyes +')';
+				}
 			}
 
 			if(data.scenes[sceneSwap].pages[currentPage].active == "sprite1"){
@@ -267,9 +277,12 @@ export async function initialize(data, num){
 			sprite1eyes.style.backgroundImage = "";
 		}
 		if(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('character2')){
-			sprite2.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character2].base +')';
-			sprite2mouth.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character2][data.scenes[sceneSwap].pages[currentPage].sprite2].mouth +')';
-			sprite2eyes.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character2][data.scenes[sceneSwap].pages[currentPage].sprite2].eyes +')';
+			if(data.characters[data.scenes[sceneSwap].pages[currentPage].character2].base != undefined){
+				sprite2.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character2].base +')';
+				sprite2mouth.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character2][data.scenes[sceneSwap].pages[currentPage].sprite2].mouth +')';
+				sprite2eyes.style.backgroundImage = 'url('+ data.characters[data.scenes[sceneSwap].pages[currentPage].character2][data.scenes[sceneSwap].pages[currentPage].sprite2].eyes +')';
+			}
+			
 			if(data.scenes[sceneSwap].pages[currentPage].active == "sprite2"){
 				sprite2.classList.add("active");
 				sprite1.classList.remove("active");
@@ -310,23 +323,51 @@ export async function initialize(data, num){
 				namebox1.innerText = "";
 				break;
 		}
+		let childrenNodes = vnBackground.childNodes;
+		/*for(let i = 0; i <= childrenNodes.length; i++){
+			if(childrenNodes[i].classList.contains("backgroundElem")){
+				vnBackground.removeChild(childrenNodes[i]);
+			}
+		}*/
 			if(data.scenes[sceneSwap].hasOwnProperty("backgroundElements")){
-				let backgroundElementsArr = JSON.parse(data.scenes[sceneSwap].backgroundElements);
-				for(let i = 0; i <= backgroundElementsArr.length; i++){
+				let backgroundElementsArr = data.scenes[sceneSwap].backgroundElements;
+				for(let i = 0; i <= backgroundElementsArr.length - 1; i++){
 					const node = document.createElement("div");
 					node.classList.add(backgroundElementsArr[i], "backgroundElem");
+					const divNode = document.createElement("div");
+					divNode.classList.add(backgroundElementsArr[i], "backgroundElemOutline");
+					node.appendChild(divNode);
 					vnBackground.appendChild(node);
 				}
+				switch(data.scenes[sceneSwap].backgroundName){
+					case "apartment":
+						initializeAppartement();
+				}
 			}
+			console.log(currentPage);
 			if(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('thinking')){
 				textboxText.style.color = "var(--blue)"
 			}
 			else{
 				textboxText.style.color = "var(--white)"
 			}
-			vnBackground.style.backgroundImage = data.scenes[sceneSwap].background;
+
+			vnBackground.style.backgroundImage = "url('"+ data.scenes[sceneSwap].background + "')";
+			vnBackground.setAttribute("class", data.scenes[sceneSwap].backgroundName + " background");
+			if(data.scenes[sceneSwap].background != "black"){
+				const backgroundRatio = vnBackground.clientWidth / vnBackground.clientHeight;
+				const img = new Image();
+				img.src = data.scenes[sceneSwap].background;
+				img.onload = function () {
+					const imgRatio = img.width / img.height;
+					if(backgroundRatio < imgRatio){
+						bgMoveBtnArr[0].setAttribute("class", "btnLeft bgMoveBtn move " + data.scenes[sceneSwap].backgroundName);
+						bgMoveBtnArr[1].setAttribute("class", "btnRight bgMoveBtn move moveActive " + data.scenes[sceneSwap].backgroundName);
+					}
+				}
+			}
+			
 			stop = false;
-			console.log(data.scenes[sceneSwap].pages[currentPage].pageText);
 			typeWriter(updatedText, "vn");
 			if(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('check')){
 				switch(data.scenes[sceneSwap].pages[currentPage].check){
@@ -336,12 +377,29 @@ export async function initialize(data, num){
 				}
 			}
 			else if(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('itemCheck')){
-				itemCheck(data.scenes[sceneSwap].pages[currentPage].hasOwnProperty('itemCheck'));
+				itemCheck(data.scenes[sceneSwap].pages[currentPage].itemCheck);
 			}
 			}
 }
 
 let dialogItem;
+
+bgMoveBtnArr.forEach((element) => {
+	element.addEventListener("click", () => {
+		if(element.classList.contains("moveActive")){
+			if(element.classList.contains("btnRight")){
+				element.classList.remove("moveActive");
+				bgMoveBtnArr[0].classList.add("moveActive");
+				gsap.to(vnBackground, {backgroundPositionX: "100%", duration: 1});
+			};
+			if(element.classList.contains("btnLeft")){
+				element.classList.remove("moveActive");
+				bgMoveBtnArr[1].classList.add("moveActive");
+				gsap.to(vnBackground, {backgroundPositionX: 0, duration: 1});
+			};
+		};
+	})
+});
 
 /*/////////////////////////////////////////////////////////////////
  _______  __   __  ___   _______    _______  __   __  __    _  _______  _______  ___   _______  __    _  _______ 
@@ -401,7 +459,6 @@ export function finalizeQuiz(){
 	playArea[0].style.display = "flex";
 	sceneIndex = 1;
 	pageNum = 0;
-	console.log(finalResult);
 	switch(finalResult){
 		case "male1":
 			hero = json.characters.male01;
@@ -410,9 +467,7 @@ export function finalizeQuiz(){
 			hero = json.characters.male02;
 			break;
 		case "female1":
-			console.log("female01");
 			hero = json.characters.female01;
-			console.log(hero);
 			break;
 		case "female2":
 			hero = json.characters.female02;
@@ -445,7 +500,6 @@ function handleOptions(data){
 			
 
 			row.addEventListener('click', () => { 
-				console.log(o[k]);
 				switch(o[k]){
 					case "worldMap":
 						optionsbox.innerHTML = "";
@@ -461,10 +515,8 @@ function handleOptions(data){
 					case "giveItem":
 						dialogItem = json.scenes[sceneSwap].pages[currentPage].class;
 						itemManage(dialogItem);
-						console.log(data.scenes[sceneSwap].pages[currentPage].class);
 						pageNum = pageNum + 1;
 						currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
-						console.log(pageNum);
 						initialize(json); 
 						optionsbox.innerHTML = "";
 						handleOptions(json);
@@ -502,7 +554,6 @@ export function typeWriter(txt, check, i, wordsArr, currentWord) {
 		shopText.innerHTML = '';
 	  }
 	  else if (check === "quiz") {
-		console.log("pass")
 		textboxTextQuiz.innerHTML = '';
 	  }
 	  clearTimeout(to);
@@ -513,7 +564,6 @@ export function typeWriter(txt, check, i, wordsArr, currentWord) {
 	if (stop === true) {
 	  i = wordsArr.length;
 	  isTalking = false;
-	  console.log(isTalking);
 	  spriteAnimation();
 	  if(check === "quiz"){
 		handleAnswers(quizJson);
@@ -523,10 +573,11 @@ export function typeWriter(txt, check, i, wordsArr, currentWord) {
 	  }
 	  spriteAnimation();
 	}
-	else{
+	else{			
+		isTalking = true;
+		spriteAnimation();
 		if (currentWord < wordsArr.length) {
-			isTalking = true;
-			spriteAnimation();
+
   
 	  var word = wordsArr[currentWord];
 	  var charsToShow = i > word.length ? word.length : i;
@@ -610,9 +661,13 @@ playArea.forEach((element) => {
 		if(checkPage(json)){
 			if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('interactionStart')){
 				interactionBlocker.style.display = "none";
+				for(let i = 0; i < hideableElemArr.length; i++){
+					hideableElemArr[i].style.display = "none";
+				}
 			}
 			else{
 				interactionBlocker.style.display = "block";
+
 			}
 			switch(true){
 				case json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('jump'):
@@ -639,7 +694,7 @@ playArea.forEach((element) => {
 					enterShop(json.scenes[sceneSwap].pages[currentPage].shop, 0, Number(json.scenes[sceneSwap].pages[currentPage].shopNum));
 					currentWindow = "shop";	
 					break;
-				
+
 				default:
 					if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('NextPage')){
 						currentPage = json.scenes[sceneSwap].pages[currentPage].NextPage;
@@ -759,7 +814,7 @@ export function recoverSave() {
 	startMenu.style.display = "none";
 	switch(localStorage.getItem("presentArea")){
 		case "vn":
-			vn.style.display = "block";
+			vn.style.display = "flex";
 			break;
 		case "shop":
 			shop.style.display = "block";

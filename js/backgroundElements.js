@@ -1,15 +1,21 @@
+let hideableElemArr = document.querySelectorAll(".hideableElem");
+
 let lettersInteraction1 = false;
 let ramenInteraction1 = false;
 let badDecision = false;
 let moneyAcquired = false;
 
 import {fr, en} from './langSwap.js';
-import { initialize, json } from './game.js';
+import { initialize, json, pageUpdate } from './game.js';
 
-function initializeAppartement() {
+export function initializeAppartement() {
     let appartmentElementsArr = document.querySelectorAll(".backgroundElem");
-    for(let i = 0; i <= appartmentElementsArr.length; i++){
+    for(let i = 0; i <= appartmentElementsArr.length - 1; i++){
         appartmentElementsArr[i].addEventListener("click", () => {
+            for(let i = 0; i < hideableElemArr.length; i++){
+                console.log("hi");
+                hideableElemArr[i].style.display = "block";
+            }
              switch(true){
             case appartmentElementsArr[i].classList.contains("letters"):
                 letterInteractions();
@@ -41,21 +47,22 @@ function letterInteractions(){
     switch(true){
         case moneyAcquired:
             if(fr == true){
-                initialize(json, 6)
+                pageUpdate(json, 6)
             }
         case badDecision:
             if(fr == true){
-                initialize(json, 0)
+                pageUpdate(json, 0)
             }
             break;
         case lettersInteraction1:
             if(fr == true){
-                initialize(json, 4)
+                console.log("passes");
+                pageUpdate(json, 4)
             }
             break;
         default:
             if(fr == true){
-                initialize(json, 3)
+                pageUpdate(json, 3)
             }
             break;
     }

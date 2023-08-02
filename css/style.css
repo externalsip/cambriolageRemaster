@@ -141,6 +141,9 @@ VISUAL NOVEL
 
 #vn{
     display: none;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .textbox{
@@ -268,12 +271,48 @@ VISUAL NOVEL
 }
 
 .background{
-   width:100%;
-   height: 100%;
    position:absolute;
+   background-size:cover;
    top:0;
    left:0;
    background-color: black;
+}
+
+/*////////////////////////////////////////////////////////////////////////
+BACKGROUND IMAGES
+////////////////////////////////////////////////////////////////////////*/
+
+.background.black{
+    width:100%;
+    height: 100%;
+}
+
+.background.apartment{
+    height:100%;
+    width:100%;
+    background-size:cover;
+    background-repeat: no-repeat;
+}
+
+/*////////////////////////////////////////////////////////////////////////
+BACKGROUND ELEMENTS
+/////////////////////////////////////////////////////////////////////////*/
+
+.letters.backgroundElem{
+    background-image: url("/media/img/background/bedroom/interaction/bedroom_mail.png");
+    position:absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width:15%;
+    aspect-ratio: 2/1; 
+}
+.backgroundElemOutline.letters{
+    width:100%;
+    height:100%;
+}
+.letters.backgroundElem:hover .backgroundElemOutline{
+    background-image: url("/media/img/background/bedroom/interaction/bedroom_mail_outline.png");
+    background-size: cover;
 }
 
 @media screen and (min-width: 1399.98px){
@@ -302,6 +341,19 @@ VISUAL NOVEL
     width:100%;
     height:100%;
     position:absolute;
+}
+
+.bgMoveBtn{
+    width:50px;
+    aspect-ratio: 1/1;
+    background-color: #fff;
+    display:none;
+    position:relative;
+    align-self: center;
+}
+
+.bgMoveBtn.move{
+    display:block;
 }
 
 /*////////////////////////////////////////////////////
@@ -609,7 +661,7 @@ INVENTORY
     top:0;
     position:absolute;
     background-color: var(--transparentGray);
-    left:-100%;
+    left:-110%;
     opacity:0;
 
 }
