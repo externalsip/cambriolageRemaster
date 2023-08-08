@@ -1,12 +1,15 @@
 let hideableElemArr = document.querySelectorAll(".hideableElem");
+let bgBtnsArr = document.querySelectorAll(".bgMoveBtn");
 
 let lettersInteraction1 = false;
 let ramenInteraction1 = false;
 let badDecision = false;
 let moneyAcquired = false;
 
+
+
 import {fr, en} from './langSwap.js';
-import { initialize, json, pageUpdate } from './game.js';
+import { json, pageUpdate } from './game.js';
 
 export function initializeAppartement() {
     let appartmentElementsArr = document.querySelectorAll(".backgroundElem");
@@ -15,6 +18,9 @@ export function initializeAppartement() {
             for(let i = 0; i < hideableElemArr.length; i++){
                 console.log("hi");
                 hideableElemArr[i].style.display = "block";
+            }
+            for(let i = 0; i < bgBtnsArr.length; i++){
+                bgBtnsArr[i].style.display = "none";
             }
              switch(true){
             case appartmentElementsArr[i].classList.contains("letters"):

@@ -206,7 +206,7 @@
                 "background": "/media/img/background/bedroom/bedroom_bg.png",
                 "backgroundName": "apartment",
                 "backgroundElements": [
-                    "letters", "ramen", "computer", "bed", "door"
+                    "letters", "ramen", "computer", "bed", "door", "poster_hero"
                 ],
                 "pages": {
                     "page0": {

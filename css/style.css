@@ -310,10 +310,65 @@ BACKGROUND ELEMENTS
     width:100%;
     height:100%;
 }
-.letters.backgroundElem:hover .backgroundElemOutline{
+.letters.backgroundElem:hover .letters.backgroundElemOutline{
     background-image: url("/media/img/background/bedroom/interaction/bedroom_mail_outline.png");
     background-size: cover;
 }
+
+.ramen.backgroundElem{
+    background-image: url("/media/img/background/bedroom/interaction/bedroom_ramen.png");
+    position:absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width:15%;
+    aspect-ratio: 3/2 
+}
+.backgroundElemOutline.ramen{
+    width:100%;
+    height:100%;
+}
+.ramen.backgroundElem:hover .ramen.backgroundElemOutline{
+    background-image: url("/media/img/background/bedroom/interaction/bedroom_ramen_outline.png");
+    background-size: cover;
+}
+
+.computer.backgroundElem{
+    background-image: url("/media/img/background/bedroom/interaction/bedroom_pc.png");
+    position:absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width:15%;
+    aspect-ratio: 34/25; 
+}
+.backgroundElemOutline.computer{
+    width:100%;
+    height:100%;
+}
+.computer.backgroundElem:hover .computer.backgroundElemOutline{
+    background-image: url("/media/img/background/bedroom/interaction/bedroom_pc_outline.png");
+    background-size: cover;
+}
+
+.bed.backgroundElem{
+    background-image: url("/media/img/background/bedroom/interaction/bedroom_bed.png");
+    position:absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width:15%;
+    aspect-ratio: 24/7; 
+}
+.backgroundElemOutline.bed{
+    width:100%;
+    height:100%;
+}
+.bed.backgroundElem:hover .bed.backgroundElemOutline{
+    background-image: url("/media/img/background/bedroom/interaction/bedroom_bed_outline.png");
+    background-size: cover;
+}
+
+/*/////////////////////////////////////////////////////////////////
+MEDIA QUERIES
+/////////////////////////////////////////////////////////////////*/
 
 @media screen and (min-width: 1399.98px){
     .settingsBtn{

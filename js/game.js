@@ -323,19 +323,19 @@ export async function initialize(data, num){
 				namebox1.innerText = "";
 				break;
 		}
-		let childrenNodes = vnBackground.childNodes;
-		/*for(let i = 0; i <= childrenNodes.length; i++){
-			if(childrenNodes[i].classList.contains("backgroundElem")){
-				vnBackground.removeChild(childrenNodes[i]);
-			}
-		}*/
+		let bgElemsArr = vnBackground.getElementsByClassName("backgroundElem");
+
+		while (bgElemsArr[0]){
+			bgElemsArr[0].parentNode.removeChild(bgElemsArr[0]);
+		}
 			if(data.scenes[sceneSwap].hasOwnProperty("backgroundElements")){
 				let backgroundElementsArr = data.scenes[sceneSwap].backgroundElements;
 				for(let i = 0; i <= backgroundElementsArr.length - 1; i++){
 					const node = document.createElement("div");
-					node.classList.add(backgroundElementsArr[i], "backgroundElem");
+					let updateName = backgroundElementsArr[i].replace("hero", hero.name);
+					node.classList.add(updateName, "backgroundElem");
 					const divNode = document.createElement("div");
-					divNode.classList.add(backgroundElementsArr[i], "backgroundElemOutline");
+					divNode.classList.add(updateName, "backgroundElemOutline");
 					node.appendChild(divNode);
 					vnBackground.appendChild(node);
 				}
@@ -659,59 +659,92 @@ playArea.forEach((element) => {
 		else{
 		if(!json) return;
 		if(checkPage(json)){
+			let bgBtnsArr = document.querySelectorAll(".bgMoveBtn");
 			if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('interactionStart')){
 				interactionBlocker.style.display = "none";
 				for(let i = 0; i < hideableElemArr.length; i++){
 					hideableElemArr[i].style.display = "none";
 				}
+				for(let i = 0; i < bgBtnsArr.length; i++){
+					bgBtnsArr[i].style.display = "block";
+				}
+				switch(true){
+					case json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('jump'):
+						switch(json.scenes[sceneSwap].pages[currentPage].jump){
+							case "titleScreen":
+								sectionsArr.forEach((element) => {
+									element.style.display = "none";
+									})
+									startMenu.style.display = "flex";
+									break;
+							case "quiz":
+									grabQuizData();
+								break;
+							case "nextScene":
+								sceneIndex++;
+								pageNum = 0;
+								sceneSwap = Object.keys(json.scenes)[sceneIndex];
+								currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
+								initialize(json);
+								break;
+						}
+						break;
+					case json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('shop'):
+						enterShop(json.scenes[sceneSwap].pages[currentPage].shop, 0, Number(json.scenes[sceneSwap].pages[currentPage].shopNum));
+						currentWindow = "shop";	
+						break;
+				}
 			}
 			else{
+				for(let i = 0; i < bgBtnsArr.length; i++){
+					bgBtnsArr[i].style.display = "none";
+				}
 				interactionBlocker.style.display = "block";
-
-			}
-			switch(true){
-				case json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('jump'):
-					switch(json.scenes[sceneSwap].pages[currentPage].jump){
-						case "titleScreen":
-							sectionsArr.forEach((element) => {
-								element.style.display = "none";
-								})
-								startMenu.style.display = "flex";
+				switch(true){
+					case json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('jump'):
+						switch(json.scenes[sceneSwap].pages[currentPage].jump){
+							case "titleScreen":
+								sectionsArr.forEach((element) => {
+									element.style.display = "none";
+									})
+									startMenu.style.display = "flex";
+									break;
+							case "quiz":
+									grabQuizData();
 								break;
-						case "quiz":
-								grabQuizData();
-							break;
-						case "nextScene":
-							sceneIndex++;
-							pageNum = 0;
-							sceneSwap = Object.keys(json.scenes)[sceneIndex];
+							case "nextScene":
+								sceneIndex++;
+								pageNum = 0;
+								sceneSwap = Object.keys(json.scenes)[sceneIndex];
+								currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
+								initialize(json);
+								break;
+						}
+						break;
+					case json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('shop'):
+						enterShop(json.scenes[sceneSwap].pages[currentPage].shop, 0, Number(json.scenes[sceneSwap].pages[currentPage].shopNum));
+						currentWindow = "shop";	
+						break;
+	
+					default:
+						if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('NextPage')){
+							currentPage = json.scenes[sceneSwap].pages[currentPage].NextPage;
+						}
+						else {
+							pageNum++;
 							currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
-							initialize(json);
-							break;
-					}
-					break;
-				case json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('shop'):
-					enterShop(json.scenes[sceneSwap].pages[currentPage].shop, 0, Number(json.scenes[sceneSwap].pages[currentPage].shopNum));
-					currentWindow = "shop";	
-					break;
+						}
+						if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('action')){
+							present(json.scenes[sceneSwap].pages[currentPage].action, json);
+						}
+						else{
+							present("noPuzzle", json);
+						}
+						initialize(json);
 
-				default:
-					if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('NextPage')){
-						currentPage = json.scenes[sceneSwap].pages[currentPage].NextPage;
-					}
-					else {
-						pageNum++;
-						currentPage = Object.keys(json.scenes[sceneSwap].pages)[pageNum];
-					}
-					if(json.scenes[sceneSwap].pages[currentPage].hasOwnProperty('action')){
-						present(json.scenes[sceneSwap].pages[currentPage].action, json);
-					}
-					else{
-						present("noPuzzle", json);
-					}
-					initialize(json);
 			}
 		}
+	}
 		else return;
 		}
 
